@@ -16,12 +16,18 @@ public class MyView extends JPanel {
 	JLabel titleLabelLHS = new JLabel("User 1");
 	JLabel titleLabelRHS = new JLabel("User 2");
 	
-	JButton swapButton = new JButton("Swap");
+	JButton swapButton = new JButton();
 	
 	public MyView()
 	{
 		JPanel panelLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
 		JPanel panelRHS = new ComponentWithTitle(titleLabelRHS, tableRHS);
+		
+		Icon swapIcon = new ImageIcon("images/arrow-repeat.png");
+		if(swapIcon != null)
+		{
+			swapButton.setIcon(swapIcon);	
+		}
 		
 		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelLHS, panelRHS);
 		splitPane.setResizeWeight(0);
