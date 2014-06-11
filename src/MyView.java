@@ -1,4 +1,5 @@
 import java.awt.Dimension;
+import java.awt.Frame;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -19,11 +20,11 @@ public class MyView extends JPanel {
 	
 	public MyView()
 	{
-		JScrollPane scrollLHS = new JScrollPane(tableLHS);		
-		JScrollPane scrollRHS = new JScrollPane(tableRHS);
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT,
-				scrollLHS, scrollRHS);
-
+		JPanel panelLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
+		JPanel panelRHS = new ComponentWithTitle(titleLabelRHS, tableRHS);
+		
+		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelLHS, panelRHS);
+		splitPane.setResizeWeight(0);
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -71,12 +72,37 @@ public class MyView extends JPanel {
 				);		
 	}
 	
+	class ComponentWithTitle extends JPanel
+	{
+		ComponentWithTitle(JLabel title, JComponent component)
+		{
+			GroupLayout layout = new GroupLayout(this);
+			setLayout(layout);
+			
+			JScrollPane scrollPane = new JScrollPane(component);
+			scrollPane.setMinimumSize(new Dimension(300,0));			
+			
+			layout.setHorizontalGroup(
+					layout.createParallelGroup()
+							.addComponent(title, GroupLayout.Alignment.CENTER)
+							.addComponent(scrollPane)
+					);
+			
+			layout.setVerticalGroup(
+					layout.createSequentialGroup()
+						.addComponent(title)
+						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+						.addComponent(scrollPane)
+					);		
+		}	
+	}
+	
 	public void createAndShowGUI()
 	{
 		//Create frame setup Window
 		JFrame frame = new JFrame("My View");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(500, 300));
+		frame.setPreferredSize(new Dimension(650, 300));
 		
 		//Add the content  
 		frame.getContentPane().add(this);
