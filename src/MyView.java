@@ -10,8 +10,8 @@ public class MyView extends JPanel {
 	JTable tableLHS = new JTable(10, 2);
 	JTable tableRHS = new JTable(10, 2);
 	
-	JSpinner spinnerLHS = new JSpinner();
-	JSpinner spinnerRHS = new JSpinner();
+	JTextField userTextFieldLHS = new JTextField();
+	JTextField userTextFieldRHS = new JTextField();
 	
 	JLabel titleLabelLHS = new JLabel("User 1");
 	JLabel titleLabelRHS = new JLabel("User 2");
@@ -39,11 +39,11 @@ public class MyView extends JPanel {
 				layout.createParallelGroup()
 					.addGroup(layout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(spinnerLHS)
+							.addComponent(userTextFieldLHS)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 							.addComponent(swapButton)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addComponent(spinnerRHS)
+							.addComponent(userTextFieldRHS)
 							.addContainerGap())
 					.addGroup(Alignment.CENTER, layout.createSequentialGroup()
 							.addContainerGap()
@@ -62,8 +62,8 @@ public class MyView extends JPanel {
 				layout.createSequentialGroup()
 				.addContainerGap()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(spinnerLHS)
-						.addComponent(spinnerRHS)
+						.addComponent(userTextFieldLHS)
+						.addComponent(userTextFieldRHS)
 						.addComponent(swapButton))
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
