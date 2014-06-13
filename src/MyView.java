@@ -103,6 +103,16 @@ public class MyView extends JPanel {
 		}	
 	}
 	
+	public String getTextFieldLHS()
+	{
+		return userTextFieldLHS.getText();
+	}
+	
+	public String getTextFieldRHS()
+	{
+		return userTextFieldRHS.getText();
+	}
+	
 	public void createAndShowGUI()
 	{
 		//Create frame setup Window
