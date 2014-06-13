@@ -28,13 +28,9 @@ public class SQLQuery {
 	public SQLQuery(Conf settingsConf)
 	{
 		this.conf = settingsConf;
-		conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database"));
 	}
 	
-	private void createConnection()
-	{
-		
-	}
+	private void createConnection() {}
 	
 	public ArrayList<RoleData> query(String firstName, String lastName) throws SQLException
 	{
