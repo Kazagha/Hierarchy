@@ -16,6 +16,7 @@ public class SQLQuery {
 	
 	ArrayList<RoleData> permissions;
 	Conf conf;
+    String driver = "net.sourceforge.jtds.jdbc.Driver";
 	
 	public SQLQuery(File configurationFile)
 	{
@@ -24,13 +25,23 @@ public class SQLQuery {
 	    conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database"));		
 	}
 	
-	public void query(String firstName, String lastName) throws SQLException
+	public SQLQuery(Conf settingsConf)
 	{
-		permissions = new ArrayList<RoleData>();
+		this.conf = settingsConf;
+		conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database"));
+	}
+	
+	private void createConnection()
+	{
+		
+	}
+	
+	public ArrayList<RoleData> query(String firstName, String lastName) throws SQLException
+	{
+		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
 
 	    Connection conn = null;
 	    ResultSet rs = null;
-        String driver = "net.sourceforge.jtds.jdbc.Driver";
     
         try {
             Class.forName(driver);
@@ -61,6 +72,8 @@ public class SQLQuery {
             conn.close();
             rs.close();
         }
+        
+        return tempArray;
 	}
 	
 	public ArrayList<RoleData> getPermissions()
