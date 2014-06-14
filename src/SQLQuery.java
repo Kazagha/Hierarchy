@@ -1,6 +1,5 @@
 import java.io.File;
 import java.sql.Connection;
-import java.sql.DatabaseMetaData;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -10,12 +9,12 @@ import net.arcanesanctuary.Configuration.Conf;
 import net.sourceforge.jtds.jdbc.Driver;
 
 import java.util.ArrayList;
-import java.util.Collection;
 
 public class SQLQuery {
 	
 	ArrayList<RoleData> permissions = new ArrayList<RoleData>();
 	Conf conf;
+    Connection conn = null;
     final String driver = "net.sourceforge.jtds.jdbc.Driver";
 	
 	public SQLQuery(File configurationFile)
@@ -30,20 +29,19 @@ public class SQLQuery {
 		this.conf = settingsConf;
 	}
 	
-	private void createConnection() {}
+	public void createConnection() throws SQLException 
+	{
+		conn = DriverManager.getConnection(conf.get("url"), conf.get("Username"), conf.get("Password"));
+        System.out.println("Connection Established...");
+	}
 	
 	public ArrayList<RoleData> query(String firstName, String lastName) throws SQLException
 	{
 		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
-
-	    Connection conn = null;
-	    ResultSet rs = null;
+		ResultSet rs = null;
+		createConnection();
     
-        try {
-            Class.forName(driver);
-            conn = DriverManager.getConnection(conf.get("url"), conf.get("Username"), conf.get("Password"));
-            System.out.println("Connection Established...");
-            
+        try {         
             PreparedStatement ps = conn.prepareStatement(
             		
 	            	"SELECT auhinamr.rol_num, auhirole.rol_dsc "
@@ -60,10 +58,10 @@ public class SQLQuery {
           
             while (rs.next()) 
             {
-            	permissions.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
+            	tempArray.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
             }
-        } catch (Exception e) {
-            e.printStackTrace();
+        } catch (SQLException e) {
+        	throw new SQLException("Failed to execute Query", e);
         } finally {
             conn.close();
             rs.close();
