@@ -1,4 +1,8 @@
 import java.io.File;
+import java.sql.SQLException;
+import java.util.ArrayList;
+
+import javax.security.auth.login.LoginException;
 
 import net.arcanesanctuary.Configuration.Conf;
 
@@ -11,7 +15,9 @@ public class MyController {
 	{
 		this.view = view;
 		setActions();
-		conf = loadConf("hierarchy.conf");		
+		conf = loadConf("hierarchy.conf");
+		testQuery();
+		saveConf();
 	}
 	
 	public Conf loadConf(String fileName)
@@ -28,13 +34,27 @@ public class MyController {
 	public void saveConf()
 	{
 		conf.nullValues(new String[] {"Password"});
-		conf.save();		
+		conf.del("url");
+		//conf.save();		
 	}
 	
 	public void setActions(){}	
 	
 	public void testQuery()
 	{
+		ArrayList<RoleData> array = new ArrayList<RoleData>(); 
 		SQLQuery sql = new SQLQuery(conf);
+		
+		try {
+			array = sql.queryUser("chris", "green");
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		} 
+		
+		//data = sql.getPermissions();
+		for(RoleData data : array)
+		{
+			System.out.println(data.getRole());
+		}		
 	}
 }
