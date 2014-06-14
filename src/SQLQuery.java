@@ -14,9 +14,9 @@ import java.util.Collection;
 
 public class SQLQuery {
 	
-	ArrayList<RoleData> permissions;
+	ArrayList<RoleData> permissions = new ArrayList<RoleData>();
 	Conf conf;
-    String driver = "net.sourceforge.jtds.jdbc.Driver";
+    final String driver = "net.sourceforge.jtds.jdbc.Driver";
 	
 	public SQLQuery(File configurationFile)
 	{
