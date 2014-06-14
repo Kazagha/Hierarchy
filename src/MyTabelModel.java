@@ -31,4 +31,11 @@ import javax.swing.table.AbstractTableModel;
 				return rowData.getDescription();
 			}
 		}
+		
+		public void addRow(int roleNumber, String RoleDesc)
+		{
+			dataArray.add(new RoleData(roleNumber, RoleDesc));
+			//this.fireTableRowsInserted(dataArray.size() - 1, dataArray.size() - 1);
+			this.fireTableDataChanged();
+		}
 	}
