@@ -17,25 +17,35 @@ public class SQLQuery {
     Connection conn = null;
     final String driver = "net.sourceforge.jtds.jdbc.Driver";
 	
-	public SQLQuery(File configurationFile)
-	{
-		conf = new Conf(configurationFile);
-		conf.prompt();
-	    conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database"));		
-	}
-	
+    /**
+     * Constructor <br> 
+     * Create new SQLQuery using the specified settings
+     * @param settingsConf - The specified Configuration file
+     */
 	public SQLQuery(Conf settingsConf)
 	{
 		this.conf = settingsConf;
 	}
 	
-	public void createConnection() throws SQLException 
+	/**
+	 * Create the connection to the database
+	 * @throws SQLException
+	 */
+	private void createConnection() throws SQLException 
 	{
 		conn = DriverManager.getConnection(conf.get("url"), conf.get("Username"), conf.get("Password"));
         System.out.println("Connection Established...");
 	}
 	
-	public ArrayList<RoleData> query(String firstName, String lastName) throws SQLException
+	/**
+	 * Query User <br>
+	 * Query the database for the specified users permissions
+	 * @param firstName - Specified user's first name
+	 * @param lastName  - Specified user's last name
+	 * @return - Array of permissions
+	 * @throws SQLException
+	 */
+	public ArrayList<RoleData> queryUser(String firstName, String lastName) throws SQLException
 	{
 		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
 		ResultSet rs = null;
@@ -61,17 +71,12 @@ public class SQLQuery {
             	tempArray.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
             }
         } catch (SQLException e) {
-        	throw new SQLException("Failed to execute Query", e);
+        	throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
         } finally {
             conn.close();
             rs.close();
         }
         
         return tempArray;
-	}
-	
-	public ArrayList<RoleData> getPermissions()
-	{
-		return permissions;
 	}
 }
