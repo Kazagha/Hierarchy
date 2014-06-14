@@ -3,23 +3,26 @@ import java.awt.Frame;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.plaf.TableHeaderUI;
+import javax.swing.table.TableModel;
 
 public class MyView extends JPanel {
 
-	JTable tableLHS = new JTable(10, 2);
-	JTable tableRHS = new JTable(10, 2);
+	JPanel panelLHS;
+	JPanel panelRHS;
+	
+	JTable tableLHS = new JTable(new MyTabelModel());
+	JTable tableRHS = new JTable(new MyTabelModel());
 	
 	JTextField userTextFieldLHS = new JTextField();
 	JTextField userTextFieldRHS = new JTextField();
 	
-	JLabel titleLabelLHS = new JLabel("User 1");
-	JLabel titleLabelRHS = new JLabel("User 2");
+	JLabel titleLabelLHS = new JLabel(" - ");
+	JLabel titleLabelRHS = new JLabel(" - ");
 	
 	JButton swapButton = new JButton();
 	
 	public MyView()
-	{
+	{		
 		JPanel panelLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
 		JPanel panelRHS = new ComponentWithTitle(titleLabelRHS, tableRHS);
 		
@@ -103,14 +106,34 @@ public class MyView extends JPanel {
 		}	
 	}
 	
-	public String getTextFieldLHS()
+	public String getLHSTextField()
 	{
 		return userTextFieldLHS.getText();
 	}
 	
-	public String getTextFieldRHS()
+	public String getRHSTextField()
 	{
 		return userTextFieldRHS.getText();
+	}
+	
+	public MyTabelModel getLHSTableModel()
+	{
+		return (MyTabelModel) tableLHS.getModel();
+	}
+	
+	public MyTabelModel getRHSTableModel()
+	{
+		return (MyTabelModel) tableRHS.getModel();
+	}
+	
+	public void setLHSTitle(String s)
+	{
+		titleLabelLHS.setText(s);		
+	}
+	
+	public void setRHSTitle(String s)
+	{
+		titleLabelRHS.setText(s);
 	}
 	
 	public void createAndShowGUI()
