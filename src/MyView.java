@@ -10,8 +10,8 @@ public class MyView extends JPanel {
 	JPanel panelLHS;
 	JPanel panelRHS;
 	
-	JTable tableLHS = new JTable(new MyTabelModel());
-	JTable tableRHS = new JTable(new MyTabelModel());
+	JTable tableLHS = new JTable(new MyTableModel());
+	JTable tableRHS = new JTable(new MyTableModel());
 	
 	JTextField userTextFieldLHS = new JTextField();
 	JTextField userTextFieldRHS = new JTextField();
@@ -116,14 +116,14 @@ public class MyView extends JPanel {
 		return userTextFieldRHS.getText();
 	}
 	
-	public MyTabelModel getLHSTableModel()
+	public MyTableModel getLHSTableModel()
 	{
-		return (MyTabelModel) tableLHS.getModel();
+		return (MyTableModel) tableLHS.getModel();
 	}
 	
-	public MyTabelModel getRHSTableModel()
+	public MyTableModel getRHSTableModel()
 	{
-		return (MyTabelModel) tableRHS.getModel();
+		return (MyTableModel) tableRHS.getModel();
 	}
 	
 	public void setLHSTitle(String s)

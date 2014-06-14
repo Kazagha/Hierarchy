@@ -1,7 +1,7 @@
 import java.util.ArrayList;
 import javax.swing.table.AbstractTableModel;
 
-	class MyTabelModel extends AbstractTableModel
+	class MyTableModel extends AbstractTableModel
 	{
 		ArrayList<RoleData> dataArray = new ArrayList<RoleData>();
 		String [] columnName = {"Role Num", "Role Description"};
