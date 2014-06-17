@@ -49,5 +49,6 @@ import javax.swing.table.AbstractTableModel;
 		public void tableSetArray(ArrayList<RoleData> inputArray)
 		{
 			dataArray = inputArray;
+			this.fireTableDataChanged();
 		}
 	}
