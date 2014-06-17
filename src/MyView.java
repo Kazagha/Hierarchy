@@ -23,6 +23,8 @@ public class MyView extends JPanel {
 	
 	public MyView()
 	{		
+		setColumnWidth(tableLHS);
+		setColumnWidth(tableRHS);
 		JPanel panelLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
 		JPanel panelRHS = new ComponentWithTitle(titleLabelRHS, tableRHS);
 		
@@ -104,6 +106,16 @@ public class MyView extends JPanel {
 						.addComponent(scrollPane)
 					);		
 		}	
+	}
+	
+	/*
+	 * This is a short term solution and needs to be implements in a 
+	 * TableColumnModel properly. Including centering text. 
+	 */
+	public void setColumnWidth(JTable t)
+	{
+		t.getColumnModel().getColumn(0).setMaxWidth(80);
+		t.getColumnModel().getColumn(0).setMinWidth(80);
 	}
 	
 	public String getLHSTextField()
