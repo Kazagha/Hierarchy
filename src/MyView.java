@@ -1,5 +1,6 @@
 import java.awt.Dimension;
 import java.awt.Frame;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
@@ -20,6 +21,8 @@ public class MyView extends JPanel {
 	JLabel titleLabelRHS = new JLabel(" - ");
 	
 	JButton swapButton = new JButton();
+	JButton loadButtonLHS = new JButton("Load LHS");
+	JButton loadButtonRHS = new JButton("Load RHS");
 	
 	public MyView()
 	{		
@@ -52,9 +55,9 @@ public class MyView extends JPanel {
 							.addContainerGap())
 					.addGroup(Alignment.CENTER, layout.createSequentialGroup()
 							.addContainerGap()
-							//.addComponent(titleLabelLHS)
+							.addComponent(loadButtonLHS)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							//.addComponent(titleLabelRHS)
+							.addComponent(loadButtonRHS)
 							.addContainerGap())
 					.addGroup(layout.createSequentialGroup()
 							.addContainerGap()
@@ -72,8 +75,8 @@ public class MyView extends JPanel {
 						.addComponent(swapButton))
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						//.addComponent(titleLabelLHS)
-						//.addComponent(titleLabelRHS)
+						.addComponent(loadButtonLHS)
+						.addComponent(loadButtonRHS)
 						)
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -136,6 +139,15 @@ public class MyView extends JPanel {
 	public MyTableModel getRHSTableModel()
 	{
 		return (MyTableModel) tableRHS.getModel();
+	}
+	
+	public void setControllerActions(ActionListener controllerActionListener)
+	{
+		loadButtonLHS.setActionCommand("Load LHS");
+		loadButtonRHS.setActionCommand("Load RHS");
+		
+		loadButtonLHS.addActionListener(controllerActionListener);
+		loadButtonRHS.addActionListener(controllerActionListener);
 	}
 	
 	public void setLHSTitle(String s)
