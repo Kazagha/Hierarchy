@@ -53,7 +53,7 @@ public class MyController {
 		SQLQuery sql = new SQLQuery(conf);
 		
 		try {
-			array = sql.queryUser("chris", "green");
+			array = sql.queryUser(firstName, lastName);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} 
