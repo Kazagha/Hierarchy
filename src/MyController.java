@@ -2,7 +2,8 @@ import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 
-import javax.security.auth.login.LoginException;
+import javax.swing.JTable;
+import javax.swing.table.TableModel;
 
 import net.arcanesanctuary.Configuration.Conf;
 
@@ -10,13 +11,19 @@ public class MyController {
 
 	private MyView view;
 	private Conf conf;
+	private MyTableModel tableLHS;
+	private MyTableModel tableRHS;
 	
 	public MyController(MyView view)
 	{
 		this.view = view;
+		view.setLHSTitle("User X");
+		tableLHS = view.getLHSTableModel();
+		tableRHS = view.getRHSTableModel();
+		
 		setActions();
 		conf = loadConf("hierarchy.conf");
-		testQuery();
+		testUserQuery(tableLHS, "Chris", "Green");
 		saveConf();
 	}
 	
@@ -40,7 +47,7 @@ public class MyController {
 	
 	public void setActions(){}	
 	
-	public void testQuery()
+	public void testUserQuery(MyTableModel tempModel, String firstName, String lastName)
 	{
 		ArrayList<RoleData> array = new ArrayList<RoleData>(); 
 		SQLQuery sql = new SQLQuery(conf);
@@ -51,10 +58,10 @@ public class MyController {
 			System.out.println(e.getMessage());
 		} 
 		
-		//data = sql.getPermissions();
 		for(RoleData data : array)
 		{
-			System.out.println(data.getRole());
+			//System.out.println(data.getRole());
+			tempModel.tableAddRow(data.getRole(), data.getDescription());
 		}		
 	}
 }
