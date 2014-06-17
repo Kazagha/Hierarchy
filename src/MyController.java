@@ -33,15 +33,13 @@ public class MyController {
 	
 	public MyController(MyView view)
 	{
+		conf = loadConf("hierarchy.conf");
 		this.view = view;
 		tableLHS = view.getLHSTableModel();
 		tableRHS = view.getRHSTableModel();
-		
-		setActions();
-		conf = loadConf("hierarchy.conf");
-		testUserQuery(tableLHS, "Chris", "Green");
-		testUserQuery(tableRHS, "Payden", "Taylor");
-		saveConf();
+		this.view.setControllerActions(new MyActionListener());
+
+		//saveConf();
 	}
 	
 	public Conf loadConf(String fileName)
@@ -68,18 +66,19 @@ public class MyController {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getActionCommand() == "LoadLHS")
+			if(e.getActionCommand() == "Load LHS")
 			{
-				
+				tableLHS.setArray(userQuery("Chris", "Green"));
 				//view.setLHSTitle("");
-			} else if (e.getActionCommand() == "LoadRHS")
+			} else if (e.getActionCommand() == "Load RHS")
 			{
+				tableRHS.setArray(userQuery("Payden", "Taylor"));
 				//view.setRHSTitle("");
 			}
 		}		
 	}
 	
-	public void testUserQuery(MyTableModel tempModel, String firstName, String lastName)
+	public ArrayList<RoleData> userQuery(String firstName, String lastName)
 	{
 		ArrayList<RoleData> array = new ArrayList<RoleData>(); 
 		SQLQuery sql = new SQLQuery(conf);
@@ -90,10 +89,6 @@ public class MyController {
 			System.out.println(e.getMessage());
 		} 
 		
-		for(RoleData data : array)
-		{
-			//System.out.println(data.getRole());
-			tempModel.tableAddRow(data.getRole(), data.getDescription());
-		}		
+		return array;
 	}
 }
