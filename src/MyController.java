@@ -67,13 +67,21 @@ public class MyController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			if(e.getActionCommand() == "Load LHS")
-			{
-				tableLHS.setArray(userQuery("Chris", "Green"));
-				//view.setLHSTitle("");
+			{				
+				String[] tempText = view.getLHSTextField().split(" ");
+				if(tempText.length == 2)
+				{
+					tableLHS.setArray(userQuery(tempText[0], tempText[1]));
+					view.setLHSTitle(view.getLHSTextField());
+				}
 			} else if (e.getActionCommand() == "Load RHS")
-			{
-				tableRHS.setArray(userQuery("Payden", "Taylor"));
-				//view.setRHSTitle("");
+			{				
+				String[] tempText = view.getRHSTextField().split(" ");
+				if(tempText.length == 2)
+				{								
+				tableRHS.setArray(userQuery(tempText[0], tempText[1]));
+				view.setRHSTitle(view.getRHSTextField());
+				}
 			}
 		}		
 	}
