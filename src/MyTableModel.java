@@ -32,7 +32,7 @@ import javax.swing.table.AbstractTableModel;
 			}
 		}
 		
-		public void tableAddRow(int roleNumber, String RoleDesc)
+		public void addRow(int roleNumber, String RoleDesc)
 		{
 			dataArray.add(new RoleData(roleNumber, RoleDesc));
 			//this.fireTableRowsInserted(dataArray.size() - 1, dataArray.size() - 1);
@@ -40,13 +40,13 @@ import javax.swing.table.AbstractTableModel;
 			this.fireTableRowsInserted(rowNumber, rowNumber);
 		}
 		
-		public void tableClearArray()
+		public void clearArray()
 		{
 			dataArray = new ArrayList<RoleData>();
 			this.fireTableDataChanged();
 		}
 		
-		public void tableSetArray(ArrayList<RoleData> inputArray)
+		public void setArray(ArrayList<RoleData> inputArray)
 		{
 			dataArray = inputArray;
 			this.fireTableDataChanged();
