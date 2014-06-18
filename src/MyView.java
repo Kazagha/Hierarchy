@@ -131,6 +131,16 @@ public class MyView extends JPanel {
 		return userTextFieldRHS.getText();
 	}
 	
+	public String getLHSTitleLabel()
+	{
+		return titleLabelLHS.getText();
+	}
+	
+	public String getRHSTitleLable()
+	{
+		return titleLabelRHS.getText();
+	}
+	
 	public MyTableModel getLHSTableModel()
 	{
 		return (MyTableModel) tableLHS.getModel();
@@ -145,9 +155,11 @@ public class MyView extends JPanel {
 	{
 		loadButtonLHS.setActionCommand("Load LHS");
 		loadButtonRHS.setActionCommand("Load RHS");
+		swapButton.setActionCommand("Swap Sides");
 		
 		loadButtonLHS.addActionListener(controllerActionListener);
 		loadButtonRHS.addActionListener(controllerActionListener);
+		swapButton.addActionListener(controllerActionListener);
 	}
 	
 	public void setLHSTitle(String s)
