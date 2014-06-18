@@ -29,6 +29,16 @@ public class MyController {
 		{
 			this.commandString = commandString;
 		}
+		
+		public String getCommandString()
+		{
+			return this.commandString;
+		}
+		
+		public Actions getENUM(String s)
+		{
+			return LOADLHS;
+		}
 	}
 	
 	public MyController(MyView view)
@@ -82,7 +92,31 @@ public class MyController {
 				tableRHS.setArray(userQuery(tempText[0], tempText[1]));
 				view.setRHSTitle(view.getRHSTextField());
 				}
+			} else if (e.getActionCommand() == "Swap Sides")
+			{
+				//Get table and title information 
+				String titleStringLHS = view.getLHSTitleLabel();
+				String titleStringRHS = view.getRHSTitleLable();
+				ArrayList<RoleData> dataLHS = tableLHS.getArray();
+				ArrayList<RoleData> dataRHS = tableRHS.getArray();
+				
+				//Set table and title information
+				view.setLHSTitle(titleStringRHS);
+				view.setRHSTitle(titleStringLHS);
+				tableLHS.setArray(dataRHS);				
+				tableRHS.setArray(dataLHS);
 			}
+			/*
+			switch(e.getActionCommand())
+			{
+				case LOADLHS:
+					int i = 100;
+					break;
+				default:
+					int test = 10;
+					break;
+			}
+			*/
 		}		
 	}
 	

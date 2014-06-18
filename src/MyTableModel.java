@@ -20,6 +20,11 @@ import javax.swing.table.AbstractTableModel;
 		{
 			return columnName[col];
 		}
+		
+		public ArrayList<RoleData> getArray()
+		{
+			return dataArray;
+		}
 
 		@Override
 		public String getValueAt(int row, int col) {
