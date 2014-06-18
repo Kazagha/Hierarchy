@@ -76,24 +76,26 @@ public class MyController {
 	{
 		@Override
 		public void actionPerformed(ActionEvent e) {
-			if(e.getActionCommand() == "Load LHS")
-			{				
-				String[] tempText = view.getLHSTextField().split(" ");
+			String[] tempText = null;
+			switch(e.getActionCommand())
+			{
+			case "Load LHS":
+				tempText = view.getLHSTextField().split(" ");
 				if(tempText.length == 2)
 				{
 					tableLHS.setArray(userQuery(tempText[0], tempText[1]));
 					view.setLHSTitle(view.getLHSTextField());
 				}
-			} else if (e.getActionCommand() == "Load RHS")
-			{				
-				String[] tempText = view.getRHSTextField().split(" ");
+				break;
+			case "Load RHS":
+				tempText = view.getRHSTextField().split(" ");
 				if(tempText.length == 2)
 				{								
 				tableRHS.setArray(userQuery(tempText[0], tempText[1]));
 				view.setRHSTitle(view.getRHSTextField());
 				}
-			} else if (e.getActionCommand() == "Swap Sides")
-			{
+				break;
+			case "Swap Sides":
 				//Get table and title information 
 				String titleStringLHS = view.getLHSTitleLabel();
 				String titleStringRHS = view.getRHSTitleLable();
@@ -105,18 +107,10 @@ public class MyController {
 				view.setRHSTitle(titleStringLHS);
 				tableLHS.setArray(dataRHS);				
 				tableRHS.setArray(dataLHS);
+				break;
+			default:
+				break;					
 			}
-			/*
-			switch(e.getActionCommand())
-			{
-				case LOADLHS:
-					int i = 100;
-					break;
-				default:
-					int test = 10;
-					break;
-			}
-			*/
 		}		
 	}
 	
