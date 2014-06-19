@@ -29,6 +29,7 @@ public class MyView extends JPanel {
 	JMenuItem manualEntryMenuItem = new JMenuItem("Manual Entry");
 	JMenuItem saveLHSMenuItem = new JMenuItem("Left");
 	JMenuItem saveRHSMenuItem = new JMenuItem("Right");
+	JMenuItem exitMenuItem = new JMenuItem("Exit");
 	
 	public MyView()
 	{		
@@ -125,6 +126,9 @@ public class MyView extends JPanel {
 		JMenu menu;
 		
 		menu = new JMenu("File");
+		JMenu saveJMenu = new JMenu("Save");
+		menu.add(saveJMenu);
+		menu.add(exitMenuItem);
 		menuBar.add(menu);
 		
 		menu = new JMenu("Edit");
@@ -183,6 +187,7 @@ public class MyView extends JPanel {
 		//Setup Menu Actions
 		compareMenuItem.setActionCommand("Compare");
 		swapMenuItem.setActionCommand("Swap Sides");
+		exitMenuItem.setActionCommand("Exit");
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
 		loadButtonRHS.setActionCommand("Load RHS");
@@ -190,6 +195,7 @@ public class MyView extends JPanel {
 		//Setup Action Listener
 		compareMenuItem.addActionListener(controllerActionListener);
 		swapMenuItem.addActionListener(controllerActionListener);
+		exitMenuItem.addActionListener(controllerActionListener);
 		loadButtonLHS.addActionListener(controllerActionListener);
 		loadButtonRHS.addActionListener(controllerActionListener);
 		swapButton.addActionListener(controllerActionListener);

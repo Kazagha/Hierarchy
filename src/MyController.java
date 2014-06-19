@@ -130,6 +130,9 @@ public class MyController {
 				tableLHS.refreshArray();
 				
 				break;
+			case "Exit":
+				System.exit(0);
+				break;				
 			default:
 				break;					
 			}
