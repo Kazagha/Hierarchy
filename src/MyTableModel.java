@@ -56,4 +56,9 @@ import javax.swing.table.AbstractTableModel;
 			dataArray = inputArray;
 			this.fireTableDataChanged();
 		}
+		
+		public void refreshArray()
+		{
+			this.fireTableDataChanged();
+		}
 	}
