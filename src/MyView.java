@@ -24,6 +24,12 @@ public class MyView extends JPanel {
 	JButton loadButtonLHS = new JButton("Load LHS");
 	JButton loadButtonRHS = new JButton("Load RHS");
 	
+	JMenuItem compareMenuItem = new JMenuItem("Compare");
+	JMenuItem swapMenuItem = new JMenuItem("Swap Sides");
+	JMenuItem manualEntryMenuItem = new JMenuItem("Manual Entry");
+	JMenuItem saveLHSMenuItem = new JMenuItem("Left");
+	JMenuItem saveRHSMenuItem = new JMenuItem("Right");
+	
 	public MyView()
 	{		
 		setColumnWidth(tableLHS);
@@ -111,6 +117,27 @@ public class MyView extends JPanel {
 		}	
 	}
 	
+	protected JMenuBar createMenu()
+	{		
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setOpaque(true);
+		
+		JMenu menu;
+		
+		menu = new JMenu("File");
+		menuBar.add(menu);
+		
+		menu = new JMenu("Edit");
+		menu.add(compareMenuItem);
+		menu.addSeparator();
+		menu.add(swapMenuItem);
+		menu.addSeparator();
+		menu.add(manualEntryMenuItem);
+		menuBar.add(menu);
+		
+		return menuBar;
+	}
+	
 	/*
 	 * This is a short term solution and needs to be implements in a 
 	 * TableColumnModel properly. Including centering text. 
@@ -152,11 +179,17 @@ public class MyView extends JPanel {
 	}
 	
 	public void setControllerActions(ActionListener controllerActionListener)
-	{
+	{		
+		//Setup Menu Actions
+		compareMenuItem.setActionCommand("Compare");
+		swapMenuItem.setActionCommand("Swap Sides");
+		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
 		loadButtonRHS.setActionCommand("Load RHS");
 		swapButton.setActionCommand("Swap Sides");
-		
+		//Setup Action Listener
+		compareMenuItem.addActionListener(controllerActionListener);
+		swapMenuItem.addActionListener(controllerActionListener);
 		loadButtonLHS.addActionListener(controllerActionListener);
 		loadButtonRHS.addActionListener(controllerActionListener);
 		swapButton.addActionListener(controllerActionListener);
@@ -181,6 +214,9 @@ public class MyView extends JPanel {
 		
 		//Add the content  
 		frame.getContentPane().add(this);
+		
+		//Add the Menu
+		frame.setJMenuBar(createMenu());
 		
 		//Display the window
 		frame.pack();
