@@ -125,13 +125,20 @@ public class MyView extends JPanel {
 		
 		JMenu menu;
 		
+		//'File' Top Menu
 		menu = new JMenu("File");
+		//'Save' Sub Menu
 		JMenu saveJMenu = new JMenu("Save");
+		saveJMenu.add(saveLHSMenuItem);
+		saveJMenu.add(saveRHSMenuItem);
 		menu.add(saveJMenu);
+		//'Exit' Sub Menu
 		menu.add(exitMenuItem);
 		menuBar.add(menu);
 		
+		//'Edit Top Menu'
 		menu = new JMenu("Edit");
+		menu.add(new JMenuItem("List?"));
 		menu.add(compareMenuItem);
 		menu.addSeparator();
 		menu.add(swapMenuItem);
