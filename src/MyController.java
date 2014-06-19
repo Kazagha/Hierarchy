@@ -77,6 +77,8 @@ public class MyController {
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String[] tempText = null;
+			ArrayList<RoleData> dataLHS = null;
+			ArrayList<RoleData> dataRHS = null;
 			switch(e.getActionCommand())
 			{
 			case "Load LHS":
@@ -99,14 +101,34 @@ public class MyController {
 				//Get table and title information 
 				String titleStringLHS = view.getLHSTitleLabel();
 				String titleStringRHS = view.getRHSTitleLable();
-				ArrayList<RoleData> dataLHS = tableLHS.getArray();
-				ArrayList<RoleData> dataRHS = tableRHS.getArray();
+				dataLHS = tableLHS.getArray();
+				dataRHS = tableRHS.getArray();
 				
 				//Set table and title information
 				view.setLHSTitle(titleStringRHS);
 				view.setRHSTitle(titleStringLHS);
 				tableLHS.setArray(dataRHS);				
 				tableRHS.setArray(dataLHS);
+				break;
+			case "Compare":
+				dataLHS = tableLHS.getArray();
+				dataRHS = tableRHS.getArray();
+				ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
+				
+				for(RoleData data: dataLHS)
+				{
+					if(dataRHS.contains(data))
+					{
+						tempArray.add(data);
+					}
+				}
+				
+				dataLHS.removeAll(tempArray);
+				dataRHS.removeAll(tempArray);
+
+				tableRHS.refreshArray();
+				tableLHS.refreshArray();
+				
 				break;
 			default:
 				break;					
