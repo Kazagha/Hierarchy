@@ -130,6 +130,10 @@ public class MyController {
 				tableLHS.refreshArray();
 				
 				break;
+			case "Swap Hierarchy":
+				view.setRHSPanel(true);
+				view.setRHSTitle("Hierarchy");
+				break;
 			case "Exit":
 				System.exit(0);
 				break;				
