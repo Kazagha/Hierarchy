@@ -5,25 +5,31 @@ import java.awt.event.ActionListener;
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.table.TableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 public class MyView extends JPanel {
 
 	JPanel panelLHS;
 	JPanel panelRHS;
-	
+	//Lower half split pane
+	JSplitPane splitPane;
+	//Permissions Tables
 	JTable tableLHS = new JTable(new MyTableModel());
 	JTable tableRHS = new JTable(new MyTableModel());
-	
+	//Hierarchy Nodes
+	DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Hierarchy");
+	JTree  treeRHS  = new JTree(rootNode);
+	//User Input Fields
 	JTextField userTextFieldLHS = new JTextField();
 	JTextField userTextFieldRHS = new JTextField();
-	
+	//Title Lables
 	JLabel titleLabelLHS = new JLabel(" - ");
 	JLabel titleLabelRHS = new JLabel(" - ");
-	
+	//Buttons
 	JButton swapButton = new JButton();
 	JButton loadButtonLHS = new JButton("Load LHS");
 	JButton loadButtonRHS = new JButton("Load RHS");
-	
+	//Menu Items
 	JMenuItem compareMenuItem = new JMenuItem("Compare");
 	JMenuItem swapMenuItem = new JMenuItem("Swap Sides");
 	JMenuItem manualEntryMenuItem = new JMenuItem("Manual Entry");
@@ -31,12 +37,18 @@ public class MyView extends JPanel {
 	JMenuItem saveRHSMenuItem = new JMenuItem("Right");
 	JMenuItem exitMenuItem = new JMenuItem("Exit");
 	
+	ComponentWithTitle contentLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
+	ComponentWithTitle contentRHSView = new ComponentWithTitle(titleLabelRHS, tableRHS);
+	ComponentWithTitle contentRHSHierarchy = new ComponentWithTitle(titleLabelLHS, treeRHS);
+	
 	public MyView()
 	{		
 		setColumnWidth(tableLHS);
 		setColumnWidth(tableRHS);
-		JPanel panelLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
-		JPanel panelRHS = new ComponentWithTitle(titleLabelRHS, tableRHS);
+		//JPanel panelLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
+		//JPanel panelRHS = new ComponentWithTitle(titleLabelRHS, tableRHS);
+		panelLHS = contentLHS;
+		panelRHS = contentRHSView;
 		
 		Icon swapIcon = new ImageIcon("images/arrow-repeat.png");
 		if(swapIcon != null)
@@ -44,7 +56,7 @@ public class MyView extends JPanel {
 			swapButton.setIcon(swapIcon);	
 		}
 		
-		JSplitPane splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelLHS, panelRHS);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelLHS, panelRHS);
 		splitPane.setResizeWeight(0);
 		
 		GroupLayout layout = new GroupLayout(this);
@@ -193,7 +205,7 @@ public class MyView extends JPanel {
 	{		
 		//Setup Menu Actions
 		compareMenuItem.setActionCommand("Compare");
-		swapMenuItem.setActionCommand("Swap Sides");
+		swapMenuItem.setActionCommand("Swap Hierarchy");
 		exitMenuItem.setActionCommand("Exit");
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
@@ -217,6 +229,13 @@ public class MyView extends JPanel {
 	{
 		titleLabelRHS.setText(s);
 	}
+	
+	public void setRHSPanel(boolean b)
+	{
+		DefaultMutableTreeNode node = new DefaultMutableTreeNode("Test");
+		rootNode.add(node);
+		splitPane.setRightComponent(new ComponentWithTitle(titleLabelRHS, treeRHS));
+	}	
 	
 	public void createAndShowGUI()
 	{
