@@ -101,6 +101,15 @@ public class SQLQuery {
 					+	"AND "
 						+	"node.end_dte IS NULL"
 					);
+			while (rs.next())
+			{
+				ArrayList<RoleData> tempRoleArray = new ArrayList<RoleData>();
+				int nodeArray[] = {rs.getInt(3)};
+				
+				tempArray.add(new HierarchyData(rs.getString(0), rs.getInt(1), rs.getInt(2),
+						nodeArray, tempRoleArray));
+			}
+			
 		} catch (SQLException e) {
 			throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
 		} finally {
