@@ -79,4 +79,35 @@ public class SQLQuery {
         
         return tempArray;
 	}
+	
+	public ArrayList<HierarchyData> queryHierarchy() throws SQLException
+	{
+		ArrayList<HierarchyData> tempArray = new ArrayList<HierarchyData>();
+		ResultSet rs = null;
+		createConnection();
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement(
+						"SELECT"
+						+ 	"node.nod_num, node.nod_dsc, node.seq_num, "
+						+ 	"rsp_nd1, rsp_nd2, rsp_nd3, rsp_nd4, rsp_nd5, "
+						+ 	"rsp_nd6, rsp_nd7, rsp_nd8, rsp_nd9, rsp_n10, "
+						+ 	"rsp_n11, rsp_n12, rsp_n13, rsp_n14, rsp_n15, "
+						+ 	"rsp_n16, rsp_n17, rsp_n18, rsp_n19"
+					+ 	"FROM "
+						+	"auhinode AS node "
+					+	"WHERE "
+						+	"node.hcy_num = 7 "
+					+	"AND "
+						+	"node.end_dte IS NULL"
+					);
+		} catch (SQLException e) {
+			throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
+		} finally {
+			conn.close();
+			rs.close();
+		}
+		
+		return tempArray;
+	}
 }
