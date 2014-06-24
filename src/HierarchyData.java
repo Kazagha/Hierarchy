@@ -3,14 +3,31 @@ import java.util.ArrayList;
 public class HierarchyData {
 
 	public String nodeName;
-	public ArrayList<RoleData> permissionArray;
+	public ArrayList<RoleData> permissionList;
+	public ArrayList<Integer> nodeList;
 	public int nodeNum;
 	public int nodeSeq;
-	HierarchyData(String nodeName, int nodeNum, int nodeSeq, ArrayList<RoleData> permissionArray)
+	
+	HierarchyData(String nodeName, int nodeNum, int nodeSeq,
+			int[] nodeArray, ArrayList<RoleData> permissionArray)
 	{
 		this.nodeName = nodeName;
 		this.nodeNum = nodeNum;
-		this.permissionArray = permissionArray;
+		this.permissionList = permissionArray;
+		
+		/*
+		 * Only add Values greater than 0 to the nodeList
+		 * In the hierarchy a 0 value represents a null
+		 */
+		for(int i: nodeArray)
+		{
+			if(i > 0)
+			{
+				this.nodeList.add(i);
+			} else {
+				break;
+			}
+		}
 	}
 	
 	public String getNodeName()
@@ -28,14 +45,24 @@ public class HierarchyData {
 		return nodeNum;
 	}
 	
-	public void setPermissionArray(ArrayList<RoleData> permissionArray)
+	public int getNodeTier()
 	{
-		this.permissionArray = permissionArray;
+		return nodeList.size();
+	}
+	
+	public ArrayList<Integer> getNodeList()
+	{
+		return nodeList;
+	}
+	
+	public ArrayList<RoleData> getPermissionList()
+	{
+		return permissionList;
 	}
 	
 	public boolean contains(RoleData rd)
 	{
-		return permissionArray.contains(rd);
+		return permissionList.contains(rd);
 	}
 	
 	/**
