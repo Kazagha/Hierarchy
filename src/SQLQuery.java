@@ -93,7 +93,7 @@ public class SQLQuery {
 						+ 	"rsp_nd1, rsp_nd2, rsp_nd3, rsp_nd4, rsp_nd5, "
 						+ 	"rsp_nd6, rsp_nd7, rsp_nd8, rsp_nd9, rsp_n10, "
 						+ 	"rsp_n11, rsp_n12, rsp_n13, rsp_n14, rsp_n15, "
-						+ 	"rsp_n16, rsp_n17, rsp_n18, rsp_n19"
+						+ 	"rsp_n16, rsp_n17, rsp_n18, rsp_n19 "
 					+ 	"FROM "
 						+	"auhinode AS node "
 					+	"WHERE "
@@ -101,11 +101,16 @@ public class SQLQuery {
 					+	"AND "
 						+	"node.end_dte IS NULL"
 					);
+			
+			rs = ps.executeQuery();
+			
 			while (rs.next())
 			{
+				//Fetch the permission array list
 				ArrayList<RoleData> tempRoleArray = new ArrayList<RoleData>();
+				//Put the hierarchy nodes into an array
 				int nodeArray[] = {rs.getInt(3)};
-				
+				//Create a new HierarchyData node in the array list
 				tempArray.add(new HierarchyData(rs.getString(0), rs.getInt(1), rs.getInt(2),
 						nodeArray, tempRoleArray));
 			}
