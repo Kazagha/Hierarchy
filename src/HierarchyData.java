@@ -5,7 +5,8 @@ public class HierarchyData {
 	public String nodeName;
 	public ArrayList<RoleData> permissionArray;
 	public int nodeNum;
-	HierarchyData(String nodeName, int nodeNum, ArrayList<RoleData> permissionArray)
+	public int nodeSeq;
+	HierarchyData(String nodeName, int nodeNum, int nodeSeq, ArrayList<RoleData> permissionArray)
 	{
 		this.nodeName = nodeName;
 		this.nodeNum = nodeNum;
@@ -25,6 +26,11 @@ public class HierarchyData {
 	public int getNodeNumber()
 	{
 		return nodeNum;
+	}
+	
+	public void setPermissionArray(ArrayList<RoleData> permissionArray)
+	{
+		this.permissionArray = permissionArray;
 	}
 	
 	public boolean contains(RoleData rd)
