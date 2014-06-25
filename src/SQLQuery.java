@@ -89,7 +89,7 @@ public class SQLQuery {
 		try {
 			PreparedStatement ps = conn.prepareStatement(
 							"SELECT "
-						+ 		"node.nod_dsc, node.nod_num, node.seq_num "
+						+ 		"node.nod_dsc, node.nod_num, node.seq_num, "
 						+ 		"rsp_nd1, rsp_nd2, rsp_nd3, rsp_nd4, rsp_nd5, "
 						+ 		"rsp_nd6, rsp_nd7, rsp_nd8, rsp_nd9, rsp_n10, "
 						+ 		"rsp_n11, rsp_n12, rsp_n13, rsp_n14, rsp_n15, "
@@ -111,7 +111,12 @@ public class SQLQuery {
 				//Fetch the permission array list
 				ArrayList<RoleData> tempRoleArray = new ArrayList<RoleData>();
 				//Put the hierarchy nodes into an array
-				int nodeArray[] = {rs.getInt(4)};
+				int nodeArray[] = {	
+						rs.getInt(4),  rs.getInt(5),  rs.getInt(6),  rs.getInt(7),  rs.getInt(8),
+						rs.getInt(9),  rs.getInt(10), rs.getInt(11), rs.getInt(12), rs.getInt(13), 
+						rs.getInt(14), rs.getInt(15), rs.getInt(16), rs.getInt(17), rs.getInt(18),
+						rs.getInt(19), rs.getInt(20), rs.getInt(21)
+						};
 				//Create a new HierarchyData node in the array list
 				tempArray.add(new HierarchyData(rs.getString(1), rs.getInt(2), rs.getInt(3),
 						nodeArray, tempRoleArray));
