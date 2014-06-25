@@ -36,6 +36,8 @@ public class MyView extends JPanel {
 	JMenuItem saveLHSMenuItem = new JMenuItem("Left");
 	JMenuItem saveRHSMenuItem = new JMenuItem("Right");
 	JMenuItem exitMenuItem = new JMenuItem("Exit");
+	JMenuItem hierarchyViewMenuItem = new JMenuItem("Hierarchy");
+	JMenuItem listViewMenuItem = new JMenuItem("List");
 	
 	ComponentWithTitle contentLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
 	ComponentWithTitle contentRHSView = new ComponentWithTitle(titleLabelRHS, tableRHS);
@@ -148,14 +150,21 @@ public class MyView extends JPanel {
 		menu.add(exitMenuItem);
 		menuBar.add(menu);
 		
-		//'Edit Top Menu'
+		//'Edit' Top Menu
 		menu = new JMenu("Edit");
-		menu.add(new JMenuItem("List?"));
+		//menu.add(new JMenuItem("Load Left"));
+		//menu.add(new JMenuItem("Load Right"));		
 		menu.add(compareMenuItem);
 		menu.addSeparator();
 		menu.add(swapMenuItem);
 		menu.addSeparator();
 		menu.add(manualEntryMenuItem);
+		menuBar.add(menu);
+		
+		//'View' Top Menu
+		menu = new JMenu("View");
+		menu.add(hierarchyViewMenuItem);
+		menu.add(listViewMenuItem);
 		menuBar.add(menu);
 		
 		return menuBar;
@@ -205,18 +214,21 @@ public class MyView extends JPanel {
 	{		
 		//Setup Menu Actions
 		compareMenuItem.setActionCommand("Compare");
+		compareMenuItem.addActionListener(controllerActionListener);
 		swapMenuItem.setActionCommand("Swap Hierarchy");
+		swapMenuItem.addActionListener(controllerActionListener);
+		hierarchyViewMenuItem.setActionCommand("View Hierarchy");
+		hierarchyViewMenuItem.addActionListener(controllerActionListener);
+		listViewMenuItem.setActionCommand("View List");
+		listViewMenuItem.addActionListener(controllerActionListener);
 		exitMenuItem.setActionCommand("Exit");
+		exitMenuItem.addActionListener(controllerActionListener);
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
-		loadButtonRHS.setActionCommand("Load RHS");
-		swapButton.setActionCommand("Swap Sides");
-		//Setup Action Listener
-		compareMenuItem.addActionListener(controllerActionListener);
-		swapMenuItem.addActionListener(controllerActionListener);
-		exitMenuItem.addActionListener(controllerActionListener);
 		loadButtonLHS.addActionListener(controllerActionListener);
+		loadButtonRHS.setActionCommand("Load RHS");
 		loadButtonRHS.addActionListener(controllerActionListener);
+		swapButton.setActionCommand("Swap Sides");
 		swapButton.addActionListener(controllerActionListener);
 	}
 	
@@ -230,11 +242,17 @@ public class MyView extends JPanel {
 		titleLabelRHS.setText(s);
 	}
 	
-	public void setRHSPanel(boolean b)
+	public void setHierarchyPanel(boolean isHierarchy)
 	{
-		DefaultMutableTreeNode node = new DefaultMutableTreeNode("Test");
-		rootNode.add(node);
-		splitPane.setRightComponent(new ComponentWithTitle(titleLabelRHS, treeRHS));
+		if(isHierarchy)
+		{
+			setRHSTitle("Hierarchy");
+			DefaultMutableTreeNode node = new DefaultMutableTreeNode("Test");
+			rootNode.add(node);
+			splitPane.setRightComponent(contentRHSHierarchy);
+		} else {			
+			splitPane.setRightComponent(contentRHSView);
+		}
 	}	
 	
 	public void createAndShowGUI()
