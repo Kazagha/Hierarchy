@@ -130,9 +130,13 @@ public class MyController {
 				tableLHS.refreshArray();
 				
 				break;
-			case "Swap Hierarchy":
-				view.setRHSPanel(true);
-				view.setRHSTitle("Hierarchy");
+			case "View Hierarchy":
+				view.setHierarchyPanel(true);
+				ArrayList<HierarchyData> hDataTest = hierarchyQuery();
+				System.out.println("Hierarchy size: " + hDataTest.size());
+				break;
+			case "View List":
+				view.setHierarchyPanel(false);
 				break;
 			case "Exit":
 				System.exit(0);
@@ -153,6 +157,20 @@ public class MyController {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} 
+		
+		return array;
+	}
+	
+	public ArrayList<HierarchyData> hierarchyQuery()
+	{
+		ArrayList<HierarchyData> array = null;
+		SQLQuery sql = new SQLQuery(conf);
+		
+		try {
+			array = sql.queryHierarchy();
+		} catch (SQLException e) {
+			System.out.println(e.getMessage());
+		}
 		
 		return array;
 	}
