@@ -4,7 +4,7 @@ public class HierarchyData {
 
 	public String nodeName;
 	public ArrayList<RoleData> permissionList;
-	public ArrayList<Integer> nodeList;
+	public ArrayList<Integer> nodeList = new ArrayList<Integer>();
 	public int nodeNum;
 	public int nodeSeq;
 	
