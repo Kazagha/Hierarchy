@@ -39,9 +39,9 @@ public class MyView extends JPanel {
 	JMenuItem hierarchyViewMenuItem = new JMenuItem("Hierarchy");
 	JMenuItem listViewMenuItem = new JMenuItem("List");
 	
-	ComponentWithTitle contentLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
-	ComponentWithTitle contentRHSView = new ComponentWithTitle(titleLabelRHS, tableRHS);
-	ComponentWithTitle contentRHSHierarchy = new ComponentWithTitle(titleLabelLHS, treeRHS);
+	ComponentWithTitle contentLHS = new ComponentWithTitle(tableLHS);
+	ComponentWithTitle contentRHSView = new ComponentWithTitle(tableRHS);
+	ComponentWithTitle contentRHSHierarchy = new ComponentWithTitle(treeRHS);
 	
 	public MyView()
 	{		
@@ -49,8 +49,8 @@ public class MyView extends JPanel {
 		setColumnWidth(tableRHS);
 		//JPanel panelLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
 		//JPanel panelRHS = new ComponentWithTitle(titleLabelRHS, tableRHS);
-		panelLHS = contentLHS;
-		panelRHS = contentRHSView;
+		//panelLHS = contentLHS;
+		//panelRHS = contentRHSView;
 		
 		Icon swapIcon = new ImageIcon("images/arrow-repeat.png");
 		if(swapIcon != null)
@@ -58,7 +58,7 @@ public class MyView extends JPanel {
 			swapButton.setIcon(swapIcon);	
 		}
 		
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, panelLHS, panelRHS);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, contentLHS, contentRHSView);
 		splitPane.setResizeWeight(0);
 		
 		GroupLayout layout = new GroupLayout(this);
@@ -109,7 +109,8 @@ public class MyView extends JPanel {
 	
 	class ComponentWithTitle extends JPanel
 	{
-		ComponentWithTitle(JLabel title, JComponent component)
+		JLabel title = new JLabel(" - ");
+		ComponentWithTitle(JComponent component)
 		{
 			GroupLayout layout = new GroupLayout(this);
 			setLayout(layout);
@@ -128,8 +129,18 @@ public class MyView extends JPanel {
 						.addComponent(title)
 						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(scrollPane)
-					);		
-		}	
+					);	
+			}
+		
+		public String getTitle()
+		{
+			return title.toString();
+		}
+		
+		public void setTitle(String s)
+		{
+			title.setText(s);
+		}
 	}
 	
 	protected JMenuBar createMenu()
@@ -246,7 +257,7 @@ public class MyView extends JPanel {
 	{
 		if(isHierarchy)
 		{
-			setRHSTitle("Hierarchy");
+			//this.setRHSTitle("Hierarchy");
 			DefaultMutableTreeNode node = new DefaultMutableTreeNode("Test");
 			rootNode.add(node);
 			splitPane.setRightComponent(contentRHSHierarchy);
