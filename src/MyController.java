@@ -86,7 +86,7 @@ public class MyController {
 				if(tempText.length == 2)
 				{
 					tableLHS.setArray(userQuery(tempText[0], tempText[1]));
-					view.setLHSTitle(view.getLHSTextField());
+					view.setLHSViewTitle(view.getLHSTextField());
 				}
 				break;
 			case "Load RHS":
@@ -94,19 +94,19 @@ public class MyController {
 				if(tempText.length == 2)
 				{								
 				tableRHS.setArray(userQuery(tempText[0], tempText[1]));
-				view.setRHSTitle(view.getRHSTextField());
+				view.setRHSViewTitle(view.getRHSTextField());
 				}
 				break;
 			case "Swap Sides":
 				//Get table and title information 
-				String titleStringLHS = view.getLHSTitleLabel();
-				String titleStringRHS = view.getRHSTitleLable();
+				String titleStringLHS = view.getLHSViewTitle();
+				String titleStringRHS = view.getRHSViewTitle();
 				dataLHS = tableLHS.getArray();
 				dataRHS = tableRHS.getArray();
 				
 				//Set table and title information
-				view.setLHSTitle(titleStringRHS);
-				view.setRHSTitle(titleStringLHS);
+				view.setLHSViewTitle(titleStringRHS);
+				view.setRHSViewTitle(titleStringLHS);
 				tableLHS.setArray(dataRHS);				
 				tableRHS.setArray(dataLHS);
 				break;

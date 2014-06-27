@@ -39,7 +39,7 @@ public class MyView extends JPanel {
 	JMenuItem hierarchyViewMenuItem = new JMenuItem("Hierarchy");
 	JMenuItem listViewMenuItem = new JMenuItem("List");
 	
-	ComponentWithTitle contentLHS = new ComponentWithTitle(tableLHS);
+	ComponentWithTitle contentLHSView = new ComponentWithTitle(tableLHS);
 	ComponentWithTitle contentRHSView = new ComponentWithTitle(tableRHS);
 	ComponentWithTitle contentRHSHierarchy = new ComponentWithTitle(treeRHS);
 	
@@ -58,7 +58,7 @@ public class MyView extends JPanel {
 			swapButton.setIcon(swapIcon);	
 		}
 		
-		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, contentLHS, contentRHSView);
+		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, contentLHSView, contentRHSView);
 		splitPane.setResizeWeight(0);
 		
 		GroupLayout layout = new GroupLayout(this);
@@ -109,7 +109,7 @@ public class MyView extends JPanel {
 	
 	class ComponentWithTitle extends JPanel
 	{
-		JLabel title = new JLabel(" - ");
+		JLabel titleLabel = new JLabel(" - ");
 		ComponentWithTitle(JComponent component)
 		{
 			GroupLayout layout = new GroupLayout(this);
@@ -120,13 +120,13 @@ public class MyView extends JPanel {
 			
 			layout.setHorizontalGroup(
 					layout.createParallelGroup()
-							.addComponent(title, GroupLayout.Alignment.CENTER)
+							.addComponent(titleLabel, GroupLayout.Alignment.CENTER)
 							.addComponent(scrollPane)
 					);
 			
 			layout.setVerticalGroup(
 					layout.createSequentialGroup()
-						.addComponent(title)
+						.addComponent(titleLabel)
 						.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 						.addComponent(scrollPane)
 					);	
@@ -134,12 +134,12 @@ public class MyView extends JPanel {
 		
 		public String getTitle()
 		{
-			return title.toString();
+			return titleLabel.getText();
 		}
 		
 		public void setTitle(String s)
 		{
-			title.setText(s);
+			titleLabel.setText(s);
 		}
 	}
 	
@@ -201,14 +201,19 @@ public class MyView extends JPanel {
 		return userTextFieldRHS.getText();
 	}
 	
-	public String getLHSTitleLabel()
+	public String getLHSViewTitle()
 	{
-		return titleLabelLHS.getText();
+		return contentLHSView.getTitle();
 	}
 	
-	public String getRHSTitleLable()
+	public String getRHSViewTitle()
 	{
-		return titleLabelRHS.getText();
+		return contentRHSView.getTitle();
+	}
+	
+	public String getRHSHierarchyTitle()
+	{
+		return contentRHSHierarchy.getTitle();
 	}
 	
 	public MyTableModel getLHSTableModel()
@@ -243,14 +248,19 @@ public class MyView extends JPanel {
 		swapButton.addActionListener(controllerActionListener);
 	}
 	
-	public void setLHSTitle(String s)
+	public void setLHSViewTitle(String s)
 	{
-		titleLabelLHS.setText(s);		
+		contentLHSView.setTitle(s);	
 	}
 	
-	public void setRHSTitle(String s)
+	public void setRHSViewTitle(String s)
 	{
-		titleLabelRHS.setText(s);
+		contentRHSView.setTitle(s);
+	}
+	
+	public void setRHSHierarchyTitle(String s)
+	{
+		contentRHSHierarchy.setTitle(s);
 	}
 	
 	public void setHierarchyPanel(boolean isHierarchy)
