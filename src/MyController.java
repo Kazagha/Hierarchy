@@ -6,6 +6,7 @@ import java.util.ArrayList;
 
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
+import javax.swing.tree.DefaultMutableTreeNode;
 
 import com.sun.xml.internal.ws.wsdl.ActionBasedOperationSignature;
 
@@ -45,6 +46,7 @@ public class MyController {
 	{
 		conf = loadConf("hierarchy.conf");
 		this.view = view;
+		this.view.setRHSHierarchyTitle("Hierarchy View");
 		tableLHS = view.getLHSTableModel();
 		tableRHS = view.getRHSTableModel();
 		this.view.setControllerActions(new MyActionListener());
@@ -134,6 +136,18 @@ public class MyController {
 				view.setHierarchyPanel(true);
 				ArrayList<HierarchyData> hDataTest = hierarchyQuery();
 				System.out.println("Hierarchy size: " + hDataTest.size());
+				
+				DefaultMutableTreeNode rootNode = view.getRootNode();
+				
+				int parentNode;
+				for(HierarchyData hd : hDataTest)
+				{
+					System.out.println(hd.getNodeName() + " " + hd.getNodeList());
+					rootNode.add(new DefaultMutableTreeNode(hd.getNodeName()));
+					for(int i : hd.getNodeList())
+					{
+					}
+				}
 				break;
 			case "View List":
 				view.setHierarchyPanel(false);
