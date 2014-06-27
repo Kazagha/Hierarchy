@@ -22,9 +22,6 @@ public class MyView extends JPanel {
 	//User Input Fields
 	JTextField userTextFieldLHS = new JTextField();
 	JTextField userTextFieldRHS = new JTextField();
-	//Title Lables
-	JLabel titleLabelLHS = new JLabel(" - ");
-	JLabel titleLabelRHS = new JLabel(" - ");
 	//Buttons
 	JButton swapButton = new JButton();
 	JButton loadButtonLHS = new JButton("Load LHS");
@@ -226,6 +223,11 @@ public class MyView extends JPanel {
 		return (MyTableModel) tableRHS.getModel();
 	}
 	
+	public DefaultMutableTreeNode getRootNode()
+	{
+		return rootNode;
+	}
+	
 	public void setControllerActions(ActionListener controllerActionListener)
 	{		
 		//Setup Menu Actions
@@ -267,9 +269,6 @@ public class MyView extends JPanel {
 	{
 		if(isHierarchy)
 		{
-			//this.setRHSTitle("Hierarchy");
-			DefaultMutableTreeNode node = new DefaultMutableTreeNode("Test");
-			rootNode.add(node);
 			splitPane.setRightComponent(contentRHSHierarchy);
 		} else {			
 			splitPane.setRightComponent(contentRHSView);
