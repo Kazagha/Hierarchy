@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Collections;
 
 import javax.swing.JTable;
 import javax.swing.table.TableModel;
@@ -136,13 +137,15 @@ public class MyController {
 				view.setHierarchyPanel(true);
 				ArrayList<HierarchyData> hDataTest = hierarchyQuery();
 				System.out.println("Hierarchy size: " + hDataTest.size());
+				//Sory the Hierarchy Data
+				hierarchySort(hDataTest);
 				
 				DefaultMutableTreeNode rootNode = view.getRootNode();
 				
 				int parentNode;
 				for(HierarchyData hd : hDataTest)
 				{
-					System.out.println(hd.getNodeName() + " " + hd.getNodeList());
+					System.out.println(hd.getNodeName() + " " + hd.getNodeList() + " - " + hd.nodeSeq);
 					rootNode.add(new DefaultMutableTreeNode(hd.getNodeName()));
 					for(int i : hd.getNodeList())
 					{
@@ -161,7 +164,7 @@ public class MyController {
 		}		
 	}
 	
-	public ArrayList<RoleData> userQuery(String firstName, String lastName)
+	private ArrayList<RoleData> userQuery(String firstName, String lastName)
 	{
 		ArrayList<RoleData> array = new ArrayList<RoleData>(); 
 		SQLQuery sql = new SQLQuery(conf);
@@ -175,7 +178,7 @@ public class MyController {
 		return array;
 	}
 	
-	public ArrayList<HierarchyData> hierarchyQuery()
+	private ArrayList<HierarchyData> hierarchyQuery()
 	{
 		ArrayList<HierarchyData> array = null;
 		SQLQuery sql = new SQLQuery(conf);
@@ -187,5 +190,10 @@ public class MyController {
 		}
 		
 		return array;
+	}
+	
+	private void hierarchySort(ArrayList<HierarchyData> array)
+	{
+		Collections.sort(array, HierarchyData.Comparators.TIER_PARENT_SEQ);
 	}
 }
