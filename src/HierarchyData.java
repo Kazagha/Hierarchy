@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Comparator;
 
 public class HierarchyData {
 
@@ -13,6 +14,7 @@ public class HierarchyData {
 	{
 		this.nodeName = nodeName;
 		this.nodeNum = nodeNum;
+		this.nodeSeq = nodeSeq;
 		this.permissionList = permissionArray;
 		
 		/*
@@ -63,6 +65,18 @@ public class HierarchyData {
 	public boolean contains(RoleData rd)
 	{
 		return permissionList.contains(rd);
+	}
+	
+	public static class Comparators
+	{
+		public static Comparator<HierarchyData> TIER = new Comparator<HierarchyData>()
+				{
+			@Override
+			public int compare(HierarchyData node1, HierarchyData node2)
+			{
+				return node1.getNodeTier() - node2.getNodeTier();
+			}
+				};
 	}
 	
 	/**
