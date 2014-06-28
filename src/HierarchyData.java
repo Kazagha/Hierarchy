@@ -52,6 +52,11 @@ public class HierarchyData {
 		return nodeList.size();
 	}
 	
+	public int getNodeSequence()
+	{
+		return nodeSeq;
+	}
+	
 	public ArrayList<Integer> getNodeList()
 	{
 		return nodeList;
@@ -69,12 +74,48 @@ public class HierarchyData {
 	
 	public static class Comparators
 	{
+		/**
+		 * Comparator: Tier
+		 * Sort the Hierarchy data based on the menu tier
+		 */
 		public static Comparator<HierarchyData> TIER = new Comparator<HierarchyData>()
 				{
 			@Override
 			public int compare(HierarchyData node1, HierarchyData node2)
 			{
 				return node1.getNodeTier() - node2.getNodeTier();
+			}
+				};
+				
+		/**
+		 * Comparator: Tier - Parent Node - Sequence
+		 * Sort the Hierarchy data on the following (in order)
+		 *  - Tier (top tier menu, second tire menu, ...)
+		 *  - Parent Node (keeps children together)
+		 *  - Node Sequence (node sequence as they appear in the Authority menu)
+		 */
+		public static Comparator<HierarchyData> TIER_PARENT_SEQ = new Comparator<HierarchyData>()
+				{
+			@Override
+			public int compare(HierarchyData node1, HierarchyData node2)
+			{
+				//Compare Node Tier
+				int i = node1.getNodeTier() - node2.getNodeTier();
+				if (i == 0)
+				{
+					//Compare the Parent Nodes
+					int nodeTier = node1.getNodeList().size();
+					int node1Parent = node1.getNodeList().get(nodeTier - 1);
+					int node2Parent = node2.getNodeList().get(nodeTier - 1);
+					i = node1Parent - node2Parent;
+
+					if(i == 0)
+					{
+						//Compare the Node Sequence
+						i = node1.getNodeSequence() - node2.getNodeSequence();
+					}
+				} 
+				return i;
 			}
 				};
 	}
