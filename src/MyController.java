@@ -47,9 +47,9 @@ public class MyController {
 	{
 		conf = loadConf("hierarchy.conf");
 		this.view = view;
-		this.view.setRHSHierarchyTitle("Hierarchy View");
 		tableLHS = view.getLHSTableModel();
 		tableRHS = view.getRHSTableModel();
+		this.createHierarchyNodes(view.getRootNode());		
 		this.view.setControllerActions(new MyActionListener());
 
 		//saveConf();
@@ -135,22 +135,6 @@ public class MyController {
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);
-				ArrayList<HierarchyData> hDataTest = hierarchyQuery();
-				System.out.println("Hierarchy size: " + hDataTest.size());
-				//Sory the Hierarchy Data
-				hierarchySort(hDataTest);
-				
-				DefaultMutableTreeNode rootNode = view.getRootNode();
-				
-				int parentNode;
-				for(HierarchyData hd : hDataTest)
-				{
-					System.out.println(hd.getNodeName() + " " + hd.getNodeList() + " - " + hd.nodeSeq);
-					rootNode.add(new DefaultMutableTreeNode(hd.getNodeName()));
-					for(int i : hd.getNodeList())
-					{
-					}
-				}
 				break;
 			case "View List":
 				view.setHierarchyPanel(false);
@@ -162,6 +146,24 @@ public class MyController {
 				break;					
 			}
 		}		
+	}
+	
+	private void createHierarchyNodes(DefaultMutableTreeNode rootNode)
+	{
+		ArrayList<HierarchyData> hierarchyList = hierarchyQuery();
+		hierarchySort(hierarchyList); //Sort the Hierarchy Data
+		DefaultMutableTreeNode parentNode;
+		this.view.setRHSHierarchyTitle("Hierarchy View");
+		
+		for(HierarchyData hd : hierarchyList)
+		{
+			System.out.println(hd.getNodeName() + " " + hd.getNodeList() + " - " + hd.nodeSeq);
+			rootNode.add(new DefaultMutableTreeNode(hd.getNodeName()));
+			for(int i : hd.getNodeList())
+			{
+				//rootNode.isNodeChild(aNode)
+			}
+		}
 	}
 	
 	private ArrayList<RoleData> userQuery(String firstName, String lastName)
