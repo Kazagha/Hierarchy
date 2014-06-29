@@ -152,17 +152,36 @@ public class MyController {
 	{
 		ArrayList<HierarchyData> hierarchyList = hierarchyQuery();
 		hierarchySort(hierarchyList); //Sort the Hierarchy Data
-		DefaultMutableTreeNode parentNode;
 		this.view.setRHSHierarchyTitle("Hierarchy View");
 		
+		//Iterate though the Hierarchy List Array
 		for(HierarchyData hd : hierarchyList)
 		{
-			System.out.println(hd.getNodeName() + " " + hd.getNodeList() + " - " + hd.nodeSeq);
-			rootNode.add(new DefaultMutableTreeNode(hd.getNodeName()));
-			for(int i : hd.getNodeList())
+			//System.out.println(hd.getNodeName() + " " + hd.getNodeList() + " - " + hd.nodeSeq);
+			//rootNode.add(new DefaultMutableTreeNode(hd.getNodeName()));
+			DefaultMutableTreeNode parentNode = rootNode;
+			
+			//Iterate though the tiers of the Hierarchy 
+			for(int nodeNumber : hd.getNodeList())
 			{
-				//rootNode.isNodeChild(aNode)
+				//Find the number of children on the 'parentNode' 
+				int childCount = parentNode.getChildCount();
+				//Iterate through the children until a match is found
+				for(int childIndex = 0; childIndex < childCount; childIndex++)
+				{
+					//Find the child's node number
+					HierarchyData tempChild = (HierarchyData) parentNode.getChildAt(childIndex);
+					int childNodeNumber = tempChild.getNodeNumber();
+					
+					if(nodeNumber == childNodeNumber)
+					{
+						parentNode = (DefaultMutableTreeNode) parentNode.getChildAt(childIndex);
+						break;
+					}
+				}
 			}
+			
+			//Get the last Node, add to current parentNode
 		}
 	}
 	
