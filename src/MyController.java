@@ -49,7 +49,7 @@ public class MyController {
 		this.view = view;
 		tableLHS = view.getLHSTableModel();
 		tableRHS = view.getRHSTableModel();
-		this.createHierarchyNodes(view.getRootNode());		
+		this.createHierarchyNodes(view.getRootNode());	
 		this.view.setControllerActions(new MyActionListener());
 
 		//saveConf();
@@ -169,19 +169,24 @@ public class MyController {
 				//Iterate through the children until a match is found
 				for(int childIndex = 0; childIndex < childCount; childIndex++)
 				{
+					DefaultMutableTreeNode tempChild = (DefaultMutableTreeNode) parentNode.getChildAt(childIndex);
 					//Find the child's node number
-					HierarchyData tempChild = (HierarchyData) parentNode.getChildAt(childIndex);
-					int childNodeNumber = tempChild.getNodeNumber();
+					//HierarchyData tempChild = (HierarchyData) parentNode.getChildAt(childIndex);
+					HierarchyData tempHierarchyNode = (HierarchyData) tempChild.getUserObject();
+					int tempChildNodeNumber = tempHierarchyNode.getNodeNumber();					
 					
-					if(nodeNumber == childNodeNumber)
+					//Check if the node number (from hierarchy node list)
+					//for this tier matches this child node
+					if(nodeNumber == tempChildNodeNumber)
 					{
+						//Set the new parent node to this child node
 						parentNode = (DefaultMutableTreeNode) parentNode.getChildAt(childIndex);
 						break;
 					}
 				}
 			}
-			
-			//Get the last Node, add to current parentNode
+			//Add the Hierarchy Data as a child to the specified parent node
+			parentNode.add(new DefaultMutableTreeNode(hd));
 		}
 	}
 	
