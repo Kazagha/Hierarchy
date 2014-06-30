@@ -131,4 +131,27 @@ public class SQLQuery {
 		
 		return tempArray;
 	}
+	
+	public ArrayList<RoleData> queryRoleData() throws SQLException
+	{
+		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
+		ResultSet rs = null;
+		createConnection();
+		
+		try {
+			PreparedStatement ps = conn.prepareStatement("");
+						
+			rs = ps.executeQuery();
+			
+			while (rs.next()) {}
+			
+		} catch (SQLException e) {
+			
+		} finally {
+			conn.close();
+			rs.close();
+		}
+		
+		return tempArray;
+	}
 }
