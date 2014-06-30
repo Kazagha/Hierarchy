@@ -44,6 +44,8 @@ public class MyView extends JPanel {
 	{		
 		setColumnWidth(tableLHS);
 		setColumnWidth(tableRHS);
+		
+		treeRHS.setCellRenderer(new MyTreeRenderer());
 		//JPanel panelLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
 		//JPanel panelRHS = new ComponentWithTitle(titleLabelRHS, tableRHS);
 		//panelLHS = contentLHS;
