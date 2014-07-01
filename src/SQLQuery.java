@@ -83,8 +83,17 @@ public class SQLQuery {
 	public ArrayList<HierarchyData> queryHierarchy() throws SQLException
 	{
 		ArrayList<HierarchyData> tempArray = new ArrayList<HierarchyData>();
+		ArrayList<RoleData> roleArray = queryRoleData();
 		ResultSet rs = null;
 		createConnection();
+		
+		long start = System.currentTimeMillis();
+		for(RoleData rd : roleArray)
+		{
+			System.out.println(rd.getDescription());
+		}
+		long end = System.currentTimeMillis();
+		System.out.println(start - end);
 		
 		try {
 			PreparedStatement ps = conn.prepareStatement(
@@ -104,12 +113,14 @@ public class SQLQuery {
 						+		"node.rsp_nd1 = 75452" //TODO: This is for testing purposes only.
 					);
 			
-			rs = ps.executeQuery();
+			rs = ps.executeQuery();			
 			
 			while (rs.next())
 			{
 				//Fetch the permission array list
 				ArrayList<RoleData> tempRoleArray = new ArrayList<RoleData>();
+				//System.out.println(tempRoleArray.get(0).getDescription());
+				
 				//Put the hierarchy nodes into an array
 				int nodeArray[] = {	
 						rs.getInt(4),  rs.getInt(5),  rs.getInt(6),  rs.getInt(7),  rs.getInt(8),
@@ -139,14 +150,25 @@ public class SQLQuery {
 		createConnection();
 		
 		try {
-			PreparedStatement ps = conn.prepareStatement("");
-						
+			PreparedStatement ps = conn.prepareStatement(""
+					+ "SELECT "
+					+ "	auhirole.rol_num, auhirole.rol_dsc "
+					+ "FROM "
+					+ "	auhirole "
+					+ "JOIN "
+					+ "	auhinodr ON auhirole.rol_num = auhinodr.rol_num ");
+					//+ "WHERE "
+					//+ "	auhinodr.nod_num = ?");
+			
+			//ps.setInt(1, nodeNumber);
 			rs = ps.executeQuery();
 			
-			while (rs.next()) {}
+			while (rs.next()) {
+				tempArray.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
+			}
 			
 		} catch (SQLException e) {
-			
+			throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
 		} finally {
 			conn.close();
 			rs.close();
