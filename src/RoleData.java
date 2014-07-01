@@ -1,23 +1,23 @@
 public class RoleData
 {
 	//Instanise
-	int i;
-	String s;
+	int roleNum;
+	String roleDesc;
 
-	public RoleData(int i, String s)
+	public RoleData(int roleNum, String roleDesc)
 	{
-		this.i = i;
-		this.s = s;	
+		this.roleNum= roleNum;
+		this.roleDesc= roleDesc;	
 	}
 
 	public int getRole()
 	{
-		return i;
+		return roleNum;
 	}
 
 	public String getDescription()
 	{
-		return s;
+		return roleDesc;
 	}
 
 	/**
