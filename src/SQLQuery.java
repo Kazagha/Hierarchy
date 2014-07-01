@@ -87,13 +87,15 @@ public class SQLQuery {
 		ResultSet rs = null;
 		createConnection();
 		
-		long start = System.currentTimeMillis();
-		for(RoleData rd : roleArray)
-		{
-			System.out.println(rd.getDescription());
-		}
-		long end = System.currentTimeMillis();
-		System.out.println(start - end);
+		//long start = System.currentTimeMillis();
+		
+		//System.out.println("Role Count: " + roleArray.size());
+		//int i = 0;
+
+		//System.out.println("There have been " + i + " matches");
+					
+		//long end = System.currentTimeMillis();
+		//System.out.println(end - start + "ms");		
 		
 		try {
 			PreparedStatement ps = conn.prepareStatement(
@@ -116,11 +118,7 @@ public class SQLQuery {
 			rs = ps.executeQuery();			
 			
 			while (rs.next())
-			{
-				//Fetch the permission array list
-				ArrayList<RoleData> tempRoleArray = new ArrayList<RoleData>();
-				//System.out.println(tempRoleArray.get(0).getDescription());
-				
+			{				
 				//Put the hierarchy nodes into an array
 				int nodeArray[] = {	
 						rs.getInt(4),  rs.getInt(5),  rs.getInt(6),  rs.getInt(7),  rs.getInt(8),
@@ -128,11 +126,24 @@ public class SQLQuery {
 						rs.getInt(14), rs.getInt(15), rs.getInt(16), rs.getInt(17), rs.getInt(18),
 						rs.getInt(19), rs.getInt(20), rs.getInt(21)
 						};
+				
+				//Fetch the permission array list
+				ArrayList<RoleData> tempRoleArray = new ArrayList<RoleData>();
+				
+				for(RoleData rd : roleArray)
+				{
+					//System.out.println(rd.getDescription());
+					if(rd.getRole() == 218)
+					{
+					System.out.println("Found... " + rd.getDescription());
+					tempRoleArray.add(rd);
+					}
+				}
+				
 				//Create a new HierarchyData node in the array list
 				tempArray.add(new HierarchyData(rs.getString(1), rs.getInt(2), rs.getInt(3),
 						nodeArray, tempRoleArray));
 			}
-			
 		} catch (SQLException e) {
 			throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
 		} finally {
@@ -154,11 +165,15 @@ public class SQLQuery {
 					+ "SELECT "
 					+ "	auhirole.rol_num, auhirole.rol_dsc "
 					+ "FROM "
-					+ "	auhirole "
+					+ "	auhinode "
 					+ "JOIN "
-					+ "	auhinodr ON auhirole.rol_num = auhinodr.rol_num ");
-					//+ "WHERE "
-					//+ "	auhinodr.nod_num = ?");
+					+ "	auhinodr ON auhinode.nod_num = auhinodr.nod_num "
+					+ "JOIN "
+					+ "	auhirole ON auhinodr.rol_num = auhirole.rol_num "
+					+ "WHERE "
+					+ "	auhinode.hcy_num = 7 " );
+					//+ "AND "
+					//+ "	auhinode.nod_num = ?");
 			
 			//ps.setInt(1, nodeNumber);
 			rs = ps.executeQuery();
