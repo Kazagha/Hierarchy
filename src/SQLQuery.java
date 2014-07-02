@@ -126,7 +126,7 @@ public class SQLQuery {
 					//Result Set column 2 is the node number
 					if(rd.getNodeNumber() == rs.getInt(2))
 					{
-						nodeRoleArray.add(rd);
+						nodeRoleArray.add(new RoleData(rd));
 					}
 				}
 				
