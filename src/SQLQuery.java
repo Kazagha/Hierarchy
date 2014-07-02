@@ -83,19 +83,9 @@ public class SQLQuery {
 	public ArrayList<HierarchyData> queryHierarchy() throws SQLException
 	{
 		ArrayList<HierarchyData> tempArray = new ArrayList<HierarchyData>();
-		ArrayList<RoleData> roleArray = queryRoleData();
+		ArrayList<RoleNodeData> roleArray = queryRoleData();
 		ResultSet rs = null;
-		createConnection();
-		
-		//long start = System.currentTimeMillis();
-		
-		//System.out.println("Role Count: " + roleArray.size());
-		//int i = 0;
-
-		//System.out.println("There have been " + i + " matches");
-					
-		//long end = System.currentTimeMillis();
-		//System.out.println(end - start + "ms");		
+		createConnection();	
 		
 		try {
 			PreparedStatement ps = conn.prepareStatement(
@@ -119,6 +109,9 @@ public class SQLQuery {
 			
 			while (rs.next())
 			{				
+				//Create a blank RoleData array for the permissions
+				ArrayList<RoleData> nodeRoleArray = new ArrayList<RoleData>();
+				
 				//Put the hierarchy nodes into an array
 				int nodeArray[] = {	
 						rs.getInt(4),  rs.getInt(5),  rs.getInt(6),  rs.getInt(7),  rs.getInt(8),
@@ -127,22 +120,19 @@ public class SQLQuery {
 						rs.getInt(19), rs.getInt(20), rs.getInt(21)
 						};
 				
-				//Fetch the permission array list
-				ArrayList<RoleData> tempRoleArray = new ArrayList<RoleData>();
-				
-				for(RoleData rd : roleArray)
+				//Check all permissions for any that match this node
+				for(RoleNodeData rd : roleArray)
 				{
-					//System.out.println(rd.getDescription());
-					if(rd.getRole() == 218)
+					//Result Set column 2 is the node number
+					if(rd.getNodeNumber() == rs.getInt(2))
 					{
-					System.out.println("Found... " + rd.getDescription());
-					tempRoleArray.add(rd);
+						nodeRoleArray.add(rd);
 					}
 				}
 				
 				//Create a new HierarchyData node in the array list
 				tempArray.add(new HierarchyData(rs.getString(1), rs.getInt(2), rs.getInt(3),
-						nodeArray, tempRoleArray));
+						nodeArray, nodeRoleArray));
 			}
 		} catch (SQLException e) {
 			throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
@@ -154,16 +144,16 @@ public class SQLQuery {
 		return tempArray;
 	}
 	
-	public ArrayList<RoleData> queryRoleData() throws SQLException
+	public ArrayList<RoleNodeData> queryRoleData() throws SQLException
 	{
-		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
+		ArrayList<RoleNodeData> tempArray = new ArrayList<RoleNodeData>();
 		ResultSet rs = null;
 		createConnection();
 		
 		try {
 			PreparedStatement ps = conn.prepareStatement(""
 					+ "SELECT "
-					+ "	auhirole.rol_num, auhirole.rol_dsc "
+					+ "auhinode.nod_num, auhirole.rol_num, auhirole.rol_dsc "
 					+ "FROM "
 					+ "	auhinode "
 					+ "JOIN "
@@ -172,14 +162,11 @@ public class SQLQuery {
 					+ "	auhirole ON auhinodr.rol_num = auhirole.rol_num "
 					+ "WHERE "
 					+ "	auhinode.hcy_num = 7 " );
-					//+ "AND "
-					//+ "	auhinode.nod_num = ?");
 			
-			//ps.setInt(1, nodeNumber);
 			rs = ps.executeQuery();
 			
 			while (rs.next()) {
-				tempArray.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
+				tempArray.add(new RoleNodeData(rs.getInt(1), rs.getInt(2), rs.getString(3)));
 			}
 			
 		} catch (SQLException e) {
