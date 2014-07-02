@@ -9,6 +9,12 @@ public class RoleData
 		this.roleNum= roleNum;
 		this.roleDesc= roleDesc;	
 	}
+	
+	public RoleData(RoleData rd)
+	{
+		this.roleNum = rd.getRole();
+		this.roleDesc = rd.getDescription();
+	}
 
 	public int getRole()
 	{
