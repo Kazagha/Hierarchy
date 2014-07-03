@@ -90,7 +90,7 @@ public class SQLQuery {
 		try {
 			PreparedStatement ps = conn.prepareStatement(
 							"SELECT "
-						+ 		"node.nod_dsc, node.nod_num, node.seq_num, "
+						+ 		"RTRIM(node.nod_dsc), node.nod_num, node.seq_num, "
 						+ 		"rsp_nd1, rsp_nd2, rsp_nd3, rsp_nd4, rsp_nd5, "
 						+ 		"rsp_nd6, rsp_nd7, rsp_nd8, rsp_nd9, rsp_n10, "
 						+ 		"rsp_n11, rsp_n12, rsp_n13, rsp_n14, rsp_n15, "
