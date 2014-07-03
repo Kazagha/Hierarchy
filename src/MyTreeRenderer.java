@@ -19,7 +19,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	Color greenColor = new Color(34,139,34);	
 	ImageIcon greyIcon = new ImageIcon("images/GreyFolderIcon16.png");
 	
-	ImageIcon orangeIcon = new ImageIcon("images/OrangeFolderIcon16");
+	ImageIcon orangeIcon = new ImageIcon("images/OrangeFolderIcon16.png");
 	
 	
 	public Component getTreeCellRendererComponent(
@@ -33,27 +33,26 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	{
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 		
-		if(!leaf)
+		if(!leaf && isTest(value))
 		{
-			setIcon(new ImageIcon("images/OrangeFolderIcon16.png"));
-		}
-		
-		if(leaf)
-		{
-			setIcon(greyIcon);
-			//setForeground(greenColor);
+			setIcon(greenIcon);
+		} else if (!leaf) {
+			setIcon(orangeIcon);
 		}
 		
 		if(leaf && isTest(value))
 		{
 			setIcon(greenIcon);
 			setForeground(greenColor);
+		} else if(leaf) {
+			setIcon(greyIcon);
 		}
 		
 		/**
-		 * Consider using line boarders
+		 * Consider using the following
 		 * 	Border blackline = BorderFactory.createLineBorder(Color.black);
 		 *	setBorder(blackline);
+		 *  setForeground(greenColor);
 		 */
 		
 		return this;
@@ -84,5 +83,10 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		}
 		//Failing finding a match, return false 
 		return false;
+	}
+	
+	public String getToolTip()
+	{
+		return "";
 	}
 }
