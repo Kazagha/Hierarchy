@@ -1,14 +1,26 @@
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Graphics;
+import java.awt.Insets;
 import java.util.ArrayList;
 
+import javax.swing.BorderFactory;
+import javax.swing.ImageIcon;
 import javax.swing.JTree;
+import javax.swing.border.Border;
+import javax.swing.plaf.metal.MetalIconFactory.FolderIcon16;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class MyTreeRenderer extends DefaultTreeCellRenderer 
 {
 	ArrayList<RoleData> activeRoleDataArray = new ArrayList<RoleData>();
+	ImageIcon greenIcon = new ImageIcon("images/GreenFolderIcon16.png");
+	Color greenColor = new Color(34,139,34);	
+	ImageIcon greyIcon = new ImageIcon("images/GreyFolderIcon16.png");
+	
+	ImageIcon orangeIcon = new ImageIcon("images/OrangeFolderIcon16");
+	
 	
 	public Component getTreeCellRendererComponent(
             JTree tree,
@@ -21,10 +33,28 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	{
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 		
+		if(!leaf)
+		{
+			setIcon(new ImageIcon("images/OrangeFolderIcon16.png"));
+		}
+		
+		if(leaf)
+		{
+			setIcon(greyIcon);
+			//setForeground(greenColor);
+		}
+		
 		if(leaf && isTest(value))
 		{
-			setForeground(new Color(34, 139, 34));
+			setIcon(greenIcon);
+			setForeground(greenColor);
 		}
+		
+		/**
+		 * Consider using line boarders
+		 * 	Border blackline = BorderFactory.createLineBorder(Color.black);
+		 *	setBorder(blackline);
+		 */
 		
 		return this;
 	}
@@ -46,7 +76,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			{
 				//Check for a match
 				if(hd.contains(rd))
-				{
+				{					
 					return true;
 				} 
 				//Else continue to search for a match
