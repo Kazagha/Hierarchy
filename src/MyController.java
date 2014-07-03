@@ -117,6 +117,9 @@ public class MyController {
 				view.setRHSViewTitle(titleStringLHS);
 				tableLHS.setArray(dataRHS);				
 				tableRHS.setArray(dataLHS);
+				
+				//TODO: Create a table listener
+				setActiveRoles();
 				break;
 			case "Compare":
 				dataLHS = tableLHS.getArray();
@@ -135,15 +138,16 @@ public class MyController {
 				dataRHS.removeAll(tempArray);
 
 				tableRHS.refreshArray();
-				tableLHS.refreshArray();
-				
+				tableLHS.refreshArray();				
 				break;
 			case "View Hierarchy":
-				view.setHierarchyPanel(true);
-				((MyTreeRenderer)treeRHS.getCellRenderer()).setActiveRoles(tableLHS.getArray());
+				view.setHierarchyPanel(true);				
 				break;
 			case "View List":
 				view.setHierarchyPanel(false);
+				break;
+			case "Set Active Roles":
+				setActiveRoles();
 				break;
 			case "Exit":
 				System.exit(0);
@@ -225,5 +229,12 @@ public class MyController {
 	private void hierarchySort(ArrayList<HierarchyData> array)
 	{
 		Collections.sort(array, HierarchyData.Comparators.TIER_PARENT_SEQ);
+	}
+	
+	private void setActiveRoles()
+	{
+		MyTreeRenderer tr = (MyTreeRenderer) treeRHS.getCellRenderer();
+		tr.setActiveRoles(tableLHS.getArray());
+		treeRHS.repaint();
 	}
 }
