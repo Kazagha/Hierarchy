@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.JTable;
+import javax.swing.JTree;
 import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -17,9 +18,10 @@ public class MyController {
 
 	private MyView view;
 	private Conf conf;
-	SQLQuery sql;
+	private SQLQuery sql;
 	private MyTableModel tableLHS;
 	private MyTableModel tableRHS;
+	private JTree treeRHS;
 	
 	static enum Actions {
 		LOADLHS ("loadLHS"),
@@ -46,14 +48,15 @@ public class MyController {
 	
 	public MyController(MyView view)
 	{
-		conf = loadConf("hierarchy.conf");
-		sql = new SQLQuery(conf);
+		this.conf = loadConf("hierarchy.conf");
+		this.sql = new SQLQuery(conf);
 		this.view = view;
-		tableLHS = view.getLHSTableModel();
-		tableRHS = view.getRHSTableModel();
-		this.createHierarchyNodes(view.getRootNode());	
+		this.tableLHS = view.getLHSTableModel();
+		this.tableRHS = view.getRHSTableModel();
+		this.treeRHS = view.getJTree();	
+		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 		this.view.setControllerActions(new MyActionListener());
-
+		
 		//saveConf();
 	}
 	
