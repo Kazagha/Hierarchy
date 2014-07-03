@@ -140,6 +140,7 @@ public class MyController {
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);
+				((MyTreeRenderer)treeRHS.getCellRenderer()).setActiveRoles(tableLHS.getArray());
 				break;
 			case "View List":
 				view.setHierarchyPanel(false);
