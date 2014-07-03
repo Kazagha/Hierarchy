@@ -101,8 +101,6 @@ public class SQLQuery {
 						+		"node.hcy_num = 7 "
 						+	"AND "
 						+		"node.end_dte IS NULL "
-						+ 	"AND "
-						+		"node.rsp_nd1 = 75452" //TODO: This is for testing purposes only.
 					);
 			
 			rs = ps.executeQuery();			
