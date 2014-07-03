@@ -230,6 +230,11 @@ public class MyView extends JPanel {
 		return rootNode;
 	}
 	
+	public JTree getJTree()
+	{	
+		return treeRHS;
+	}
+	
 	public void setControllerActions(ActionListener controllerActionListener)
 	{		
 		//Setup Menu Actions
