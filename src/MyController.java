@@ -96,6 +96,8 @@ public class MyController {
 					tableLHS.setArray(userQuery(tempText[0], tempText[1]));
 					view.setLHSViewTitle(view.getLHSTextField());
 				}
+				//TODO: Create Table Listener
+				setActiveRoles();
 				break;
 			case "Load RHS":
 				tempText = view.getRHSTextField().split(" ");
@@ -138,7 +140,10 @@ public class MyController {
 				dataRHS.removeAll(tempArray);
 
 				tableRHS.refreshArray();
-				tableLHS.refreshArray();				
+				tableLHS.refreshArray();	
+				
+				//TODO: Create Table Listener
+				setActiveRoles();
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);				
