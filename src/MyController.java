@@ -17,6 +17,7 @@ public class MyController {
 
 	private MyView view;
 	private Conf conf;
+	SQLQuery sql;
 	private MyTableModel tableLHS;
 	private MyTableModel tableRHS;
 	
@@ -46,6 +47,7 @@ public class MyController {
 	public MyController(MyView view)
 	{
 		conf = loadConf("hierarchy.conf");
+		sql = new SQLQuery(conf);
 		this.view = view;
 		tableLHS = view.getLHSTableModel();
 		tableRHS = view.getRHSTableModel();
@@ -193,7 +195,6 @@ public class MyController {
 	private ArrayList<RoleData> userQuery(String firstName, String lastName)
 	{
 		ArrayList<RoleData> array = new ArrayList<RoleData>(); 
-		SQLQuery sql = new SQLQuery(conf);
 		
 		try {
 			array = sql.queryUser(firstName, lastName);
@@ -207,7 +208,6 @@ public class MyController {
 	private ArrayList<HierarchyData> hierarchyQuery()
 	{
 		ArrayList<HierarchyData> array = null;
-		SQLQuery sql = new SQLQuery(conf);
 		
 		try {
 			array = sql.queryHierarchy();
