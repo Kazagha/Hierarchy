@@ -15,11 +15,14 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 public class MyTreeRenderer extends DefaultTreeCellRenderer 
 {
 	ArrayList<RoleData> activeRoleDataArray = new ArrayList<RoleData>();
-	ImageIcon greenIcon = new ImageIcon("images/GreenFolderIcon16.png");
-	Color greenColor = new Color(34,139,34);	
+	ImageIcon greenIcon = new ImageIcon("images/GreenFolderIcon16.png");	
 	ImageIcon greyIcon = new ImageIcon("images/GreyFolderIcon16.png");
-	
 	ImageIcon orangeIcon = new ImageIcon("images/OrangeFolderIcon16.png");
+	ImageIcon redIcon = new ImageIcon("images/RedFolderIcon16.png");
+	ImageIcon violetIcon = new ImageIcon("images/VioletFolderIcon16.png");
+	ImageIcon yellowIcon = new ImageIcon("images/YellowFolderIcon16.png");
+	
+	Color greenColor = new Color(34,139,34);
 	
 	
 	public Component getTreeCellRendererComponent(
@@ -48,6 +51,9 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			setIcon(greyIcon);
 		}
 		
+		//TODO: Tool tips are not quick enough, need another solution
+		//setToolTipText(getToolTip(value));
+				
 		/**
 		 * Consider using the following
 		 * 	Border blackline = BorderFactory.createLineBorder(Color.black);
@@ -85,8 +91,22 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		return false;
 	}
 	
-	public String getToolTip()
+	public String getToolTip(Object obj)
 	{
-		return "";
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)obj;
+		//Check if the user object is a HierarchyData node
+		if(node.getUserObject() instanceof HierarchyData)
+		{
+			String s = "<html>";
+			HierarchyData hd = (HierarchyData) node.getUserObject();
+			for(RoleData rd : hd.getPermissionList())
+			{
+				s += String.format("%s <br>%n", rd.getDescription());
+			}
+			s += "</html>";			
+			return s;
+		} else {
+			return null;
+		}
 	}
 }
