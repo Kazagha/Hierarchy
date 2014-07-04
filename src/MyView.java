@@ -188,6 +188,7 @@ public class MyView extends JPanel {
 	{
 		t.getColumnModel().getColumn(0).setMaxWidth(80);
 		t.getColumnModel().getColumn(0).setMinWidth(80);
+		t.setAutoCreateRowSorter(true);
 	}
 	
 	public String getLHSTextField()
