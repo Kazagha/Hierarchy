@@ -54,7 +54,7 @@ public class SQLQuery {
         try {         
             PreparedStatement ps = conn.prepareStatement(
             		
-	            	"SELECT auhinamr.rol_num, auhirole.rol_dsc "
+	            	"SELECT auhinamr.rol_num, RTRIM(auhirole.rol_dsc) "
 	            +	"FROM auhinamr "
 	            +	"JOIN auhirole ON auhinamr.rol_num = auhirole.rol_num "
 	            +	"JOIN aunrmast ON auhinamr.nar_num = aunrmast.nar_num "
@@ -151,7 +151,7 @@ public class SQLQuery {
 		try {
 			PreparedStatement ps = conn.prepareStatement(""
 					+ "SELECT "
-					+ "auhinode.nod_num, auhirole.rol_num, auhirole.rol_dsc "
+					+ "auhinode.nod_num, auhirole.rol_num, RTRIM(auhirole.rol_dsc) "
 					+ "FROM "
 					+ "	auhinode "
 					+ "JOIN "
