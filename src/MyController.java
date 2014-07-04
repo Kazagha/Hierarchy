@@ -7,6 +7,7 @@ import java.util.Collections;
 
 import javax.swing.JTable;
 import javax.swing.JTree;
+import javax.swing.ToolTipManager;
 import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -54,6 +55,7 @@ public class MyController {
 		this.tableLHS = view.getLHSTableModel();
 		this.tableRHS = view.getRHSTableModel();
 		this.treeRHS = view.getJTree();	
+		ToolTipManager.sharedInstance().registerComponent(treeRHS);
 		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 		this.view.setControllerActions(new MyActionListener());
 		
