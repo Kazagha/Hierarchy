@@ -174,8 +174,7 @@ public class MyController {
 		//Iterate though the Hierarchy List Array
 		for(HierarchyData hd : hierarchyList)
 		{
-			//System.out.println(hd.getNodeName() + " " + hd.getNodeList() + " - " + hd.nodeSeq);
-			//rootNode.add(new DefaultMutableTreeNode(hd.getNodeName()));
+			//Set the first parent Node. Start searching from the root node.
 			DefaultMutableTreeNode parentNode = rootNode;
 			
 			//Iterate though the tiers of the Hierarchy 
@@ -186,10 +185,11 @@ public class MyController {
 				//Iterate through the children until a match is found
 				for(int childIndex = 0; childIndex < childCount; childIndex++)
 				{
+					//Fetch the node at this child index.
 					DefaultMutableTreeNode tempChild = (DefaultMutableTreeNode) parentNode.getChildAt(childIndex);
-					//Find the child's node number
-					//HierarchyData tempChild = (HierarchyData) parentNode.getChildAt(childIndex);
+					//Fetch the Hierarchy Data from this node
 					HierarchyData tempHierarchyNode = (HierarchyData) tempChild.getUserObject();
+					//Fetch the node number from the Hierarchy Node
 					int tempChildNodeNumber = tempHierarchyNode.getNodeNumber();					
 					
 					//Check if the node number (from hierarchy node list)
