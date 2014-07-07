@@ -6,6 +6,7 @@ import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
 import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 
 public class MyView extends JPanel {
 
@@ -46,10 +47,6 @@ public class MyView extends JPanel {
 		setColumnWidth(tableRHS);
 		
 		treeRHS.setCellRenderer(new MyTreeRenderer());
-		//JPanel panelLHS = new ComponentWithTitle(titleLabelLHS, tableLHS);
-		//JPanel panelRHS = new ComponentWithTitle(titleLabelRHS, tableRHS);
-		//panelLHS = contentLHS;
-		//panelRHS = contentRHSView;
 		
 		Icon swapIcon = new ImageIcon("images/arrow-repeat.png");
 		if(swapIcon != null)
@@ -225,6 +222,19 @@ public class MyView extends JPanel {
 	{
 		return (MyTableModel) tableRHS.getModel();
 	}
+	
+	public JTable getTableLHS()
+	{
+		return tableLHS;
+	}
+	
+	/*
+	 * This can't be used without importing the CompentWithTitle into MyController
+	public ComponentWithTitle getLHSContent()
+	{
+		return contentLHSView;
+	}
+	*/
 	
 	public DefaultMutableTreeNode getRootNode()
 	{
