@@ -21,6 +21,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	ImageIcon redIcon = new ImageIcon("images/RedFolderIcon16.png");
 	ImageIcon violetIcon = new ImageIcon("images/VioletFolderIcon16.png");
 	ImageIcon yellowIcon = new ImageIcon("images/YellowFolderIcon16.png");
+	ImageIcon orangeTestIcon = new ImageIcon("images/OrangeFolderIconTransparency16.png");
 	
 	Color greenColor = new Color(34,139,34);
 	
@@ -36,14 +37,14 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	{
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 		
-		if(!leaf && isTest(value))
+		if(!leaf && isActive(value))
 		{
 			setIcon(greenIcon);
 		} else if (!leaf) {
 			setIcon(orangeIcon);
 		}
 		
-		if(leaf && isTest(value))
+		if(leaf && isActive(value))
 		{
 			setIcon(greenIcon);
 			setForeground(greenColor);
@@ -69,7 +70,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		activeRoleDataArray = roleDataArray;
 	}
 	
-	public boolean isTest(Object obj)
+	public boolean isActive(Object obj)
 	{
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)obj;
 		//Check if the user object is a HierarchyData node
