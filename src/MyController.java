@@ -8,6 +8,8 @@ import java.util.Collections;
 import javax.swing.JTable;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
+import javax.swing.event.ListSelectionEvent;
+import javax.swing.event.ListSelectionListener;
 import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -23,6 +25,8 @@ public class MyController {
 	private MyTableModel tableLHS;
 	private MyTableModel tableRHS;
 	private JTree treeRHS;
+	
+	JTable jTableLHS;
 	
 	static enum Actions {
 		LOADLHS ("loadLHS"),
@@ -55,10 +59,13 @@ public class MyController {
 		this.tableLHS = view.getLHSTableModel();
 		this.tableRHS = view.getRHSTableModel();
 		this.treeRHS = view.getJTree();	
+		//table.getSelectionModel().addListSelectionListener(new RowListener());
 		ToolTipManager.sharedInstance().registerComponent(treeRHS);
 		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 		this.view.setControllerActions(new MyActionListener());
 		
+		jTableLHS = view.getTableLHS();
+		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());
 		//saveConf();
 	}
 	
@@ -244,4 +251,21 @@ public class MyController {
 		tr.setActiveRoles(tableLHS.getArray());
 		treeRHS.repaint();
 	}
+	
+    private class RowListener implements ListSelectionListener {
+        public void valueChanged(ListSelectionEvent event) {
+        	/*
+            if (event.getValueIsAdjusting()) {
+                return;
+            }
+            */
+            System.out.println("ROW SELECTION EVENT");
+            for(int i : jTableLHS.getSelectedRows())
+            {
+            	int modelIndex = jTableLHS.convertRowIndexToModel(i);
+            	System.out.println("Detail: " + tableLHS.getValueAt(modelIndex, 0) +
+            			" - " + tableLHS.getValueAt(modelIndex, 1));
+            }
+        }
+    }
 }
