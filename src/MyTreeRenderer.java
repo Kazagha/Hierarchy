@@ -24,6 +24,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	ImageIcon orangeTestIcon = new ImageIcon("images/OrangeFolderIconTransparency16.png");
 	
 	Color greenColor = new Color(34,139,34);
+	Color greyColor = new Color(105, 105, 105);
 	
 	
 	public Component getTreeCellRendererComponent(
@@ -39,17 +40,19 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		
 		if(!leaf && isActive(value))
 		{
-			setIcon(greenIcon);
-		} else if (!leaf) {
 			setIcon(orangeIcon);
+		} else if (!leaf) {
+			setIcon(greyIcon);
+			//setForeground(greyColor);
 		}
 		
 		if(leaf && isActive(value))
 		{
 			setIcon(greenIcon);
-			setForeground(greenColor);
+			//setForeground(greenColor);
 		} else if(leaf) {
 			setIcon(greyIcon);
+			//setForeground(greyColor);
 		}
 		
 		//TODO: Tool tips are not quick enough, need another solution
