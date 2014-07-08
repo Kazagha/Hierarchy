@@ -15,6 +15,7 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 public class MyTreeRenderer extends DefaultTreeCellRenderer 
 {
 	ArrayList<RoleData> activeRoleDataArray = new ArrayList<RoleData>();
+	ArrayList<RoleData> selectedRoleDataArray = new ArrayList<RoleData>();
 	ImageIcon greenIcon = new ImageIcon("images/GreenFolderIcon16.png");	
 	ImageIcon greyIcon = new ImageIcon("images/GreyFolderIcon16.png");
 	ImageIcon orangeIcon = new ImageIcon("images/OrangeFolderIcon16.png");
@@ -38,7 +39,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	{
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 		
-		if(!leaf && isActive(value))
+		if(!leaf && nodeContainsRole(value, activeRoleDataArray))
 		{
 			setIcon(orangeIcon);
 		} else if (!leaf) {
@@ -46,7 +47,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			//setForeground(greyColor);
 		}
 		
-		if(leaf && isActive(value))
+		if(leaf && nodeContainsRole(value, activeRoleDataArray))
 		{
 			setIcon(greenIcon);
 			//setForeground(greenColor);
@@ -57,6 +58,15 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		
 		//TODO: Tool tips are not quick enough, need another solution
 		//setToolTipText(getToolTip(value));
+		
+		if(nodeContainsRole(value, selectedRoleDataArray))
+		{
+			setIcon(violetIcon);
+			//Border blackline = BorderFactory.createLineBorder(Color.black);
+			//setBorder(blackline);
+		} else {
+			//setBorder(null);
+		}
 				
 		/**
 		 * Consider using the following
@@ -73,7 +83,12 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		activeRoleDataArray = roleDataArray;
 	}
 	
-	public boolean isActive(Object obj)
+	public void setSelectedRoleData(ArrayList<RoleData> roleDataArray)
+	{
+		selectedRoleDataArray = roleDataArray;
+	}
+	
+	public boolean nodeContainsRole(Object obj, ArrayList<RoleData> roleArrayList)
 	{
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)obj;
 		//Check if the user object is a HierarchyData node
@@ -81,7 +96,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		{
 			HierarchyData hd = (HierarchyData) node.getUserObject();
 			//Iterate through all active roles
-			for(RoleData rd : activeRoleDataArray)
+			for(RoleData rd : roleArrayList)
 			{
 				//Check for a match
 				if(hd.contains(rd))
