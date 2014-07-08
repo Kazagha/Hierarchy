@@ -254,17 +254,20 @@ public class MyController {
 	
     private class RowListener implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent event) {
-        	/*
-            if (event.getValueIsAdjusting()) {
+        	//If the selection is still adjusting return
+        	if (event.getValueIsAdjusting()) {
                 return;
             }
-            */
+        	
             System.out.println("ROW SELECTION EVENT");
+           
+            //Iterate through all selected rows
             for(int i : jTableLHS.getSelectedRows())
             {
+            	//Convert the user selection in the view, to the underlying model
             	int modelIndex = jTableLHS.convertRowIndexToModel(i);
-            	System.out.println("Detail: " + tableLHS.getValueAt(modelIndex, 0) +
-            			" - " + tableLHS.getValueAt(modelIndex, 1));
+            	RoleData tempRD = tableLHS.getArray().get(modelIndex);
+            	System.out.println(tempRD.getRole() + " - " + tempRD.getDescription());
             }
         }
     }
