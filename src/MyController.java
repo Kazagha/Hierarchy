@@ -252,14 +252,24 @@ public class MyController {
 		treeRHS.repaint();
 	}
 	
+	private void setSelectedRoles(ArrayList<RoleData> rdArray)
+	{
+		MyTreeRenderer tr = (MyTreeRenderer) treeRHS.getCellRenderer();
+		tr.setSelectedRoleData(rdArray);
+		treeRHS.repaint();
+	}
+	
     private class RowListener implements ListSelectionListener {
-        public void valueChanged(ListSelectionEvent event) {
+        public void valueChanged(ListSelectionEvent event) {  	
         	//If the selection is still adjusting return
         	if (event.getValueIsAdjusting()) {
                 return;
             }
         	
             System.out.println("ROW SELECTION EVENT");
+            
+            //Create a tempory Role Data array
+            ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
            
             //Iterate through all selected rows
             for(int i : jTableLHS.getSelectedRows())
@@ -268,7 +278,10 @@ public class MyController {
             	int modelIndex = jTableLHS.convertRowIndexToModel(i);
             	RoleData tempRD = tableLHS.getArray().get(modelIndex);
             	System.out.println(tempRD.getRole() + " - " + tempRD.getDescription());
+            	tempArray.add(tempRD);
             }
+            
+            setSelectedRoles(tempArray);
         }
     }
 }
