@@ -1,5 +1,6 @@
 import java.awt.Color;
 import java.awt.Component;
+import java.awt.Font;
 import java.awt.Graphics;
 import java.awt.Insets;
 import java.util.ArrayList;
@@ -56,16 +57,12 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			//setForeground(greyColor);
 		}
 		
-		//TODO: Tool tips are not quick enough, need another solution
-		//setToolTipText(getToolTip(value));
-		
 		if(nodeContainsRole(value, selectedRoleDataArray))
 		{
 			setIcon(violetIcon);
-			//Border blackline = BorderFactory.createLineBorder(Color.black);
-			//setBorder(blackline);
+			setFont(getFont().deriveFont(Font.BOLD));
 		} else {
-			//setBorder(null);
+			setFont(getFont().deriveFont(Font.PLAIN));
 		}
 				
 		/**
@@ -74,6 +71,9 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		 *	setBorder(blackline);
 		 *  setForeground(greenColor);
 		 */
+				
+		//TODO: Tool tips are not quick enough, need another solution
+		//setToolTipText(getToolTip(value));		
 		
 		return this;
 	}
