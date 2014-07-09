@@ -57,15 +57,23 @@ public class MyController {
 		this.sql = new SQLQuery(conf);
 		this.view = view;
 		this.tableLHS = view.getLHSTableModel();
-		this.tableRHS = view.getRHSTableModel();
-		this.treeRHS = view.getJTree();	
-		//table.getSelectionModel().addListSelectionListener(new RowListener());
-		ToolTipManager.sharedInstance().registerComponent(treeRHS);
-		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+		this.tableRHS = view.getRHSTableModel();		
 		this.view.setControllerActions(new MyActionListener());
 		
+		//Create the tree, add nodes, expand the root node and then hide it.
+		this.treeRHS = view.getJTree();
+		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
+		this.treeRHS.expandRow(0);
+		this.treeRHS.setRootVisible(false);
+		
+		//Tool tip manager for the JTree
+		ToolTipManager.sharedInstance().registerComponent(treeRHS);
+		
+		//Link to the LHS table
 		jTableLHS = view.getTableLHS();
 		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());
+		
+		//Save the Configuration (Conf) to the 'hierarchy.conf' file
 		//saveConf();
 	}
 	
