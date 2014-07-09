@@ -65,6 +65,7 @@ public class MyController {
 		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
 		this.treeRHS.expandRow(0);
 		this.treeRHS.setRootVisible(false);
+		this.treeRHS.setShowsRootHandles(true);
 		
 		//Tool tip manager for the JTree
 		ToolTipManager.sharedInstance().registerComponent(treeRHS);
