@@ -44,34 +44,25 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	{
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 		
-		if(!leaf && nodeContainsRole(value, activeRoleDataArray))
+		//Set 'active' Orange and 'inactive' Grey Icons 
+		if(nodeContainsRole(value, activeRoleDataArray))
 		{
-			setIcon(orangeFolderIcon);
-		} else if (!leaf) {
-			setIcon(greyFolderIcon);
-			//setForeground(greyColor);
+			if(!leaf)
+			{
+				setIcon(orangeFolderIcon);
+			} else {
+				setIcon(orangeNodeIcon);
+			}
+		} else {
+			if(!leaf)
+			{
+				setIcon(greyFolderIcon);
+			} else {
+				setIcon(greyNodeIcon);
+			}
 		}
 		
-		if(leaf && nodeContainsRole(value, activeRoleDataArray))
-		{
-			setIcon(orangeNodeIcon);
-			//setForeground(greenColor);
-		} else if(leaf) {
-			setIcon(greyNodeIcon);
-			//setForeground(greyColor);
-		}
-		/*
-		if(!leaf && nodeContainsRole(value, selectedRoleDataArray))
-		{
-			setIcon(greenFolderIcon);
-			setFont(getFont().deriveFont(Font.BOLD));
-		} else if (leaf && nodeContainsRole(value, selectedRoleDataArray)) {
-			setIcon(greenNodeIcon);
-			setFont(getFont().deriveFont(Font.BOLD));
-		} else {
-			setFont(getFont().deriveFont(Font.PLAIN));
-		}
-		*/
+		//Set 'selected' Green icons and bold text
 		if(nodeContainsRole(value, selectedRoleDataArray))
 		{
 			setFont(getFont().deriveFont(Font.BOLD));
@@ -86,14 +77,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			setFont(getFont().deriveFont(Font.PLAIN));
 		}
 				
-		/**
-		 * Consider using the following
-		 * 	Border blackline = BorderFactory.createLineBorder(Color.black);
-		 *	setBorder(blackline);
-		 *  setForeground(greenColor);
-		 */
-				
-		//TODO: Tool tips are not quick enough, need another solution
+		//TODO: Tool tips are not quick enough, need another solution for displaying roles
 		//setToolTipText(getToolTip(value));		
 		
 		return this;
