@@ -48,6 +48,9 @@ public class MyView extends JPanel {
 		
 		treeRHS.setCellRenderer(new MyTreeRenderer());
 		
+		userTextFieldLHS.getDocument().putProperty("owner", userTextFieldLHS);
+		userTextFieldLHS.getDocument().addDocumentListener(new MyTextFieldListener());
+		
 		Icon swapIcon = new ImageIcon("images/arrow-repeat.png");
 		if(swapIcon != null)
 		{
