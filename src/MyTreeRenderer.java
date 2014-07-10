@@ -17,13 +17,17 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 {
 	ArrayList<RoleData> activeRoleDataArray = new ArrayList<RoleData>();
 	ArrayList<RoleData> selectedRoleDataArray = new ArrayList<RoleData>();
-	ImageIcon greenIcon = new ImageIcon("images/GreenFolderIcon16.png");	
-	ImageIcon greyIcon = new ImageIcon("images/GreyFolderIcon16.png");
-	ImageIcon orangeIcon = new ImageIcon("images/OrangeFolderIcon16.png");
-	ImageIcon redIcon = new ImageIcon("images/RedFolderIcon16.png");
-	ImageIcon violetIcon = new ImageIcon("images/VioletFolderIcon16.png");
-	ImageIcon yellowIcon = new ImageIcon("images/YellowFolderIcon16.png");
-	ImageIcon orangeTestIcon = new ImageIcon("images/OrangeFolderIconTransparency16.png");
+	//Folder Icons
+	ImageIcon greenFolderIcon = new ImageIcon("images/GreenFolderIcon16.png");	
+	ImageIcon greyFolderIcon = new ImageIcon("images/GreyFolderIcon16.png");
+	ImageIcon orangeFolderIcon = new ImageIcon("images/OrangeFolderIcon16.png");
+	ImageIcon redFolderIcon = new ImageIcon("images/RedFolderIcon16.png");
+	ImageIcon violetFolderIcon = new ImageIcon("images/VioletFolderIcon16.png");
+	ImageIcon yellowFolderIcon = new ImageIcon("images/YellowFolderIcon16.png");
+	//Node Icons
+	ImageIcon greenNodeIcon = new ImageIcon("images/GreenNodeIcon16.png");
+	ImageIcon greyNodeIcon = new ImageIcon("images/GreyNodeIcon16.png");
+	ImageIcon orangeNodeIcon = new ImageIcon("images/OrangeNodeIcon16.png");
 	
 	Color greenColor = new Color(34,139,34);
 	Color greyColor = new Color(105, 105, 105);
@@ -42,25 +46,42 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		
 		if(!leaf && nodeContainsRole(value, activeRoleDataArray))
 		{
-			setIcon(orangeIcon);
+			setIcon(orangeFolderIcon);
 		} else if (!leaf) {
-			setIcon(greyIcon);
+			setIcon(greyFolderIcon);
 			//setForeground(greyColor);
 		}
 		
 		if(leaf && nodeContainsRole(value, activeRoleDataArray))
 		{
-			setIcon(greenIcon);
+			setIcon(orangeNodeIcon);
 			//setForeground(greenColor);
 		} else if(leaf) {
-			setIcon(greyIcon);
+			setIcon(greyNodeIcon);
 			//setForeground(greyColor);
 		}
-		
+		/*
+		if(!leaf && nodeContainsRole(value, selectedRoleDataArray))
+		{
+			setIcon(greenFolderIcon);
+			setFont(getFont().deriveFont(Font.BOLD));
+		} else if (leaf && nodeContainsRole(value, selectedRoleDataArray)) {
+			setIcon(greenNodeIcon);
+			setFont(getFont().deriveFont(Font.BOLD));
+		} else {
+			setFont(getFont().deriveFont(Font.PLAIN));
+		}
+		*/
 		if(nodeContainsRole(value, selectedRoleDataArray))
 		{
-			setIcon(violetIcon);
 			setFont(getFont().deriveFont(Font.BOLD));
+			
+			if(!leaf)
+			{
+				setIcon(greenFolderIcon);
+			} else {
+				setIcon(greenNodeIcon);
+			}
 		} else {
 			setFont(getFont().deriveFont(Font.PLAIN));
 		}
