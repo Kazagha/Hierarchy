@@ -28,7 +28,10 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	ImageIcon greenNodeIcon = new ImageIcon("images/GreenNodeIcon16.png");
 	ImageIcon greyNodeIcon = new ImageIcon("images/GreyNodeIcon16.png");
 	ImageIcon orangeNodeIcon = new ImageIcon("images/OrangeNodeIcon16.png");
-	
+	ImageIcon redNodeIcon = new ImageIcon("images/RedNodeIcon16.png");
+	ImageIcon violetNodeIcon = new ImageIcon("images/VioletNodeIcon16.png");
+	ImageIcon yellowNodeIcon = new ImageIcon("images/YellowNodeIcon16.png");
+	//Setup Colors	
 	Color greenColor = new Color(34,139,34);
 	Color greyColor = new Color(105, 105, 105);
 	
