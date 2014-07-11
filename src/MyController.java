@@ -275,8 +275,6 @@ public class MyController {
                 return;
             }
         	
-            System.out.println("ROW SELECTION EVENT");
-            
             //Create a tempory Role Data array
             ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
            
@@ -286,7 +284,7 @@ public class MyController {
             	//Convert the user selection in the view, to the underlying model
             	int modelIndex = jTableLHS.convertRowIndexToModel(i);
             	RoleData tempRD = tableLHS.getArray().get(modelIndex);
-            	System.out.println(tempRD.getRole() + " - " + tempRD.getDescription());
+            	//Add specified roles to the array
             	tempArray.add(tempRD);
             }
             
