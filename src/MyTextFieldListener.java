@@ -3,6 +3,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.JTextField;
+import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
@@ -86,6 +87,8 @@ public class MyTextFieldListener implements DocumentListener {
 				String completion = match.substring(pos - w);
 				// Cannot modify the Document from within the notification, 
 				// submit a task to do the change later
+				SwingUtilities.invokeLater(
+						new CompletionTask(completion, pos + 1));
 			}
 		} else {
 			//Nothing Found
@@ -107,7 +110,9 @@ public class MyTextFieldListener implements DocumentListener {
 		}
 		
 		public void run() {
-			textField.setText(textField.getText());
+			textField.setText(insert(textField.getText(), completion, position));
+			textField.setCaretPosition(position + completion.length());
+			textField.moveCaretPosition(position);			
 		}
 	}
 	
