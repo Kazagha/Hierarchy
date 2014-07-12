@@ -9,6 +9,7 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
+import javax.swing.text.Position;
 
 public class MyTextFieldListener implements DocumentListener {
 	
@@ -19,10 +20,11 @@ public class MyTextFieldListener implements DocumentListener {
 	
 	//public MyTextFieldListener(ArrayList<String> userNameList) {
 	public MyTextFieldListener() {
+		
 		//Create some dummy names in the array
 		userNameArray.add("anthony");
 		userNameArray.add("chris");
-		userNameArray.add("fred");
+		userNameArray.add("fred");	
 	}
 
 	@Override
@@ -40,7 +42,7 @@ public class MyTextFieldListener implements DocumentListener {
 		if (ev.getLength() != 1) {
 			return;
 		}
-		
+				
 		Object owner = ev.getDocument().getProperty("owner");
 		if(owner instanceof JTextField)
 		{
@@ -111,10 +113,9 @@ public class MyTextFieldListener implements DocumentListener {
 		}
 		
 		public void run() {
-			String tempText = textField.getText();
-			textField.setText(insert(tempText, completion, position));
-			//textField.setCaretPosition(position + completion.length());
-			//textField.moveCaretPosition(position);			
+			textField.setText(insert(textField.getText(), completion, position));
+			textField.setCaretPosition(position + completion.length());
+			textField.moveCaretPosition(position);
 			mode = Mode.COMPLETION;
 		}
 	}
@@ -123,8 +124,9 @@ public class MyTextFieldListener implements DocumentListener {
 		public void actionPerformed(ActionEvent ev) {
 			if(mode == Mode.COMPLETION) {
 				int pos = textField.getSelectionEnd();
-				//Missing insert space
+				textField.setText(insert(textField.getText()," ", pos));
 				textField.setCaretPosition(pos + 1);
+				mode = Mode.INSERT;
 			} else {
 				//Not required to go to a new line, a space will suffice
 				textField.replaceSelection(" ");
