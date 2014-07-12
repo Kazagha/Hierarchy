@@ -1,7 +1,9 @@
 import java.awt.TextField;
+import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
 
+import javax.swing.AbstractAction;
 import javax.swing.JTextField;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
@@ -13,7 +15,7 @@ public class MyTextFieldListener implements DocumentListener {
 	private ArrayList<String> userNameArray = new ArrayList<String>();
 	private static enum Mode { INSERT, COMPLETION };
 	private Mode mode = Mode.INSERT;
-	private JTextField textField;
+	private JTextField textField = null;
 	
 	//public MyTextFieldListener(ArrayList<String> userNameList) {
 	public MyTextFieldListener() {
@@ -40,7 +42,6 @@ public class MyTextFieldListener implements DocumentListener {
 		}
 		
 		Object owner = ev.getDocument().getProperty("owner");
-		JTextField textField = null;
 		if(owner instanceof JTextField)
 		{
 			textField = (JTextField) owner;
@@ -110,9 +111,24 @@ public class MyTextFieldListener implements DocumentListener {
 		}
 		
 		public void run() {
-			textField.setText(insert(textField.getText(), completion, position));
-			textField.setCaretPosition(position + completion.length());
-			textField.moveCaretPosition(position);			
+			String tempText = textField.getText();
+			textField.setText(insert(tempText, completion, position));
+			//textField.setCaretPosition(position + completion.length());
+			//textField.moveCaretPosition(position);			
+			mode = Mode.COMPLETION;
+		}
+	}
+	
+	private class CommitAction extends AbstractAction {
+		public void actionPerformed(ActionEvent ev) {
+			if(mode == Mode.COMPLETION) {
+				int pos = textField.getSelectionEnd();
+				//Missing insert space
+				textField.setCaretPosition(pos + 1);
+			} else {
+				//Not required to go to a new line, a space will suffice
+				textField.replaceSelection(" ");
+			}
 		}
 	}
 	
