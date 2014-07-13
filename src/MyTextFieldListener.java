@@ -4,7 +4,10 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.AbstractAction;
+import javax.swing.ActionMap;
+import javax.swing.InputMap;
 import javax.swing.JTextField;
+import javax.swing.KeyStroke;
 import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
@@ -14,12 +17,17 @@ import javax.swing.text.Position;
 public class MyTextFieldListener implements DocumentListener {
 	
 	private ArrayList<String> userNameArray = new ArrayList<String>();
-	private static enum Mode { INSERT, COMPLETION };
+    public static final String COMMIT_ACTION = "commit";
+	public static enum Mode { INSERT, COMPLETION };
 	private Mode mode = Mode.INSERT;
 	private JTextField textField = null;
 	
 	//public MyTextFieldListener(ArrayList<String> userNameList) {
-	public MyTextFieldListener() {
+	public MyTextFieldListener(JTextField textField) {
+		InputMap im = textField.getInputMap();
+		ActionMap am = textField.getActionMap();
+		im.put(KeyStroke.getKeyStroke("ENTER"), COMMIT_ACTION);
+		am.put(COMMIT_ACTION, new CommitAction());
 		
 		//Create some dummy names in the array
 		userNameArray.add("anthony");
@@ -43,13 +51,15 @@ public class MyTextFieldListener implements DocumentListener {
 			return;
 		}
 				
+		
 		Object owner = ev.getDocument().getProperty("owner");
 		if(owner instanceof JTextField)
 		{
 			textField = (JTextField) owner;
 		} else {
 			return;
-		}
+		}	
+		
 		
 		//Find the position of the cursor
 		int pos = ev.getOffset(); 
@@ -120,7 +130,7 @@ public class MyTextFieldListener implements DocumentListener {
 		}
 	}
 	
-	private class CommitAction extends AbstractAction {
+	public class CommitAction extends AbstractAction {
 		public void actionPerformed(ActionEvent ev) {
 			if(mode == Mode.COMPLETION) {
 				int pos = textField.getSelectionEnd();
