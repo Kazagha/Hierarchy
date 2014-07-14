@@ -21,8 +21,8 @@ public class MyView extends JPanel {
 	DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Hierarchy");
 	JTree  treeRHS  = new JTree(rootNode);
 	//User Input Fields
-	JTextField userTextFieldLHS = new JTextField();
-	JTextField userTextFieldRHS = new JTextField();
+	JTextField inputTextFieldLHS = new JTextField();
+	JTextField inputTextFieldRHS = new JTextField();
 	//Buttons
 	JButton swapButton = new JButton();
 	JButton loadButtonLHS = new JButton("Load LHS");
@@ -36,6 +36,7 @@ public class MyView extends JPanel {
 	JMenuItem exitMenuItem = new JMenuItem("Exit");
 	JMenuItem hierarchyViewMenuItem = new JMenuItem("Hierarchy");
 	JMenuItem listViewMenuItem = new JMenuItem("List");
+	MyTextFieldListener listener;
 	
 	ComponentWithTitle contentLHSView = new ComponentWithTitle(tableLHS);
 	ComponentWithTitle contentRHSView = new ComponentWithTitle(tableRHS);
@@ -46,15 +47,15 @@ public class MyView extends JPanel {
 		setColumnWidth(tableLHS);
 		setColumnWidth(tableRHS);
 		
-		treeRHS.setCellRenderer(new MyTreeRenderer());
+		treeRHS.setCellRenderer(new MyTreeRenderer());		
 		
 		MyTextFieldListener listener = new MyTextFieldListener();
-		userTextFieldLHS.getDocument().putProperty("owner", userTextFieldLHS);
-		userTextFieldLHS.getDocument().addDocumentListener(listener);
-		listener.setKeyMapping(userTextFieldLHS);
-		userTextFieldRHS.getDocument().putProperty("owner", userTextFieldRHS);
-		userTextFieldRHS.getDocument().addDocumentListener(listener);
-		listener.setKeyMapping(userTextFieldRHS);
+		inputTextFieldLHS.getDocument().putProperty("owner", inputTextFieldLHS);
+		inputTextFieldLHS.getDocument().addDocumentListener(listener);
+		listener.setKeyMapping(inputTextFieldLHS);
+		inputTextFieldRHS.getDocument().putProperty("owner", inputTextFieldRHS);
+		inputTextFieldRHS.getDocument().addDocumentListener(listener);
+		listener.setKeyMapping(inputTextFieldRHS);		
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, contentLHSView, contentRHSView);
 		splitPane.setResizeWeight(0);
@@ -66,11 +67,11 @@ public class MyView extends JPanel {
 				layout.createParallelGroup()
 					.addGroup(layout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(userTextFieldLHS)
+							.addComponent(inputTextFieldLHS)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 							.addComponent(swapButton)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addComponent(userTextFieldRHS)
+							.addComponent(inputTextFieldRHS)
 							.addContainerGap())
 					.addGroup(Alignment.CENTER, layout.createSequentialGroup()
 							.addContainerGap()
@@ -89,8 +90,8 @@ public class MyView extends JPanel {
 				layout.createSequentialGroup()
 				.addContainerGap()
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
-						.addComponent(userTextFieldLHS)
-						.addComponent(userTextFieldRHS)
+						.addComponent(inputTextFieldLHS)
+						.addComponent(inputTextFieldRHS)
 						.addComponent(swapButton))
 				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
@@ -190,14 +191,23 @@ public class MyView extends JPanel {
 		t.setAutoCreateRowSorter(true);
 	}
 	
-	public String getLHSTextField()
+	public String getLHSTextToString()
 	{
-		return userTextFieldLHS.getText();
+		return inputTextFieldLHS.getText();
 	}
 	
-	public String getRHSTextField()
+	public String getRHSTextToString()
 	{
-		return userTextFieldRHS.getText();
+		return inputTextFieldRHS.getText();
+	}	
+	
+	public JTextField getLHSTextField()
+	{
+		return inputTextFieldLHS;
+	}
+	public JTextField getRHSTextField() 
+	{
+		return inputTextFieldRHS;
 	}
 	
 	public String getLHSViewTitle()
@@ -246,6 +256,11 @@ public class MyView extends JPanel {
 	public JTree getJTree()
 	{	
 		return treeRHS;
+	}
+	
+	public MyTextFieldListener getTextFieldListener()
+	{
+		return listener;
 	}
 	
 	public void setControllerActions(ActionListener controllerActionListener)

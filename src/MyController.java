@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
@@ -54,7 +55,7 @@ public class MyController {
 	public MyController(MyView view)
 	{
 		this.conf = loadConf("hierarchy.conf");
-		this.sql = new SQLQuery(conf);
+		//this.sql = new SQLQuery(conf);
 		this.view = view;
 		this.tableLHS = view.getLHSTableModel();
 		this.tableRHS = view.getRHSTableModel();		
@@ -62,7 +63,7 @@ public class MyController {
 		
 		//Create the tree, add nodes, expand the root node and then hide it.
 		this.treeRHS = view.getJTree();
-		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
+		//this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
 		this.treeRHS.expandRow(0);
 		this.treeRHS.setRootVisible(false);
 		this.treeRHS.setShowsRootHandles(true);
@@ -72,8 +73,8 @@ public class MyController {
 		
 		//Link to the LHS table
 		jTableLHS = view.getTableLHS();
-		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());
-		
+		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());		
+
 		//Save the Configuration (Conf) to the 'hierarchy.conf' file
 		//saveConf();
 	}
@@ -96,8 +97,6 @@ public class MyController {
 		//conf.save();		
 	}
 	
-	public void setActions(){}
-	
 	public class MyActionListener implements ActionListener
 	{
 		@Override
@@ -108,21 +107,21 @@ public class MyController {
 			switch(e.getActionCommand())
 			{
 			case "Load LHS":
-				tempText = view.getLHSTextField().split(" ");
+				tempText = view.getLHSTextToString().split(" ");
 				if(tempText.length == 2)
 				{
 					tableLHS.setArray(userQuery(tempText[0], tempText[1]));
-					view.setLHSViewTitle(view.getLHSTextField());
+					view.setLHSViewTitle(view.getLHSTextToString());
 				}
 				//TODO: Create Table Listener
 				setActiveRoles();
 				break;
 			case "Load RHS":
-				tempText = view.getRHSTextField().split(" ");
+				tempText = view.getRHSTextToString().split(" ");
 				if(tempText.length == 2)
 				{								
 				tableRHS.setArray(userQuery(tempText[0], tempText[1]));
-				view.setRHSViewTitle(view.getRHSTextField());
+				view.setRHSViewTitle(view.getRHSTextToString());
 				}
 				break;
 			case "Swap Sides":
