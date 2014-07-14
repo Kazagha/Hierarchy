@@ -21,13 +21,17 @@ public class MyTextFieldListener implements DocumentListener {
 	public static enum Mode { INSERT, COMPLETION };
 	private Mode mode = Mode.INSERT;
 	private JTextField textField = null;
+	InputMap im;
+	ActionMap am;
 	
 	//public MyTextFieldListener(ArrayList<String> userNameList) {
-	public MyTextFieldListener(JTextField textField) {
+	public MyTextFieldListener() {
+		/*
 		InputMap im = textField.getInputMap();
 		ActionMap am = textField.getActionMap();
 		im.put(KeyStroke.getKeyStroke("ENTER"), COMMIT_ACTION);
 		am.put(COMMIT_ACTION, new CommitAction());
+		*/
 		
 		//Create some dummy names in the array
 		userNameArray.add("anthony");
@@ -142,6 +146,14 @@ public class MyTextFieldListener implements DocumentListener {
 				textField.replaceSelection(" ");
 			}
 		}
+	}
+	
+	public void setKeyMapping(JTextField tempTextField)
+	{
+		InputMap im = tempTextField.getInputMap();
+		ActionMap am = tempTextField.getActionMap();
+		im.put(KeyStroke.getKeyStroke("ENTER"), COMMIT_ACTION);
+		am.put(COMMIT_ACTION, new CommitAction());
 	}
 	
 	private String insert(String text, String completion, int position)

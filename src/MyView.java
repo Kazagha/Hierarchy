@@ -48,14 +48,13 @@ public class MyView extends JPanel {
 		
 		treeRHS.setCellRenderer(new MyTreeRenderer());
 		
+		MyTextFieldListener listener = new MyTextFieldListener();
 		userTextFieldLHS.getDocument().putProperty("owner", userTextFieldLHS);
-		userTextFieldLHS.getDocument().addDocumentListener(new MyTextFieldListener());
-		
-		Icon swapIcon = new ImageIcon("images/arrow-repeat.png");
-		if(swapIcon != null)
-		{
-			swapButton.setIcon(swapIcon);	
-		}
+		userTextFieldLHS.getDocument().addDocumentListener(listener);
+		listener.setKeyMapping(userTextFieldLHS);
+		userTextFieldRHS.getDocument().putProperty("owner", userTextFieldRHS);
+		userTextFieldRHS.getDocument().addDocumentListener(listener);
+		listener.setKeyMapping(userTextFieldRHS);
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, contentLHSView, contentRHSView);
 		splitPane.setResizeWeight(0);
