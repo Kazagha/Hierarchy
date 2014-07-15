@@ -45,7 +45,7 @@ public class SQLQuery {
 	 * @return - Array of permissions
 	 * @throws SQLException
 	 */
-	public ArrayList<RoleData> queryUser(String firstName, String lastName) throws SQLException
+	public ArrayList<RoleData> queryUserRoles(String firstName, String lastName) throws SQLException
 	{
 		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
 		ResultSet rs = null;
@@ -69,6 +69,41 @@ public class SQLQuery {
             while (rs.next()) 
             {
             	tempArray.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
+            }
+        } catch (SQLException e) {
+        	throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
+        } finally {
+            conn.close();
+            rs.close();
+        }
+        
+        return tempArray;
+	}
+	
+	public ArrayList<String> queryUserNames() throws SQLException
+	{
+		ArrayList<String> tempArray = new ArrayList<String>();
+		ResultSet rs = null;
+		createConnection();
+    
+        try {         
+            PreparedStatement ps = conn.prepareStatement(
+            		  "SELECT "
+            		+ "	RTRIM(aunrmast.nam_gv1), RTRIM(aunrmast.nam_fam) "
+            		+ "FROM "
+            		+ "	aunrmast "
+            		+ "JOIN "
+            		+ "	aualrsof ON aunrmast.nar_num = aualrsof.nar_num "
+            		+ "WHERE "
+            		+ "	(aunrmast.nam_gv1 != '' AND aunrmast.nam_fam != '') "
+            		);
+
+            rs = ps.executeQuery();
+          
+            while (rs.next()) 
+            {
+            	//tempArray.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
+            	tempArray.add(rs.getString(1) + " " + rs.getString(2));
             }
         } catch (SQLException e) {
         	throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
