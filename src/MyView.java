@@ -36,7 +36,7 @@ public class MyView extends JPanel {
 	JMenuItem exitMenuItem = new JMenuItem("Exit");
 	JMenuItem hierarchyViewMenuItem = new JMenuItem("Hierarchy");
 	JMenuItem listViewMenuItem = new JMenuItem("List");
-	MyTextFieldListener listener;
+	MyTextFieldListener textFieldlistener;
 	
 	ComponentWithTitle contentLHSView = new ComponentWithTitle(tableLHS);
 	ComponentWithTitle contentRHSView = new ComponentWithTitle(tableRHS);
@@ -49,13 +49,13 @@ public class MyView extends JPanel {
 		
 		treeRHS.setCellRenderer(new MyTreeRenderer());		
 		
-		MyTextFieldListener listener = new MyTextFieldListener();
+		textFieldlistener = new MyTextFieldListener();
 		inputTextFieldLHS.getDocument().putProperty("owner", inputTextFieldLHS);
-		inputTextFieldLHS.getDocument().addDocumentListener(listener);
-		listener.setKeyMapping(inputTextFieldLHS);
+		inputTextFieldLHS.getDocument().addDocumentListener(textFieldlistener);
+		textFieldlistener.setKeyMapping(inputTextFieldLHS);
 		inputTextFieldRHS.getDocument().putProperty("owner", inputTextFieldRHS);
-		inputTextFieldRHS.getDocument().addDocumentListener(listener);
-		listener.setKeyMapping(inputTextFieldRHS);		
+		inputTextFieldRHS.getDocument().addDocumentListener(textFieldlistener);
+		textFieldlistener.setKeyMapping(inputTextFieldRHS);		
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, contentLHSView, contentRHSView);
 		splitPane.setResizeWeight(0);
@@ -260,7 +260,7 @@ public class MyView extends JPanel {
 	
 	public MyTextFieldListener getTextFieldListener()
 	{
-		return listener;
+		return textFieldlistener;
 	}
 	
 	public void setControllerActions(ActionListener controllerActionListener)
