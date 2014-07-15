@@ -89,7 +89,7 @@ public class SQLQuery {
         try {         
             PreparedStatement ps = conn.prepareStatement(
             		  "SELECT "
-            		+ "	RTRIM(aunrmast.nam_gv1), RTRIM(aunrmast.nam_fam) "
+            		+ "	LOWER(RTRIM(aunrmast.nam_gv1)), LOWER(RTRIM(aunrmast.nam_fam)) "
             		+ "FROM "
             		+ "	aunrmast "
             		+ "JOIN "
