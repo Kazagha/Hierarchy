@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 
 import javax.swing.JTable;
@@ -55,7 +56,7 @@ public class MyController {
 	public MyController(MyView view)
 	{
 		this.conf = loadConf("hierarchy.conf");
-		//this.sql = new SQLQuery(conf);
+		this.sql = new SQLQuery(conf);
 		this.view = view;
 		this.tableLHS = view.getLHSTableModel();
 		this.tableRHS = view.getRHSTableModel();		
@@ -63,7 +64,7 @@ public class MyController {
 		
 		//Create the tree, add nodes, expand the root node and then hide it.
 		this.treeRHS = view.getJTree();
-		//this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
+		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
 		this.treeRHS.expandRow(0);
 		this.treeRHS.setRootVisible(false);
 		this.treeRHS.setShowsRootHandles(true);
@@ -73,8 +74,10 @@ public class MyController {
 		
 		//Link to the LHS table
 		jTableLHS = view.getTableLHS();
-		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());		
-
+		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());	
+		
+		view.getTextFieldListener().setUserNameArray(userNameQuery());
+		
 		//Save the Configuration (Conf) to the 'hierarchy.conf' file
 		//saveConf();
 	}
@@ -227,7 +230,7 @@ public class MyController {
 		ArrayList<RoleData> array = new ArrayList<RoleData>(); 
 		
 		try {
-			array = sql.queryUser(firstName, lastName);
+			array = sql.queryUserRoles(firstName, lastName);
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		} 
@@ -244,6 +247,21 @@ public class MyController {
 		} catch (SQLException e) {
 			System.out.println(e.getMessage());
 		}
+		
+		return array;
+	}
+	
+	private ArrayList<String> userNameQuery()
+	{
+		ArrayList<String> array = null;
+		
+		try {
+			array = sql.queryUserNames();			
+		} catch (SQLException e) {
+			System.out.format("User Name Query Failed: %n%n %s", e.getMessage());
+		}
+		
+		Collections.sort(array);
 		
 		return array;
 	}
