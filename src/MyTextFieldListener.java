@@ -63,7 +63,10 @@ public class MyTextFieldListener implements DocumentListener {
 			e.printStackTrace();
 		}
 		
+		// This is not required as the prefix will always use the entire string
+		int w = -1;
 		// Set 'w' as the starting character of the word
+		/*
 		int w;
 		for (w = pos; w >= 0; w--)
 		{
@@ -73,6 +76,7 @@ public class MyTextFieldListener implements DocumentListener {
 			break;
 			}
 		}
+		*/
 		
 		// Not enough characters
 		if ((pos - w) < 2)
