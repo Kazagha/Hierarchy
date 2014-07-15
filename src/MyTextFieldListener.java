@@ -24,20 +24,7 @@ public class MyTextFieldListener implements DocumentListener {
 	InputMap im;
 	ActionMap am;
 	
-	//public MyTextFieldListener(ArrayList<String> userNameList) {
-	public MyTextFieldListener() {
-		/*
-		InputMap im = textField.getInputMap();
-		ActionMap am = textField.getActionMap();
-		im.put(KeyStroke.getKeyStroke("ENTER"), COMMIT_ACTION);
-		am.put(COMMIT_ACTION, new CommitAction());
-		*/
-		
-		//Create some dummy names in the array
-		userNameArray.add("anthony");
-		userNameArray.add("chris");
-		userNameArray.add("fred");	
-	}
+	public MyTextFieldListener() {}
 
 	@Override
 	public void changedUpdate(DocumentEvent ev) {	
@@ -55,7 +42,8 @@ public class MyTextFieldListener implements DocumentListener {
 			return;
 		}
 				
-		
+		//Locate the JTextField that fired the insertUpdate event
+		//using the 'owner' property field. 
 		Object owner = ev.getDocument().getProperty("owner");
 		if(owner instanceof JTextField)
 		{
@@ -92,8 +80,11 @@ public class MyTextFieldListener implements DocumentListener {
 			return;
 		}
 		
+		// Find the beginning of the word 
 		String prefix = content.substring(w + 1).toLowerCase();
+		// Search the array for the 'insertion point' (negative number)
 		int n = Collections.binarySearch(userNameArray, prefix);
+		// Check the number is an 'insertion point', and not outside the existing array
 		if(n < 0 && -n <= userNameArray.size())
 		{
 			//System.out.println("Match?");
@@ -134,6 +125,11 @@ public class MyTextFieldListener implements DocumentListener {
 		}
 	}
 	
+	/**
+	 * CommitAction
+	 * This class checks if the 'Enter' action is a mode.COMPLETION
+	 * action and responds differently in each case.
+	 */
 	public class CommitAction extends AbstractAction {
 		public void actionPerformed(ActionEvent ev) {
 			if(mode == Mode.COMPLETION) {
@@ -148,17 +144,41 @@ public class MyTextFieldListener implements DocumentListener {
 		}
 	}
 	
-	public void setKeyMapping(JTextField tempTextField)
+	/**
+	 * Set Key Mapping <br>
+	 * This method sets the required InputMapping and ActionMapping <br>
+	 * on the specified JTextField
+	 * @param tempTextField
+	 */
+	public void setKeyMapping(JTextField textField)
 	{
-		InputMap im = tempTextField.getInputMap();
-		ActionMap am = tempTextField.getActionMap();
+		InputMap im = textField.getInputMap();
+		ActionMap am = textField.getActionMap();
 		im.put(KeyStroke.getKeyStroke("ENTER"), COMMIT_ACTION);
 		am.put(COMMIT_ACTION, new CommitAction());
 	}
 	
-	private String insert(String text, String completion, int position)
+	/**
+	 * Set User Name Array <br>
+	 * Use the specified array as the 'autocomplete' list 
+	 * @param array - Specified array
+	 */
+	public void setUserNameArray(ArrayList<String> array)
 	{
-		StringBuilder sb = new StringBuilder(text);
+		userNameArray = array;
+	}
+	
+	/**
+	 * Insert <br>
+	 * Insert the specified text at the specified position, into the existing String
+	 * @param existing - The existing text
+	 * @param completion - The text to insert
+	 * @param position - The position at which to insert >= 0
+	 * @return
+	 */
+	private String insert(String existing, String completion, int position)
+	{
+		StringBuilder sb = new StringBuilder(existing);
 		sb.insert(position, completion);
 		return sb.toString();
 	}
