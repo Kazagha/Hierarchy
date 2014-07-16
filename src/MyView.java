@@ -10,6 +10,10 @@ import javax.swing.tree.DefaultTreeModel;
 
 public class MyView extends JPanel {
 
+	//Frame Width and Height
+	final int FRAME_WIDTH = 300;
+	final int FRAME_HEIGHT = 650;
+	
 	JPanel panelLHS;
 	JPanel panelRHS;
 	//Lower half split pane
@@ -315,7 +319,7 @@ public class MyView extends JPanel {
 		//Create frame setup Window
 		JFrame frame = new JFrame("My View");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		frame.setPreferredSize(new Dimension(650, 300));
+		frame.setPreferredSize(new Dimension(FRAME_HEIGHT, FRAME_WIDTH));
 		
 		//Add the content  
 		frame.getContentPane().add(this);
