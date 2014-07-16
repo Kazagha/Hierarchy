@@ -268,7 +268,7 @@ public class MyController {
 	
 	private void hierarchySort(ArrayList<HierarchyData> array)
 	{
-		Collections.sort(array, HierarchyData.Comparators.TIER_PARENT_SEQ);
+		Collections.sort(array, HierarchyData.Comparators.TIER_SEQ);
 	}
 	
 	private void setActiveRoles()

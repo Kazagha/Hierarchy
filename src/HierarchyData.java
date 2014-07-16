@@ -88,6 +88,26 @@ public class HierarchyData {
 				};
 				
 		/**
+		 * Comparator: Tier Sequence
+		 * Sort the Hierarchy data on the following (in order)
+		 *  - Tier (top tier menu, second tire menu, ...)
+		 *  - Node Sequence (node sequence as they appear in the Authority menu)
+		 */
+		public static Comparator<HierarchyData> TIER_SEQ = new Comparator<HierarchyData>()
+				{
+			@Override
+			public int compare(HierarchyData node1, HierarchyData node2)
+			{
+				int i =  node1.getNodeTier() - node2.getNodeTier();
+				if(i == 0)
+				{
+					i = node1.getNodeSequence() - node2.getNodeSequence();
+				}
+				return i;
+			}
+				};
+		
+		/**
 		 * Comparator: Tier - Parent Node - Sequence
 		 * Sort the Hierarchy data on the following (in order)
 		 *  - Tier (top tier menu, second tire menu, ...)
@@ -105,16 +125,24 @@ public class HierarchyData {
 				{
 					//Compare the Parent Nodes
 					int nodeTier = node1.getNodeList().size();
-					int node1Parent = node1.getNodeList().get(nodeTier - 1);
-					int node2Parent = node2.getNodeList().get(nodeTier - 1);
+					// TODO: This will cause an array out of bounds exception for first tire nodes
+					// - 1 for index starting at 0, -1 for parent node
+					int node1Parent = node1.getNodeList().get(nodeTier - 2);
+					int node2Parent = node2.getNodeList().get(nodeTier - 2);
 					i = node1Parent - node2Parent;
-
+					
+					System.out.println(node1.getNodeList());
+					System.out.println(node2.getNodeList());
+					System.out.println("Calculation (" + (nodeTier - 2) + "): " +  
+							+ node1Parent + " - " + node2Parent);
+					System.out.println(nodeTier + ": " + node1.getNodeName() + " - " + node2.getNodeName() + " = " + i);
+					
 					if(i == 0)
 					{
 						//Compare the Node Sequence
 						i = node1.getNodeSequence() - node2.getNodeSequence();
 					}
-				} 
+				}
 				return i;
 			}
 				};
