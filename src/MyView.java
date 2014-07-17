@@ -62,27 +62,25 @@ public class MyView extends JPanel {
 		textFieldlistener.setKeyMapping(inputTextFieldRHS);		
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, contentLHSView, contentRHSView);
-		splitPane.setResizeWeight(0);
+		splitPane.setResizeWeight(.5);
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
-
+		
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
 					.addGroup(layout.createSequentialGroup()
 							.addContainerGap()
-							.addComponent(inputTextFieldLHS)
+							.addGroup(layout.createParallelGroup(Alignment.CENTER)
+									.addComponent(inputTextFieldLHS)
+									.addComponent(loadButtonLHS))
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 							.addComponent(swapButton)
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
-							.addComponent(inputTextFieldRHS)
+							.addGroup(layout.createParallelGroup(Alignment.CENTER)
+									.addComponent(inputTextFieldRHS)							
+									.addComponent(loadButtonRHS))
 							.addContainerGap())
-					.addGroup(Alignment.LEADING, layout.createSequentialGroup()
-							.addContainerGap(100, 100)
-							.addComponent(loadButtonLHS))
-					.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
-							.addComponent(loadButtonRHS)
-							.addContainerGap(100, 100))
 					.addGroup(layout.createSequentialGroup()
 							.addContainerGap()
 							.addComponent(splitPane)
