@@ -77,10 +77,14 @@ public class MyView extends JPanel {
 									)
 							.addContainerGap()
 							)
-					.addGroup(layout.createParallelGroup(Alignment.CENTER)
-							.addComponent(splitPane)
-							.addComponent(swapButton)
+					.addGroup(layout.createSequentialGroup()
+							.addContainerGap()
+							.addGroup(layout.createParallelGroup(Alignment.CENTER)
+									.addComponent(splitPane)
+									.addComponent(swapButton)
 							)
+							.addContainerGap()
+						)
 				);
 		
 		layout.setVerticalGroup(
