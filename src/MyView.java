@@ -28,9 +28,11 @@ public class MyView extends JPanel {
 	JTextField inputTextFieldLHS = new JTextField();
 	JTextField inputTextFieldRHS = new JTextField();
 	//Buttons
-	JButton swapButton = new JButton();
-	JButton loadButtonLHS = new JButton("Load LHS");
-	JButton loadButtonRHS = new JButton("Load RHS");
+	JButton swapButton;
+	JButton loadButtonLHS;
+	JButton loadButtonRHS;
+	//JButton hierarchyButton;
+	//JButton viewButton;
 	//Menu Items
 	JMenuItem compareMenuItem = new JMenuItem("Compare");
 	JMenuItem swapMenuItem = new JMenuItem("Swap Sides");
@@ -40,6 +42,7 @@ public class MyView extends JPanel {
 	JMenuItem exitMenuItem = new JMenuItem("Exit");
 	JMenuItem hierarchyViewMenuItem = new JMenuItem("Hierarchy");
 	JMenuItem listViewMenuItem = new JMenuItem("List");
+		
 	MyTextFieldListener textFieldlistener;
 	
 	ComponentWithTitle contentLHSView = new ComponentWithTitle(tableLHS);
@@ -47,19 +50,11 @@ public class MyView extends JPanel {
 	ComponentWithTitle contentRHSHierarchy = new ComponentWithTitle(treeRHS);
 	
 	public MyView()
-	{		
+	{
+		initComponents();
+		
 		setColumnWidth(tableLHS);
 		setColumnWidth(tableRHS);
-		
-		treeRHS.setCellRenderer(new MyTreeRenderer());		
-		
-		textFieldlistener = new MyTextFieldListener();
-		inputTextFieldLHS.getDocument().putProperty("owner", inputTextFieldLHS);
-		inputTextFieldLHS.getDocument().addDocumentListener(textFieldlistener);
-		textFieldlistener.setKeyMapping(inputTextFieldLHS);
-		inputTextFieldRHS.getDocument().putProperty("owner", inputTextFieldRHS);
-		inputTextFieldRHS.getDocument().addDocumentListener(textFieldlistener);
-		textFieldlistener.setKeyMapping(inputTextFieldRHS);		
 		
 		splitPane = new JSplitPane(JSplitPane.HORIZONTAL_SPLIT, contentLHSView, contentRHSView);
 		splitPane.setResizeWeight(.5);
@@ -68,7 +63,7 @@ public class MyView extends JPanel {
 		setLayout(layout);
 		
 		layout.setHorizontalGroup(
-				layout.createParallelGroup()
+				layout.createParallelGroup()			
 					.addGroup(layout.createSequentialGroup()
 							.addContainerGap()
 							.addGroup(layout.createParallelGroup(Alignment.CENTER)
@@ -284,6 +279,47 @@ public class MyView extends JPanel {
 		loadButtonRHS.addActionListener(controllerActionListener);
 		swapButton.setActionCommand("Swap Sides");
 		swapButton.addActionListener(controllerActionListener);
+	}
+	
+	public void initComponents()
+	{
+		//Dummy Icons
+		ImageIcon redNodeIcon = new ImageIcon("images/RedNodeIcon16.png");
+		ImageIcon violetNodeIcon = new ImageIcon("images/VioletNodeIcon16.png");
+		ImageIcon yellowNodeIcon = new ImageIcon("images/YellowNodeIcon16.png");
+		
+		swapButton = new JButton();
+		swapButton.setIcon(yellowNodeIcon);
+		swapButton.setHorizontalTextPosition(JButton.CENTER);
+		swapButton.setVerticalTextPosition(JButton.BOTTOM);
+		
+		loadButtonLHS = new JButton("Load LHS");
+		loadButtonRHS = new JButton("Load RHS");
+		
+		/*
+		hierarchyButton = new JButton("Hier");
+		hierarchyButton.setIcon(violetNodeIcon);
+		hierarchyButton.setHorizontalTextPosition(JButton.CENTER);
+		hierarchyButton.setVerticalTextPosition(JButton.BOTTOM);
+		
+		viewButton = new JButton("List");
+		viewButton.setIcon(redNodeIcon);
+		viewButton.setHorizontalTextPosition(JButton.CENTER);
+		viewButton.setVerticalTextPosition(JButton.BOTTOM);
+		*/
+		
+		//Setup the Tree Cell Renderer
+		treeRHS.setCellRenderer(new MyTreeRenderer());		
+		
+		//Setup the listener on input text fields
+		textFieldlistener = new MyTextFieldListener();
+		inputTextFieldLHS.getDocument().putProperty("owner", inputTextFieldLHS);
+		inputTextFieldLHS.getDocument().addDocumentListener(textFieldlistener);
+		textFieldlistener.setKeyMapping(inputTextFieldLHS);
+		inputTextFieldRHS.getDocument().putProperty("owner", inputTextFieldRHS);
+		inputTextFieldRHS.getDocument().addDocumentListener(textFieldlistener);
+		textFieldlistener.setKeyMapping(inputTextFieldRHS);		
+		
 	}
 	
 	public void setLHSViewTitle(String s)
