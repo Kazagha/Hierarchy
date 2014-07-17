@@ -66,7 +66,7 @@ public class MyView extends JPanel {
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
-		
+
 		layout.setHorizontalGroup(
 				layout.createParallelGroup()
 					.addGroup(layout.createSequentialGroup()
@@ -77,15 +77,14 @@ public class MyView extends JPanel {
 							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
 							.addComponent(inputTextFieldRHS)
 							.addContainerGap())
-					.addGroup(Alignment.CENTER, layout.createSequentialGroup()
-							.addContainerGap()
-							.addComponent(loadButtonLHS)
-							.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+					.addGroup(Alignment.LEADING, layout.createSequentialGroup()
+							.addContainerGap(100, 100)
+							.addComponent(loadButtonLHS))
+					.addGroup(Alignment.TRAILING, layout.createSequentialGroup()
 							.addComponent(loadButtonRHS)
-							.addContainerGap())
+							.addContainerGap(100, 100))
 					.addGroup(layout.createSequentialGroup()
 							.addContainerGap()
-							//.addComponent(tableLHS)
 							.addComponent(splitPane)
 							.addContainerGap())
 				);
