@@ -270,19 +270,26 @@ public class MyView extends JPanel {
 		//Setup Menu Actions
 		compareMenuItem.setActionCommand("Compare");
 		compareMenuItem.addActionListener(controllerActionListener);
-		swapMenuItem.setActionCommand("Swap Hierarchy");
+		
+		swapMenuItem.setActionCommand("Swap Sides");
 		swapMenuItem.addActionListener(controllerActionListener);
+		
 		hierarchyViewMenuItem.setActionCommand("View Hierarchy");
 		hierarchyViewMenuItem.addActionListener(controllerActionListener);
+		
 		listViewMenuItem.setActionCommand("View List");
 		listViewMenuItem.addActionListener(controllerActionListener);
+		
 		exitMenuItem.setActionCommand("Exit");
 		exitMenuItem.addActionListener(controllerActionListener);
+		
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
 		loadButtonLHS.addActionListener(controllerActionListener);
+		
 		loadButtonRHS.setActionCommand("Load RHS");
 		loadButtonRHS.addActionListener(controllerActionListener);
+		
 		swapButton.setActionCommand("Swap Sides");
 		swapButton.addActionListener(controllerActionListener);
 	}
@@ -301,18 +308,6 @@ public class MyView extends JPanel {
 		
 		loadButtonLHS = new JButton("Load LHS");
 		loadButtonRHS = new JButton("Load RHS");
-		
-		/*
-		hierarchyButton = new JButton("Hier");
-		hierarchyButton.setIcon(violetNodeIcon);
-		hierarchyButton.setHorizontalTextPosition(JButton.CENTER);
-		hierarchyButton.setVerticalTextPosition(JButton.BOTTOM);
-		
-		viewButton = new JButton("List");
-		viewButton.setIcon(redNodeIcon);
-		viewButton.setHorizontalTextPosition(JButton.CENTER);
-		viewButton.setVerticalTextPosition(JButton.BOTTOM);
-		*/
 		
 		//Setup the Tree Cell Renderer
 		treeRHS.setCellRenderer(new MyTreeRenderer());		
