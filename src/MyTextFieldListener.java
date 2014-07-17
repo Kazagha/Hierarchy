@@ -106,9 +106,6 @@ public class MyTextFieldListener implements DocumentListener {
 			//Nothing Found
 			mode = Mode.INSERT;
 		}
-		
-		//System.out.println("n: " + n + " Array Size: " + userNameArray.size());
-		//System.out.println(prefix);
 	}	
 	
 	private class CompletionTask implements Runnable {
