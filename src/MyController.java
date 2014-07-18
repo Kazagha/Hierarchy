@@ -86,7 +86,7 @@ public class MyController {
 	{
 		Conf tempConf = new Conf(new File(fileName));
 		
-		tempConf.set(new String[] {"Server", "Instance", "Database", "Username", "Password"});
+		tempConf.add(new String[] {"Server", "Instance", "Database", "Username", "Password"});
 		tempConf.prompt();
 		tempConf.set("url",  "jdbc:jtds:sqlserver://" + tempConf.get("Server")+ ";instance="+ tempConf.get("Instance") + ";DatabaseName=" + tempConf.get("Database"));
 		
