@@ -5,6 +5,7 @@ import javax.swing.table.AbstractTableModel;
 	{
 		ArrayList<RoleData> dataArray = new ArrayList<RoleData>();
 		String [] columnName = {"Role Num", "Role Description"};
+		private boolean editMode = false;
 	
 		@Override
 		public int getColumnCount() {
@@ -19,6 +20,20 @@ import javax.swing.table.AbstractTableModel;
 		public String getColumnName(int col)
 		{
 			return columnName[col];
+		}
+		
+		/**
+		 * The JTable uses this method to determine the data class 
+		 * of the specified column for the JTable editor/renderer
+		 */
+		public Class getColumnClass(int c)
+		{
+			return getValueAt(0, c).getClass();
+		}
+		
+		public boolean isCellEditable(int row, int col)
+		{
+			return editMode && col == 0;
 		}
 		
 		public ArrayList<RoleData> getArray()
@@ -60,5 +75,18 @@ import javax.swing.table.AbstractTableModel;
 		public void refreshArray()
 		{
 			this.fireTableDataChanged();
+		}
+		
+		public void setEditMode(boolean editMode)
+		{
+			this.editMode = editMode;
+		}
+		
+		public void addBlankRows(int numOfRows)
+		{
+			for(int i = 0; i < numOfRows; i++)
+			{
+				addRow(0, "");
+			}
 		}
 	}
