@@ -1,11 +1,14 @@
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.awt.event.ItemEvent;
+import java.awt.event.ItemListener;
 import java.io.File;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
 
+import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
@@ -27,6 +30,7 @@ public class MyController {
 	private MyTableModel tableLHS;
 	private MyTableModel tableRHS;
 	private JTree treeRHS;
+	private JCheckBoxMenuItem manualEntryCheckBox;
 	
 	JTable jTableLHS;
 	
@@ -72,10 +76,13 @@ public class MyController {
 		//Tool tip manager for the JTree
 		ToolTipManager.sharedInstance().registerComponent(treeRHS);
 		
-		//Link to the LHS table
+		//Create Listeners
 		jTableLHS = view.getTableLHS();
-		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());	
+		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());
+		manualEntryCheckBox = view.getManualEntryCheckBox();
+		manualEntryCheckBox.addItemListener(new MyItemListener());
 		
+		//Create User Name array for the auto-complete function
 		view.getTextFieldListener().setUserNameArray(userNameQuery());
 		
 		//Save the Configuration (Conf) to the 'hierarchy.conf' file
@@ -307,5 +314,24 @@ public class MyController {
             
             setSelectedRoles(tempArray);
         }
+    }
+    
+    private class MyItemListener implements ItemListener
+    {
+		@Override
+		public void itemStateChanged(ItemEvent e) {
+	    	Object source = e.getItemSelectable(); 
+	    			
+			if (source == manualEntryCheckBox)
+			{
+				System.out.println("Source Found");
+			}
+			
+			if (e.getStateChange() == ItemEvent.DESELECTED)
+			{
+				System.out.println("Checkbox has been deselected");
+			}
+		}
+    	
     }
 }
