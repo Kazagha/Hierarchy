@@ -36,7 +36,7 @@ public class MyView extends JPanel {
 	//Menu Items
 	JMenuItem compareMenuItem = new JMenuItem("Compare");
 	JMenuItem swapMenuItem = new JMenuItem("Swap Sides");
-	JMenuItem manualEntryMenuItem = new JMenuItem("Manual Entry");
+	JCheckBoxMenuItem manualEntryCheckBox = new JCheckBoxMenuItem("Manual Entry");
 	JMenuItem saveLHSMenuItem = new JMenuItem("Left");
 	JMenuItem saveRHSMenuItem = new JMenuItem("Right");
 	JMenuItem exitMenuItem = new JMenuItem("Exit");
@@ -170,7 +170,7 @@ public class MyView extends JPanel {
 		menu.addSeparator();
 		menu.add(swapMenuItem);
 		menu.addSeparator();
-		menu.add(manualEntryMenuItem);
+		menu.add(manualEntryCheckBox);
 		menuBar.add(menu);
 		
 		//'View' Top Menu
@@ -242,6 +242,11 @@ public class MyView extends JPanel {
 		return tableLHS;
 	}
 	
+	public JCheckBoxMenuItem getManualEntryCheckBox()
+	{
+		return manualEntryCheckBox;
+	}
+	
 	/*
 	 * This can't be used without importing the CompentWithTitle into MyController
 	public ComponentWithTitle getLHSContent()
@@ -292,6 +297,8 @@ public class MyView extends JPanel {
 		
 		swapButton.setActionCommand("Swap Sides");
 		swapButton.addActionListener(controllerActionListener);
+		
+		//manualEntryMenuItem.
 	}
 	
 	public void initComponents()
@@ -319,8 +326,7 @@ public class MyView extends JPanel {
 		textFieldlistener.setKeyMapping(inputTextFieldLHS);
 		inputTextFieldRHS.getDocument().putProperty("owner", inputTextFieldRHS);
 		inputTextFieldRHS.getDocument().addDocumentListener(textFieldlistener);
-		textFieldlistener.setKeyMapping(inputTextFieldRHS);		
-		
+		textFieldlistener.setKeyMapping(inputTextFieldRHS);	
 	}
 	
 	public void setLHSViewTitle(String s)
