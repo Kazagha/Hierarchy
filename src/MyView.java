@@ -37,6 +37,7 @@ public class MyView extends JPanel {
 	JMenuItem compareMenuItem = new JMenuItem("Compare");
 	JMenuItem swapMenuItem = new JMenuItem("Swap Sides");
 	JCheckBoxMenuItem manualEntryCheckBox = new JCheckBoxMenuItem("Manual Entry");
+	JMenuItem clearRolesMenuItem = new JMenuItem("Clear Roles");
 	JMenuItem saveLHSMenuItem = new JMenuItem("Left");
 	JMenuItem saveRHSMenuItem = new JMenuItem("Right");
 	JMenuItem exitMenuItem = new JMenuItem("Exit");
@@ -171,6 +172,7 @@ public class MyView extends JPanel {
 		menu.add(swapMenuItem);
 		menu.addSeparator();
 		menu.add(manualEntryCheckBox);
+		menu.add(clearRolesMenuItem);
 		menuBar.add(menu);
 		
 		//'View' Top Menu
@@ -297,6 +299,9 @@ public class MyView extends JPanel {
 		
 		swapButton.setActionCommand("Swap Sides");
 		swapButton.addActionListener(controllerActionListener);
+		
+		clearRolesMenuItem.setActionCommand("Clear Array");
+		clearRolesMenuItem.addActionListener(controllerActionListener);
 		
 		//manualEntryMenuItem.
 	}
