@@ -179,7 +179,11 @@ public class MyController {
 				view.setHierarchyPanel(false);
 				break;
 			case "Set Active Roles":
-				setActiveRoles();
+				setActiveRoles();				
+				break;
+			case "Clear Array":
+				tableLHS.clearArray();
+				tableRHS.clearArray();
 				break;
 			case "Exit":
 				System.exit(0);
@@ -325,12 +329,19 @@ public class MyController {
 			if (source == manualEntryCheckBox)
 			{
 				System.out.println("Source Found");
+
+				if (e.getStateChange() == ItemEvent.DESELECTED)
+				{				
+					tableLHS.setEditMode(false);
+					tableRHS.setEditMode(false);
+					System.out.println("Checkbox has been deselected");
+				} else {
+					tableLHS.setEditMode(true);
+					tableRHS.setEditMode(true);
+				}
 			}
 			
-			if (e.getStateChange() == ItemEvent.DESELECTED)
-			{
-				System.out.println("Checkbox has been deselected");
-			}
+
 		}
     	
     }
