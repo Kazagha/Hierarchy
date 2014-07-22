@@ -33,7 +33,8 @@ import javax.swing.table.AbstractTableModel;
 		
 		public boolean isCellEditable(int row, int col)
 		{
-			return editMode && col == 0;
+			//return editMode && col == 0;
+			return editMode;
 		}
 		
 		public ArrayList<RoleData> getArray()
@@ -62,8 +63,14 @@ import javax.swing.table.AbstractTableModel;
 		
 		public void clearArray()
 		{
-			dataArray = new ArrayList<RoleData>();
-			this.fireTableDataChanged();
+			int lastRow = dataArray.size() - 1;
+			//Attempt to clear data only if the array contains data
+			if(lastRow > 0)
+			{
+				dataArray.clear();
+				//Specify the rows that have been removed
+				this.fireTableRowsDeleted(0, lastRow);
+			}
 		}
 		
 		public void setArray(ArrayList<RoleData> inputArray)
