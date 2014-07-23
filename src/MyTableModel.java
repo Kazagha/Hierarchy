@@ -81,6 +81,7 @@ import javax.swing.table.AbstractTableModel;
 		
 		public void refreshArray()
 		{
+			//TODO: If there is no data in the array this will cause an error
 			this.fireTableDataChanged();
 		}
 		
@@ -89,11 +90,29 @@ import javax.swing.table.AbstractTableModel;
 			this.editMode = editMode;
 		}
 		
-		public void addBlankRows(int numOfRows)
+		public void addExtraRows(int numOfRows)
 		{
 			for(int i = 0; i < numOfRows; i++)
 			{
 				addRow(0, "");
+			}
+		}
+		
+		public void removeRow(int row)
+		{
+			dataArray.remove(row);
+			this.fireTableRowsDeleted(row, row);
+		}
+		
+		public void removeArray(ArrayList<RoleData> removeArray)
+		{
+			int lastRow = dataArray.size() - 1;
+			
+			//Check that both dataArray and removeArray contain data 
+			if(!dataArray.isEmpty() && !removeArray.isEmpty())
+			{
+				dataArray.removeAll(removeArray);
+				this.fireTableRowsDeleted(getRowCount(), lastRow);
 			}
 		}
 	}
