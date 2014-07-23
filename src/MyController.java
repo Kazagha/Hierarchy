@@ -163,11 +163,8 @@ public class MyController {
 					}
 				}
 				
-				dataLHS.removeAll(tempArray);
-				dataRHS.removeAll(tempArray);
-
-				tableRHS.refreshArray();
-				tableLHS.refreshArray();	
+				tableLHS.removeArray(tempArray);
+				tableRHS.removeArray(tempArray);
 				
 				//TODO: Create Table Listener
 				setActiveRoles();
