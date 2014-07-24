@@ -75,8 +75,17 @@ import javax.swing.table.AbstractTableModel;
 		
 		public void setArray(ArrayList<RoleData> inputArray)
 		{
+			int lastRow = dataArray.size() - 1;
 			dataArray = inputArray;
-			this.fireTableDataChanged();
+			
+			if(inputArray.isEmpty())
+			{
+				//No data; delete rows
+				this.fireTableRowsDeleted(0, lastRow);
+			} else {
+				//Data present; fire table changed
+				this.fireTableDataChanged();
+			}
 		}
 		
 		public void refreshArray()
