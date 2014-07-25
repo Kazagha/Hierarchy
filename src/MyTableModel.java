@@ -78,7 +78,7 @@ import javax.swing.table.AbstractTableModel;
 			int lastRow = dataArray.size() - 1;
 			dataArray = inputArray;
 			
-			if(inputArray.isEmpty())
+			if(inputArray.isEmpty() && lastRow > 0)
 			{
 				//No data; delete rows
 				this.fireTableRowsDeleted(0, lastRow);
@@ -88,6 +88,7 @@ import javax.swing.table.AbstractTableModel;
 			}
 		}
 		
+		@Deprecated
 		public void refreshArray()
 		{
 			//TODO: If there is no data in the array this will cause an error
