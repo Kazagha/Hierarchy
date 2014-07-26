@@ -9,6 +9,9 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.DefaultTreeModel;
 
 public class MyView extends JPanel {
+	
+	//Static Strings
+	public final static String ENTER_ACTION = "enter";
 
 	//Frame Width and Height
 	final int FRAME_WIDTH = 300;
@@ -31,8 +34,6 @@ public class MyView extends JPanel {
 	JButton swapButton;
 	JButton loadButtonLHS;
 	JButton loadButtonRHS;
-	//JButton hierarchyButton;
-	//JButton viewButton;
 	//Menu Items
 	JMenuItem compareMenuItem = new JMenuItem("Compare");
 	JMenuItem swapMenuItem = new JMenuItem("Swap Sides");
@@ -293,6 +294,10 @@ public class MyView extends JPanel {
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
 		loadButtonLHS.addActionListener(controllerActionListener);
+		InputMap im = loadButtonLHS.getInputMap();
+		ActionMap am = loadButtonLHS.getActionMap();
+		im.put(KeyStroke.getKeyStroke("ENTER"), ENTER_ACTION);
+		am.put(ENTER_ACTION, loadButtonLHS.getAction());
 		
 		loadButtonRHS.setActionCommand("Load RHS");
 		loadButtonRHS.addActionListener(controllerActionListener);
@@ -303,7 +308,12 @@ public class MyView extends JPanel {
 		clearRolesMenuItem.setActionCommand("Clear Array");
 		clearRolesMenuItem.addActionListener(controllerActionListener);
 		
-		//manualEntryMenuItem.
+		/*
+		 * 	InputMap im = textField.getInputMap();
+		 *	ActionMap am = textField.getActionMap();
+		 *	im.put(KeyStroke.getKeyStroke("ENTER"), COMMIT_ACTION);
+		 *	am.put(COMMIT_ACTION, new CommitAction());
+		 */
 	}
 	
 	public void initComponents()
