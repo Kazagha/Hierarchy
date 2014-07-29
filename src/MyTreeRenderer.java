@@ -128,7 +128,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			HierarchyData hd = (HierarchyData) node.getUserObject();
 			for(RoleData rd : hd.getPermissionList())
 			{
-				s += String.format("%s <br>%n", rd.getDescription());
+				s += String.format("%s <br>", rd.getDescription());
 			}
 			s += "</html>";
 			return s;
