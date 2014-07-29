@@ -294,10 +294,6 @@ public class MyView extends JPanel {
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
 		loadButtonLHS.addActionListener(controllerActionListener);
-		InputMap im = loadButtonLHS.getInputMap();
-		ActionMap am = loadButtonLHS.getActionMap();
-		im.put(KeyStroke.getKeyStroke("ENTER"), ENTER_ACTION);
-		am.put(ENTER_ACTION, loadButtonLHS.getAction());
 		
 		loadButtonRHS.setActionCommand("Load RHS");
 		loadButtonRHS.addActionListener(controllerActionListener);
