@@ -135,6 +135,7 @@ public class MyController {
 				}
 				break;
 			case "Swap Sides":
+				//TODO: Swap Sides with an empty array causes an error
 				//Get table and title information 
 				String titleStringLHS = view.getLHSViewTitle();
 				String titleStringRHS = view.getRHSViewTitle();
@@ -177,6 +178,9 @@ public class MyController {
 				break;
 			case "Set Active Roles":
 				setActiveRoles();				
+				break;
+			case "Remove Selected":
+				removeSelected(jTableLHS.getSelectedRows());
 				break;
 			case "Clear Array":
 				tableLHS.clearArray();
@@ -291,6 +295,15 @@ public class MyController {
 		MyTreeRenderer tr = (MyTreeRenderer) treeRHS.getCellRenderer();
 		tr.setSelectedRoleData(rdArray);
 		treeRHS.repaint();
+	}
+	
+	public void removeSelected(int[] rows)
+	{
+		for(int i : rows)
+		{
+			System.out.println(i);
+			//((MyTableModel) jTableLHS.getModel()).removeRow(i);
+		}
 	}
 	
     private class RowListener implements ListSelectionListener {
