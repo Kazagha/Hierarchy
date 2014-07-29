@@ -81,7 +81,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		}
 				
 		//TODO: Tool tips are not quick enough, need another solution for displaying roles
-		//setToolTipText(getToolTip(value));		
+		setToolTipText(getToolTip(value));		
 		
 		return this;
 	}
@@ -130,7 +130,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			{
 				s += String.format("%s <br>%n", rd.getDescription());
 			}
-			s += "</html>";			
+			s += "</html>";
 			return s;
 		} else {
 			return null;
