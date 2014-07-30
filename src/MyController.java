@@ -299,11 +299,23 @@ public class MyController {
 	
 	public void removeSelected(int[] rows)
 	{
+		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
+		
 		for(int i : rows)
 		{
-			System.out.println(i);
-			//((MyTableModel) jTableLHS.getModel()).removeRow(i);
+			// tempArray.add(jTableLHS.convertRowIndexToModel(i));
+			int rowModel = jTableLHS.convertRowIndexToModel(i);
+			RoleData tempRole = ((MyTableModel) jTableLHS.getModel()).getRoleAt(rowModel);
+			tempArray.add(tempRole);
 		}
+		
+		for(RoleData rd : tempArray)
+		{
+			System.out.println(rd.getDescription());	
+		}
+
+		jTableLHS.clearSelection();
+		tableLHS.removeArray(tempArray);		
 	}
 	
     private class RowListener implements ListSelectionListener {
