@@ -53,6 +53,10 @@ import javax.swing.table.AbstractTableModel;
 			}
 		}
 		
+		public RoleData getRoleAt(int row) {
+			return dataArray.get(row);
+		}
+		
 		public void addRow(int roleNumber, String RoleDesc)
 		{
 			dataArray.add(new RoleData(roleNumber, RoleDesc));
@@ -119,10 +123,25 @@ import javax.swing.table.AbstractTableModel;
 			int lastRow = dataArray.size() - 1;
 			
 			//Check that both dataArray and removeArray contain data 
-			if(!dataArray.isEmpty() && !removeArray.isEmpty())
+			//if(!dataArray.isEmpty() && !removeArray.isEmpty())
+			//{
+				//dataArray.removeAll(removeArray);
+				//this.fireTableRowsDeleted(getRowCount(), lastRow);
+				//this.fireTableDataChanged();
+				//for(RoleData rd : removeArray)
+				//{
+				//	this.removeRow(dataArray.indexOf(rd));
+				//}
+			//}
+			dataArray.removeAll(removeArray);
+			
+			if(dataArray.isEmpty() && lastRow > 0)
 			{
-				dataArray.removeAll(removeArray);
-				this.fireTableRowsDeleted(getRowCount(), lastRow);
+				//No data; delete rows
+				this.fireTableRowsDeleted(0, lastRow);
+			} else if(! dataArray.isEmpty()) {
+				//Data present; fire table changed
+				this.fireTableDataChanged();
 			}
 		}
 	}
