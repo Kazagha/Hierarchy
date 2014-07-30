@@ -44,6 +44,7 @@ public class MyView extends JPanel {
 	JMenuItem exitMenuItem = new JMenuItem("Exit");
 	JMenuItem hierarchyViewMenuItem = new JMenuItem("Hierarchy");
 	JMenuItem listViewMenuItem = new JMenuItem("List");
+	JMenuItem removeRolesMenuItem = new JMenuItem("Delete Selected Roles");
 		
 	MyTextFieldListener textFieldlistener;
 	
@@ -173,6 +174,7 @@ public class MyView extends JPanel {
 		menu.add(swapMenuItem);
 		menu.addSeparator();
 		menu.add(manualEntryCheckBox);
+		menu.add(removeRolesMenuItem);
 		menu.add(clearRolesMenuItem);
 		menuBar.add(menu);
 		
@@ -304,6 +306,8 @@ public class MyView extends JPanel {
 		clearRolesMenuItem.setActionCommand("Clear Array");
 		clearRolesMenuItem.addActionListener(controllerActionListener);
 		
+		removeRolesMenuItem.setActionCommand("Remove Selected");
+		removeRolesMenuItem.addActionListener(controllerActionListener);
 		/*
 		 * 	InputMap im = textField.getInputMap();
 		 *	ActionMap am = textField.getActionMap();
@@ -324,8 +328,8 @@ public class MyView extends JPanel {
 		swapButton.setHorizontalTextPosition(JButton.CENTER);
 		swapButton.setVerticalTextPosition(JButton.BOTTOM);
 		
-		loadButtonLHS = new JButton("Load LHS");
-		loadButtonRHS = new JButton("Load RHS");
+		loadButtonLHS = new JButton("Load");
+		loadButtonRHS = new JButton("Load");
 		
 		//Setup the Tree Cell Renderer
 		treeRHS.setCellRenderer(new MyTreeRenderer());		
