@@ -354,12 +354,14 @@ public class MyController {
 
 				if (e.getStateChange() == ItemEvent.DESELECTED)
 				{				
-					tableLHS.setEditMode(false);
-					tableRHS.setEditMode(false);
+					view.setManualEntry(false);
+					//tableLHS.setEditMode(false);
+					//tableRHS.setEditMode(false);
 					System.out.println("Checkbox has been deselected");
 				} else {
-					tableLHS.setEditMode(true);
-					tableRHS.setEditMode(true);
+					view.setManualEntry(true);
+					//tableLHS.setEditMode(true);
+					//tableRHS.setEditMode(true);
 				}
 			}
 			
