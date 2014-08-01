@@ -38,7 +38,7 @@ public class MyView extends JPanel {
 	JMenuItem compareMenuItem = new JMenuItem("Compare");
 	JMenuItem swapMenuItem = new JMenuItem("Swap Sides");
 	JCheckBoxMenuItem manualEntryCheckBox = new JCheckBoxMenuItem("Manual Entry");
-	JMenuItem clearRolesMenuItem = new JMenuItem("Clear Roles");
+	//JMenuItem clearRolesMenuItem = new JMenuItem("Clear Roles");
 	JMenuItem saveLHSMenuItem = new JMenuItem("Left");
 	JMenuItem saveRHSMenuItem = new JMenuItem("Right");
 	JMenuItem exitMenuItem = new JMenuItem("Exit");
@@ -175,7 +175,7 @@ public class MyView extends JPanel {
 		menu.addSeparator();
 		menu.add(manualEntryCheckBox);
 		menu.add(removeRolesMenuItem);
-		menu.add(clearRolesMenuItem);
+		//menu.add(clearRolesMenuItem);
 		menuBar.add(menu);
 		
 		//'View' Top Menu
@@ -196,6 +196,11 @@ public class MyView extends JPanel {
 		t.getColumnModel().getColumn(0).setMaxWidth(80);
 		t.getColumnModel().getColumn(0).setMinWidth(80);
 		t.setAutoCreateRowSorter(true);
+	}
+	
+	public void setManualEntry(boolean isEnabled)
+	{
+		removeRolesMenuItem.setEnabled(isEnabled);
 	}
 	
 	public String getLHSTextToString()
@@ -303,11 +308,12 @@ public class MyView extends JPanel {
 		swapButton.setActionCommand("Swap Sides");
 		swapButton.addActionListener(controllerActionListener);
 		
-		clearRolesMenuItem.setActionCommand("Clear Array");
-		clearRolesMenuItem.addActionListener(controllerActionListener);
+		//clearRolesMenuItem.setActionCommand("Clear Array");
+		//clearRolesMenuItem.addActionListener(controllerActionListener);
 		
 		removeRolesMenuItem.setActionCommand("Remove Selected");
 		removeRolesMenuItem.addActionListener(controllerActionListener);
+		removeRolesMenuItem.setEnabled(false);
 		/*
 		 * 	InputMap im = textField.getInputMap();
 		 *	ActionMap am = textField.getActionMap();
