@@ -35,16 +35,18 @@ public class MyView extends JPanel {
 	JButton loadButtonLHS;
 	JButton loadButtonRHS;
 	//Menu Items
-	JMenuItem compareMenuItem = new JMenuItem("Compare");
-	JMenuItem swapMenuItem = new JMenuItem("Swap Sides");
-	JCheckBoxMenuItem manualEntryCheckBox = new JCheckBoxMenuItem("Manual Entry");
-	//JMenuItem clearRolesMenuItem = new JMenuItem("Clear Roles");
-	JMenuItem saveLHSMenuItem = new JMenuItem("Left");
-	JMenuItem saveRHSMenuItem = new JMenuItem("Right");
-	JMenuItem exitMenuItem = new JMenuItem("Exit");
-	JMenuItem hierarchyViewMenuItem = new JMenuItem("Hierarchy");
-	JMenuItem listViewMenuItem = new JMenuItem("List");
-	JMenuItem removeRolesMenuItem = new JMenuItem("Delete Selected Roles");
+	
+	JMenuItem compareMenuItem = new JMenuItem();
+	JMenuItem swapMenuItem = new JMenuItem();
+	JCheckBoxMenuItem manualEntryCheckBox = new JCheckBoxMenuItem();
+	JMenuItem saveLHSMenuItem = new JMenuItem();
+	JMenuItem saveRHSMenuItem = new JMenuItem();
+	JMenuItem loadConfigMenuItem = new JMenuItem();
+	JMenuItem exitMenuItem = new JMenuItem();
+	JMenuItem hierarchyViewMenuItem = new JMenuItem();
+	JMenuItem listViewMenuItem = new JMenuItem();
+	JMenuItem removeRolesMenuItem = new JMenuItem();
+	
 		
 	MyTextFieldListener textFieldlistener;
 	
@@ -151,34 +153,45 @@ public class MyView extends JPanel {
 	{		
 		JMenuBar menuBar = new JMenuBar();
 		menuBar.setOpaque(true);
+				
+		// Set Menu Text
+		compareMenuItem.setText("Compare");		
+		swapMenuItem.setText("Swap Sides");
+		manualEntryCheckBox.setText("Manual Entry");
+		saveLHSMenuItem.setText("Left");
+		saveRHSMenuItem.setText("Right");
+		loadConfigMenuItem.setText("Load Conf");
+		exitMenuItem.setText("Exit");
+		hierarchyViewMenuItem.setText("Hierarchy");
+		listViewMenuItem.setText("List");
+		removeRolesMenuItem.setText("Delete Selected Roles");
 		
+		
+		// Create Root Menu
 		JMenu menu;
 		
-		//'File' Top Menu
+		// 'File' Top Menu
 		menu = new JMenu("File");
-		//'Save' Sub Menu
-		JMenu saveJMenu = new JMenu("Save");
+		// 'Save' Sub Menu
+		JMenu saveJMenu = new JMenu("Save As...");
 		saveJMenu.add(saveLHSMenuItem);
 		saveJMenu.add(saveRHSMenuItem);
 		menu.add(saveJMenu);
-		//'Exit' Sub Menu
+		// 'Exit' Sub Menu
 		menu.add(exitMenuItem);
 		menuBar.add(menu);
 		
-		//'Edit' Top Menu
-		menu = new JMenu("Edit");
-		//menu.add(new JMenuItem("Load Left"));
-		//menu.add(new JMenuItem("Load Right"));		
+		// 'Edit' Top Menu
+		menu = new JMenu("Edit");		
 		menu.add(compareMenuItem);
 		menu.addSeparator();
 		menu.add(swapMenuItem);
 		menu.addSeparator();
 		menu.add(manualEntryCheckBox);
 		menu.add(removeRolesMenuItem);
-		//menu.add(clearRolesMenuItem);
 		menuBar.add(menu);
 		
-		//'View' Top Menu
+		// 'View' Top Menu
 		menu = new JMenu("View");
 		menu.add(hierarchyViewMenuItem);
 		menu.add(listViewMenuItem);
