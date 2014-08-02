@@ -180,7 +180,7 @@ public class MyController {
 				setActiveRoles();				
 				break;
 			case "Remove Selected":
-				removeSelected(jTableLHS.getSelectedRows());
+				removeSelected(jTableLHS);
 				break;
 			case "Clear Array":
 				tableLHS.clearArray();
@@ -297,25 +297,21 @@ public class MyController {
 		treeRHS.repaint();
 	}
 	
-	public void removeSelected(int[] rows)
+	public void removeSelected(JTable selectedJTable)
 	{
 		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
+		int[] rows = selectedJTable.getSelectedRows();
 		
 		for(int i : rows)
 		{
 			// tempArray.add(jTableLHS.convertRowIndexToModel(i));
-			int rowModel = jTableLHS.convertRowIndexToModel(i);
-			RoleData tempRole = ((MyTableModel) jTableLHS.getModel()).getRoleAt(rowModel);
+			int rowModel = selectedJTable.convertRowIndexToModel(i);
+			RoleData tempRole = ((MyTableModel) selectedJTable.getModel()).getRoleAt(rowModel);
 			tempArray.add(tempRole);
 		}
-		
-		for(RoleData rd : tempArray)
-		{
-			System.out.println(rd.getDescription());	
-		}
 
-		jTableLHS.clearSelection();
-		tableLHS.removeArray(tempArray);		
+		selectedJTable.clearSelection();
+		((MyTableModel) selectedJTable.getModel()).removeArray(tempArray);
 	}
 	
     private class RowListener implements ListSelectionListener {
