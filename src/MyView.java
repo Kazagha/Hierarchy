@@ -150,10 +150,7 @@ public class MyView extends JPanel {
 	}
 	
 	protected JMenuBar createMenu()
-	{		
-		JMenuBar menuBar = new JMenuBar();
-		menuBar.setOpaque(true);
-				
+	{	
 		// Set Menu Text
 		compareMenuItem.setText("Compare");		
 		swapMenuItem.setText("Swap Sides");
@@ -166,7 +163,10 @@ public class MyView extends JPanel {
 		listViewMenuItem.setText("List");
 		removeRolesMenuItem.setText("Delete Selected Roles");
 		
-		
+		// Create Menu Bar
+		JMenuBar menuBar = new JMenuBar();
+		menuBar.setOpaque(true);
+				
 		// Create Root Menu
 		JMenu menu;
 		
@@ -311,6 +311,10 @@ public class MyView extends JPanel {
 		exitMenuItem.setActionCommand("Exit");
 		exitMenuItem.addActionListener(controllerActionListener);
 		
+		removeRolesMenuItem.setActionCommand("Remove Selected");
+		removeRolesMenuItem.addActionListener(controllerActionListener);
+		removeRolesMenuItem.setEnabled(false);
+		
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
 		loadButtonLHS.addActionListener(controllerActionListener);
@@ -323,10 +327,7 @@ public class MyView extends JPanel {
 		
 		//clearRolesMenuItem.setActionCommand("Clear Array");
 		//clearRolesMenuItem.addActionListener(controllerActionListener);
-		
-		removeRolesMenuItem.setActionCommand("Remove Selected");
-		removeRolesMenuItem.addActionListener(controllerActionListener);
-		removeRolesMenuItem.setEnabled(false);
+
 		/*
 		 * 	InputMap im = textField.getInputMap();
 		 *	ActionMap am = textField.getActionMap();
