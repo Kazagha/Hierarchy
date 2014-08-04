@@ -71,6 +71,21 @@ import javax.swing.table.AbstractTableModel;
 			}
 		}
 		
+		public  void setValueAt(Object value, int row, int col)
+		{
+			try {
+				if(col == 0)
+				{
+					dataArray.get(row).setRole(Integer.valueOf((String)value));
+				} else if (col == 1)
+				{
+					dataArray.get(row).setDescription((String) value);
+				}
+			} catch (ClassCastException err) {
+				System.out.println("Unable to convert " + value);
+			}
+		}
+		
 		/**
 		 * Fetch the RoleData element at the specified index
 		 * @param row - Specified row index
