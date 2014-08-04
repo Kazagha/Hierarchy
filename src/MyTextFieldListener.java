@@ -64,6 +64,7 @@ public class MyTextFieldListener implements DocumentListener {
 		}
 		
 		// This is not required as the prefix will always use the entire string
+		// including spaces, where as this code is used to locate the space
 		int w = -1;
 		// Set 'w' as the starting character of the word
 		/*
@@ -112,6 +113,12 @@ public class MyTextFieldListener implements DocumentListener {
 		String completion;
 		int position;
 		
+		/**
+		 * This task can be invoked later to insert the <code>completion</code> String at <code>position</code>.
+		 * @param completion - The String to complete the user's name 
+		 * @param position - The index to insert the String
+		 * @see SwingUtilities.invokeLater
+		 */
 		CompletionTask(String completion, int position)
 		{
 			this.completion = completion;
@@ -127,7 +134,6 @@ public class MyTextFieldListener implements DocumentListener {
 	}
 	
 	/**
-	 * CommitAction
 	 * This class checks if the 'Enter' action is a mode.COMPLETION
 	 * action and responds differently in each case.
 	 */
@@ -146,7 +152,6 @@ public class MyTextFieldListener implements DocumentListener {
 	}
 	
 	/**
-	 * Set Key Mapping <br>
 	 * This method sets the required InputMapping and ActionMapping <br>
 	 * on the specified JTextField
 	 * @param tempTextField
@@ -160,7 +165,6 @@ public class MyTextFieldListener implements DocumentListener {
 	}
 	
 	/**
-	 * Set User Name Array <br>
 	 * Use the specified array as the 'autocomplete' list 
 	 * @param array - Specified array
 	 */
@@ -170,7 +174,6 @@ public class MyTextFieldListener implements DocumentListener {
 	}
 	
 	/**
-	 * Insert <br>
 	 * Insert the specified text at the specified position, into the existing String
 	 * @param existing - The existing text
 	 * @param completion - The text to insert
