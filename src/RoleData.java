@@ -25,6 +25,16 @@ public class RoleData
 	{
 		return roleDesc;
 	}
+	
+	public void setRole(int roleNum)
+	{
+		this.roleNum = roleNum;
+	}
+	
+	public void setDescription(String roleDesc)
+	{
+		this.roleDesc = roleDesc;
+	}
 
 	/**
 	 * Equals.
