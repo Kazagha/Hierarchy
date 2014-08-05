@@ -182,6 +182,8 @@ public class MyController {
 			case "Remove Selected":
 				removeSelected(jTableLHS);
 				break;
+			case "Insert Roles":
+				((MyTableModel) jTableLHS.getModel()).addExtraRows(5);
 			case "Clear Array":
 				tableLHS.clearArray();
 				tableRHS.clearArray();
@@ -351,18 +353,15 @@ public class MyController {
 				if (e.getStateChange() == ItemEvent.DESELECTED)
 				{				
 					view.setManualEntry(false);
-					//tableLHS.setEditMode(false);
-					//tableRHS.setEditMode(false);
+					tableLHS.setEditMode(false);
+					tableRHS.setEditMode(false);
 					System.out.println("Checkbox has been deselected");
 				} else {
 					view.setManualEntry(true);
-					//tableLHS.setEditMode(true);
-					//tableRHS.setEditMode(true);
+					tableLHS.setEditMode(true);
+					tableRHS.setEditMode(true);
 				}
 			}
-			
-
-		}
-    	
+		}    	
     }
 }
