@@ -39,14 +39,17 @@ public class MyView extends JPanel {
 	JMenuItem compareMenuItem = new JMenuItem();
 	JMenuItem swapMenuItem = new JMenuItem();
 	JCheckBoxMenuItem manualEntryCheckBox = new JCheckBoxMenuItem();
-	JMenuItem saveLHSMenuItem = new JMenuItem();
-	JMenuItem saveRHSMenuItem = new JMenuItem();
+	JMenuItem importMenuItem = new JMenuItem();
+	JMenuItem exportMenuItem = new JMenuItem();
 	JMenuItem loadConfigMenuItem = new JMenuItem();
 	JMenuItem exitMenuItem = new JMenuItem();
 	JMenuItem hierarchyViewMenuItem = new JMenuItem();
 	JMenuItem listViewMenuItem = new JMenuItem();
+	JMenuItem insertRolesMenuItem = new JMenuItem();
 	JMenuItem removeRolesMenuItem = new JMenuItem();
-	
+	JMenuItem dataSourceMenuItem = new JMenuItem();
+	JMenuItem searchMenuItem = new JMenuItem();
+	JMenuItem statsMenuItem = new JMenuItem();
 		
 	MyTextFieldListener textFieldlistener;
 	
@@ -155,13 +158,27 @@ public class MyView extends JPanel {
 		compareMenuItem.setText("Compare");		
 		swapMenuItem.setText("Swap Sides");
 		manualEntryCheckBox.setText("Manual Entry");
-		saveLHSMenuItem.setText("Left");
-		saveRHSMenuItem.setText("Right");
+		importMenuItem.setText("Import");
+		exportMenuItem.setText("Export");
 		loadConfigMenuItem.setText("Load Conf");
 		exitMenuItem.setText("Exit");
 		hierarchyViewMenuItem.setText("Hierarchy");
 		listViewMenuItem.setText("List");
-		removeRolesMenuItem.setText("Delete Selected Roles");
+		insertRolesMenuItem.setText("Insert");
+		removeRolesMenuItem.setText("Delete");
+		dataSourceMenuItem.setText("Data Source");
+		searchMenuItem.setText("Search");
+		statsMenuItem.setText("Statistics");
+		
+		// Manual Entry Mode is disabled by default
+		setManualEntry(false);
+		
+		// Disable unimplemented Menu Items
+		importMenuItem.setEnabled(false);
+		exportMenuItem.setEnabled(false);
+		dataSourceMenuItem.setEnabled(false);
+		searchMenuItem.setEnabled(false);
+		statsMenuItem.setEnabled(false);
 		
 		// Create Menu Bar
 		JMenuBar menuBar = new JMenuBar();
@@ -172,29 +189,31 @@ public class MyView extends JPanel {
 		
 		// 'File' Top Menu
 		menu = new JMenu("File");
-		// 'Save' Sub Menu
-		JMenu saveJMenu = new JMenu("Save As...");
-		saveJMenu.add(saveLHSMenuItem);
-		saveJMenu.add(saveRHSMenuItem);
-		menu.add(saveJMenu);
-		// 'Exit' Sub Menu
-		menu.add(exitMenuItem);
+		menu.add(importMenuItem);
+		menu.add(exportMenuItem);
+		menu.addSeparator();
+		menu.add(dataSourceMenuItem);
+		menu.add(statsMenuItem);
+		menu.addSeparator();
+		menu.add(exitMenuItem);		
 		menuBar.add(menu);
 		
 		// 'Edit' Top Menu
-		menu = new JMenu("Edit");		
+		menu = new JMenu("Edit");
+		menu.add(swapMenuItem);
 		menu.add(compareMenuItem);
 		menu.addSeparator();
-		menu.add(swapMenuItem);
-		menu.addSeparator();
 		menu.add(manualEntryCheckBox);
+		menu.add(insertRolesMenuItem);
 		menu.add(removeRolesMenuItem);
+		menu.addSeparator();
+		menu.add(searchMenuItem);
 		menuBar.add(menu);
 		
 		// 'View' Top Menu
 		menu = new JMenu("View");
-		menu.add(hierarchyViewMenuItem);
 		menu.add(listViewMenuItem);
+		menu.add(hierarchyViewMenuItem);
 		menuBar.add(menu);
 		
 		return menuBar;
@@ -214,6 +233,7 @@ public class MyView extends JPanel {
 	public void setManualEntry(boolean isEnabled)
 	{
 		removeRolesMenuItem.setEnabled(isEnabled);
+		insertRolesMenuItem.setEnabled(isEnabled);
 	}
 	
 	public String getLHSTextToString()
@@ -313,7 +333,6 @@ public class MyView extends JPanel {
 		
 		removeRolesMenuItem.setActionCommand("Remove Selected");
 		removeRolesMenuItem.addActionListener(controllerActionListener);
-		removeRolesMenuItem.setEnabled(false);
 		
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
@@ -325,9 +344,9 @@ public class MyView extends JPanel {
 		swapButton.setActionCommand("Swap Sides");
 		swapButton.addActionListener(controllerActionListener);
 		
-		//clearRolesMenuItem.setActionCommand("Clear Array");
-		//clearRolesMenuItem.addActionListener(controllerActionListener);
-
+		insertRolesMenuItem.setActionCommand("Insert Roles");
+		insertRolesMenuItem.addActionListener(controllerActionListener);
+		
 		/*
 		 * 	InputMap im = textField.getInputMap();
 		 *	ActionMap am = textField.getActionMap();
