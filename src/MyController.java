@@ -135,7 +135,6 @@ public class MyController {
 				}
 				break;
 			case "Swap Sides":
-				//TODO: Swap Sides with an empty array causes an error
 				//Get table and title information 
 				String titleStringLHS = view.getLHSViewTitle();
 				String titleStringRHS = view.getRHSViewTitle();
@@ -180,7 +179,7 @@ public class MyController {
 				setActiveRoles();				
 				break;
 			case "Remove Selected":
-				removeSelected(jTableLHS);
+				removeSelectedRows(jTableLHS);
 				break;
 			case "Insert Roles":
 				((MyTableModel) jTableLHS.getModel()).addExtraRows(5);
@@ -204,38 +203,38 @@ public class MyController {
 		hierarchySort(hierarchyList); //Sort the Hierarchy Data
 		this.view.setRHSHierarchyTitle("Hierarchy View");
 		
-		//Iterate though the Hierarchy List Array
+		// Iterate though the Hierarchy List Array
 		for(HierarchyData hd : hierarchyList)
 		{
-			//Set the first parent Node. Start searching from the root node.
+			// Set the first parent Node. Start searching from the root node.
 			DefaultMutableTreeNode parentNode = rootNode;
 			
-			//Iterate though the tiers of the Hierarchy 
+			// Iterate though the tiers of the Hierarchy 
 			for(int nodeNumber : hd.getNodeList())
 			{
-				//Find the number of children on the 'parentNode' 
+				// Find the number of children on the 'parentNode' 
 				int childCount = parentNode.getChildCount();
-				//Iterate through the children until a match is found
+				// Iterate through the children until a match is found
 				for(int childIndex = 0; childIndex < childCount; childIndex++)
 				{
-					//Fetch the node at this child index.
+					// Fetch the node at this child index.
 					DefaultMutableTreeNode tempChild = (DefaultMutableTreeNode) parentNode.getChildAt(childIndex);
-					//Fetch the Hierarchy Data from this node
+					// Fetch the Hierarchy Data from this node
 					HierarchyData tempHierarchyNode = (HierarchyData) tempChild.getUserObject();
-					//Fetch the node number from the Hierarchy Node
+					// Fetch the node number from the Hierarchy Node
 					int tempChildNodeNumber = tempHierarchyNode.getNodeNumber();					
 					
-					//Check if the node number (from hierarchy node list)
-					//for this tier matches this child node
+					// Check if the node number (from hierarchy node list)
+					// for this tier matches this child node
 					if(nodeNumber == tempChildNodeNumber)
 					{
-						//Set the new parent node to this child node
+						// Set the new parent node to this child node
 						parentNode = (DefaultMutableTreeNode) parentNode.getChildAt(childIndex);
 						break;
 					}
 				}
 			}
-			//Add the Hierarchy Data as a child to the specified parent node
+			// Add the Hierarchy Data as a child to the specified parent node
 			parentNode.add(new DefaultMutableTreeNode(hd));
 		}
 	}
@@ -247,7 +246,7 @@ public class MyController {
 		try {
 			array = sql.queryUserRoles(firstName, lastName);
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.format("User Permission Query Failed: %n%n%s", e.getMessage());
 		} 
 		
 		return array;
@@ -260,7 +259,7 @@ public class MyController {
 		try {
 			array = sql.queryHierarchy();
 		} catch (SQLException e) {
-			System.out.println(e.getMessage());
+			System.out.format("Hierarchy Query Failed: %n%n%s", e.getMessage());
 		}
 		
 		return array;
@@ -300,40 +299,42 @@ public class MyController {
 		treeRHS.repaint();
 	}
 	
-	public void removeSelected(JTable selectedJTable)
+	public void removeSelectedRows(JTable selectedJTable)
 	{
 		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
 		int[] rows = selectedJTable.getSelectedRows();
 		
+		// Convert view index to model index, then find the role
 		for(int i : rows)
 		{
-			// tempArray.add(jTableLHS.convertRowIndexToModel(i));
 			int rowModel = selectedJTable.convertRowIndexToModel(i);
 			RoleData tempRole = ((MyTableModel) selectedJTable.getModel()).getRoleAt(rowModel);
 			tempArray.add(tempRole);
 		}
 
+		// Clear the 'selection' of the rows
 		selectedJTable.clearSelection();
+		// Remove the selected rows from the table
 		((MyTableModel) selectedJTable.getModel()).removeArray(tempArray);
 	}
 	
     private class RowListener implements ListSelectionListener {
         public void valueChanged(ListSelectionEvent event) {  	
-        	//If the selection is still adjusting return
+        	// If the selection is still adjusting return
         	if (event.getValueIsAdjusting()) {
                 return;
             }
         	
-            //Create a tempory Role Data array
+            // Create a temporary Role Data array
             ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
            
-            //Iterate through all selected rows
+            // Iterate through all selected rows
             for(int i : jTableLHS.getSelectedRows())
             {
-            	//Convert the user selection in the view, to the underlying model
+            	// Convert the user selection in the view, to the underlying model
             	int modelIndex = jTableLHS.convertRowIndexToModel(i);
             	RoleData tempRD = tableLHS.getArray().get(modelIndex);
-            	//Add specified roles to the array
+            	// Add specified roles to the array
             	tempArray.add(tempRD);
             }
             
@@ -345,22 +346,21 @@ public class MyController {
     {
 		@Override
 		public void itemStateChanged(ItemEvent e) {
+			// Find the source that triggered the event
 	    	Object source = e.getItemSelectable(); 
 	    			
+	    	// Check if the source was the 'Manual Entry' checkbox
 			if (source == manualEntryCheckBox)
 			{
-				System.out.println("Source Found");
-
 				if (e.getStateChange() == ItemEvent.DESELECTED)
 				{				
 					view.setManualEntry(false);
 					tableLHS.setEditMode(false);
-					tableRHS.setEditMode(false);
-					System.out.println("Checkbox has been deselected");
+					//tableRHS.setEditMode(false);
 				} else {
 					view.setManualEntry(true);
 					tableLHS.setEditMode(true);
-					tableRHS.setEditMode(true);
+					//tableRHS.setEditMode(true);
 				}
 			}
 		}    	
