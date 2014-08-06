@@ -184,6 +184,7 @@ public class MyController {
 				break;
 			case "Insert Roles":
 				((MyTableModel) jTableLHS.getModel()).addExtraRows(5);
+				break;
 			case "Clear Array":
 				tableLHS.clearArray();
 				tableRHS.clearArray();
