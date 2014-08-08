@@ -71,6 +71,12 @@ import javax.swing.table.AbstractTableModel;
 			}
 		}
 		
+		/**
+		 * Set the <code>value</code> at the specified <code>row</code> and <code>col</code>
+		 * @param value - The value to set, usually a string
+		 * @param row - The row whos value is to be set
+		 * @param col - The column whoes value is to be set 
+		 */
 		public  void setValueAt(Object value, int row, int col)
 		{
 			try {
@@ -160,7 +166,7 @@ import javax.swing.table.AbstractTableModel;
 		{
 			for(int i = 0; i < numOfRows; i++)
 			{
-				addRow(0, "");
+				this.addRow(0, "-");
 			}
 		}
 		
