@@ -3,6 +3,8 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -121,21 +123,43 @@ public class MyController {
 			for(Object obj : array)
 			{
 				RoleData rd = (RoleData) obj;
-				tempString += rd.roleNum + ", " + rd.roleDesc;
+				tempString += String.format("%s, %s%n", rd.getRole(), rd.getDescription());
 			}
 		} else if (array.get(0) instanceof HierarchyData)
 		{
 			for(Object obj : array)
 			{
-				HierarchyData hd = (HierarchyData) obj;
-				tempString += hd.getNodeNumber() + ", " + hd.getNodeName(); 
+				HierarchyData hd = (HierarchyData) obj; 
+				tempString += String.format("%s, %s%n", hd.getNodeNumber(), hd.getNodeName());
 				//TODO: To be useful this should include node path and only save active rolls 
 			}
 		} else {
 			return;
 		}		
 		
-		//JFileChooser test = new JFileChooser();
+		JFileChooser fc = new JFileChooser();
+		int returnVal = fc.showSaveDialog(view);
+		
+		if (returnVal == JFileChooser.APPROVE_OPTION)
+		{
+			// Find the file the user selected
+			File fileSelection = fc.getSelectedFile();
+			
+			try(FileOutputStream fos = new FileOutputStream(fileSelection)) {
+				//FileOutputStream fos = new FileOutputStream(fileSelection);
+				byte[] outputBytes = tempString.getBytes();
+				
+				fos.write(outputBytes);
+			} catch (IOException e) {
+				System.out.format("I/O Exception: %n %s", e.getMessage());
+			} finally {
+				//fos.flush();
+				//fos.close();
+			}
+			
+		} else {
+			// Save Cancelled by User
+		}
 	}
 	
 	public class MyActionListener implements ActionListener
@@ -398,6 +422,15 @@ public class MyController {
 					//tableRHS.setEditMode(true);
 				}
 			}
+		}    	
+    }
+    
+    private class FileChooserActionListener implements ActionListener
+    {
+		@Override
+		public void actionPerformed(ActionEvent e) {
+			
+			
 		}    	
     }
 }
