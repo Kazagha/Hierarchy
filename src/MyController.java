@@ -9,6 +9,7 @@ import java.util.Arrays;
 import java.util.Collections;
 
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JFileChooser;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
@@ -110,6 +111,8 @@ public class MyController {
 	
 	public void saveCSV(ArrayList array)
 	{
+		String tempString = new String();
+		
 		if(array.isEmpty()) { return; }
 		
 		if(array.get(0) instanceof RoleData)
@@ -118,14 +121,21 @@ public class MyController {
 			for(Object obj : array)
 			{
 				RoleData rd = (RoleData) obj;
-				System.out.println(rd.roleNum + ", " + rd.roleDesc);
+				tempString += rd.roleNum + ", " + rd.roleDesc;
 			}
 		} else if (array.get(0) instanceof HierarchyData)
 		{
-			// Save Hierarchy
+			for(Object obj : array)
+			{
+				HierarchyData hd = (HierarchyData) obj;
+				tempString += hd.getNodeNumber() + ", " + hd.getNodeName(); 
+				//TODO: To be useful this should include node path and only save active rolls 
+			}
 		} else {
 			return;
 		}		
+		
+		//JFileChooser test = new JFileChooser();
 	}
 	
 	public class MyActionListener implements ActionListener
