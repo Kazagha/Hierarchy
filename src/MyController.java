@@ -31,6 +31,7 @@ public class MyController {
 	private MyTableModel tableRHS;
 	private JTree treeRHS;
 	private JCheckBoxMenuItem manualEntryCheckBox;
+	private enum DataType {HIERARCHY, ROLE};
 	
 	JTable jTableLHS;
 	
@@ -105,6 +106,26 @@ public class MyController {
 		conf.nullValues(new String[] {"Password"});
 		conf.del("url");
 		//conf.save();		
+	}
+	
+	public void saveCSV(ArrayList array)
+	{
+		if(array.isEmpty()) { return; }
+		
+		if(array.get(0) instanceof RoleData)
+		{
+			// Save Role Data
+			for(Object obj : array)
+			{
+				RoleData rd = (RoleData) obj;
+				System.out.println(rd.roleNum + ", " + rd.roleDesc);
+			}
+		} else if (array.get(0) instanceof HierarchyData)
+		{
+			// Save Hierarchy
+		} else {
+			return;
+		}		
 	}
 	
 	public class MyActionListener implements ActionListener
@@ -187,6 +208,10 @@ public class MyController {
 			case "Clear Array":
 				tableLHS.clearArray();
 				tableRHS.clearArray();
+				break;
+			case "Export":
+				dataLHS = tableLHS.getArray();
+				saveCSV(dataLHS);				
 				break;
 			case "Exit":
 				System.exit(0);
