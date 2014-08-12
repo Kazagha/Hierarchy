@@ -10,7 +10,7 @@ public class CSVFilter extends FileFilter {
 
 	@Override
 	public boolean accept(File f) {
-		if (f.isFile())
+		if (f.isDirectory())
 		{
 			return true;
 		}
@@ -20,7 +20,7 @@ public class CSVFilter extends FileFilter {
 		String extensionString = nameString.substring(lastIndexOf);
 		
 		if (extensionString != null)
-			if (extensionString.equals("csv"))
+			if (extensionString.equalsIgnoreCase(".csv"))
 			{
 				return true;
 			} else {
@@ -31,6 +31,6 @@ public class CSVFilter extends FileFilter {
 
 	@Override
 	public String getDescription() {
-		return "CSV Files";
+		return "CSV (Comma delimited)";
 	}
 }
