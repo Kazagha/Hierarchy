@@ -150,16 +150,20 @@ public class MyController {
 			// Find the file the user selected
 			File fileSelection = fc.getSelectedFile();
 			
-			// Write the String to the specified File
-			try(FileOutputStream fos = new FileOutputStream(fileSelection)) {
-				byte[] outputBytes = tempString.getBytes();
-				fos.write(outputBytes);
-			} catch (IOException e) {
-				System.out.format("I/O Exception: %n %s", e.getMessage());
-			}			
+			saveStringToFile(fileSelection, tempString);			
 		} else {
 			// Save Cancelled by User
 		}
+	}
+	
+	public void saveStringToFile(File fileToSave, String saveString)
+	{
+		try(FileOutputStream fos = new FileOutputStream(fileToSave)) {
+			byte[] outputBytes = saveString.getBytes();
+			fos.write(outputBytes);
+		} catch (IOException e) {
+			System.out.format("I/O Exception: %n %s", e.getMessage());
+		}			
 	}
 	
 	public class MyActionListener implements ActionListener
