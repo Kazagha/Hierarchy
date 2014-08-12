@@ -18,6 +18,7 @@ import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.filechooser.FileFilter;
 import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
 
@@ -116,23 +117,27 @@ public class MyController {
 		String tempString = new String();
 		
 		if(array.isEmpty()) { return; }
-		
+
+		// Array of RoleData
 		if(array.get(0) instanceof RoleData)
 		{
-			// Save Role Data
+			// Transfer RoleData objects into Strings in tempString
 			for(Object obj : array)
 			{
 				RoleData rd = (RoleData) obj;
 				tempString += String.format("%s, %s%n", rd.getRole(), rd.getDescription());
 			}
+		// Array of Hierarchy Data
 		} else if (array.get(0) instanceof HierarchyData)
 		{
+			// Transfer HierarchyData objects into Strings in tempString
 			for(Object obj : array)
 			{
 				HierarchyData hd = (HierarchyData) obj; 
 				tempString += String.format("%s, %s%n", hd.getNodeNumber(), hd.getNodeName());
-				//TODO: To be useful this should include node path and only save active rolls 
+				// TODO: To be useful this should include node path and only save active rolls 
 			}
+		// Invalid Array
 		} else {
 			return;
 		}		
@@ -145,18 +150,13 @@ public class MyController {
 			// Find the file the user selected
 			File fileSelection = fc.getSelectedFile();
 			
+			// Write the String to the specified File
 			try(FileOutputStream fos = new FileOutputStream(fileSelection)) {
-				//FileOutputStream fos = new FileOutputStream(fileSelection);
 				byte[] outputBytes = tempString.getBytes();
-				
 				fos.write(outputBytes);
 			} catch (IOException e) {
 				System.out.format("I/O Exception: %n %s", e.getMessage());
-			} finally {
-				//fos.flush();
-				//fos.close();
-			}
-			
+			}			
 		} else {
 			// Save Cancelled by User
 		}
