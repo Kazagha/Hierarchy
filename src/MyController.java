@@ -31,8 +31,10 @@ public class MyController {
 	private MyView view;
 	private Conf conf;
 	private SQLQuery sql;
-	private MyTableModel tableLHS;
-	private MyTableModel tableRHS;
+	private JTable tableLHS;
+	private JTable tableRHS;
+	private MyTableModel modelRHS;
+	private MyTableModel modelLHS;
 	private JTree treeRHS;
 	private JCheckBoxMenuItem manualEntryCheckBox;
 	private JFileChooser fc;
@@ -70,8 +72,10 @@ public class MyController {
 		this.view = view;
 		this.view.setControllerActions(new MyActionListener());
 		// Model
-		this.tableLHS = this.view.getLHSTableModel();
-		this.tableRHS = this.view.getRHSTableModel();
+		this.tableLHS = this.view.getTableLHS();
+		this.modelLHS = ((MyTableModel) this.tableLHS.getModel());
+		this.tableRHS = this.view.getTableRHS();
+		this.modelRHS = ((MyTableModel) this.tableRHS.getModel()); 
 
 		// Load connection settings, pass to SQL Query
 		this.conf = loadConf("hierarchy.conf");
@@ -189,7 +193,7 @@ public class MyController {
 				tempText = view.getLHSTextToString().split(" ");
 				if(tempText.length == 2)
 				{
-					tableLHS.setArray(userQuery(tempText[0], tempText[1]));
+					modelLHS.setArray(userQuery(tempText[0], tempText[1]));
 					view.setLHSViewTitle(view.getLHSTextToString());
 				}
 				//TODO: Create Table Listener
@@ -199,7 +203,7 @@ public class MyController {
 				tempText = view.getRHSTextToString().split(" ");
 				if(tempText.length == 2)
 				{								
-				tableRHS.setArray(userQuery(tempText[0], tempText[1]));
+					modelRHS.setArray(userQuery(tempText[0], tempText[1]));
 				view.setRHSViewTitle(view.getRHSTextToString());
 				}
 				break;
@@ -207,21 +211,21 @@ public class MyController {
 				//Get table and title information 
 				String titleStringLHS = view.getLHSViewTitle();
 				String titleStringRHS = view.getRHSViewTitle();
-				dataLHS = tableLHS.getArray();
-				dataRHS = tableRHS.getArray();
+				dataLHS = modelLHS.getArray();
+				dataRHS = modelRHS.getArray();
 				
 				//Set table and title information
 				view.setLHSViewTitle(titleStringRHS);
 				view.setRHSViewTitle(titleStringLHS);
-				tableLHS.setArray(dataRHS);				
-				tableRHS.setArray(dataLHS);
+				modelLHS.setArray(dataRHS);				
+				modelRHS.setArray(dataLHS);
 				
 				//TODO: Create a table listener
 				setActiveRoles();
 				break;
 			case "Compare":
-				dataLHS = tableLHS.getArray();
-				dataRHS = tableRHS.getArray();
+				dataLHS = modelLHS.getArray();
+				dataRHS = modelRHS.getArray();
 				ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
 				
 				for(RoleData data: dataLHS)
@@ -232,8 +236,8 @@ public class MyController {
 					}
 				}
 				
-				tableLHS.removeArray(tempArray);
-				tableRHS.removeArray(tempArray);
+				modelLHS.removeArray(tempArray);
+				modelRHS.removeArray(tempArray);
 				
 				//TODO: Create Table Listener
 				setActiveRoles();
@@ -254,11 +258,11 @@ public class MyController {
 				((MyTableModel) jTableLHS.getModel()).addExtraRows(5);
 				break;
 			case "Clear Array":
-				tableLHS.clearArray();
-				tableRHS.clearArray();
+				modelLHS.clearArray();
+				modelRHS.clearArray();
 				break;
 			case "Export":
-				dataLHS = tableLHS.getArray();
+				dataLHS = modelLHS.getArray();
 				saveCSV(dataLHS);				
 				break;
 			case "Exit":
@@ -361,7 +365,7 @@ public class MyController {
 	private void setActiveRoles()
 	{
 		MyTreeRenderer tr = (MyTreeRenderer) treeRHS.getCellRenderer();
-		tr.setActiveRoles(tableLHS.getArray());
+		tr.setActiveRoles(modelLHS.getArray());
 		treeRHS.repaint();
 	}
 	
@@ -406,7 +410,7 @@ public class MyController {
             {
             	// Convert the user selection in the view, to the underlying model
             	int modelIndex = jTableLHS.convertRowIndexToModel(i);
-            	RoleData tempRD = tableLHS.getArray().get(modelIndex);
+            	RoleData tempRD = modelLHS.getArray().get(modelIndex);
             	// Add specified roles to the array
             	tempArray.add(tempRD);
             }
@@ -428,11 +432,11 @@ public class MyController {
 				if (e.getStateChange() == ItemEvent.DESELECTED)
 				{				
 					view.setManualEntry(false);
-					tableLHS.setEditMode(false);
+					modelLHS.setEditMode(false);
 					//tableRHS.setEditMode(false);
 				} else {
 					view.setManualEntry(true);
-					tableLHS.setEditMode(true);
+					modelLHS.setEditMode(true);
 					//tableRHS.setEditMode(true);
 				}
 			}
