@@ -35,6 +35,7 @@ public class MyController {
 	private MyTableModel tableRHS;
 	private JTree treeRHS;
 	private JCheckBoxMenuItem manualEntryCheckBox;
+	private JFileChooser fc;
 	private enum DataType {HIERARCHY, ROLE};
 	
 	JTable jTableLHS;
@@ -64,31 +65,41 @@ public class MyController {
 	
 	public MyController(MyView view)
 	{
+		// Set core MVC elements:
+		// View + Actions
+		this.view = view;
+		this.view.setControllerActions(new MyActionListener());
+		// Model
+		this.tableLHS = this.view.getLHSTableModel();
+		this.tableRHS = this.view.getRHSTableModel();
+
+		// Load connection settings, pass to SQL Query
 		this.conf = loadConf("hierarchy.conf");
 		this.sql = new SQLQuery(conf);
-		this.view = view;
-		this.tableLHS = view.getLHSTableModel();
-		this.tableRHS = view.getRHSTableModel();		
-		this.view.setControllerActions(new MyActionListener());
 		
-		//Create the tree, add nodes, expand the root node and then hide it.
+		// Create the tree, add nodes, expand the root node and then hide it.
 		this.treeRHS = view.getJTree();
 		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
 		this.treeRHS.expandRow(0);
 		this.treeRHS.setRootVisible(false);
 		this.treeRHS.setShowsRootHandles(true);
 		
-		//Tool tip manager for the JTree
+		// Tool tip manager for the JTree
 		ToolTipManager.sharedInstance().registerComponent(treeRHS);
 		
-		//Create Listeners
+		// Create Listeners
 		jTableLHS = view.getTableLHS();
 		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());
 		manualEntryCheckBox = view.getManualEntryCheckBox();
 		manualEntryCheckBox.addItemListener(new MyItemListener());
 		
-		//Create User Name array for the auto-complete function
+		// Create User Name array for the auto-complete function
 		view.getTextFieldListener().setUserNameArray(userNameQuery());
+				
+		// Setup the File Chooser
+		fc = new JFileChooser();
+		fc.setFileSelectionMode(fc.FILES_ONLY);
+		fc.setFileFilter(new CSVFilter());
 		
 		//Save the Configuration (Conf) to the 'hierarchy.conf' file
 		//saveConf();
@@ -140,13 +151,7 @@ public class MyController {
 		// Invalid Array
 		} else {
 			return;
-		}		
-		
-		JFileChooser fc = new JFileChooser();
-		// Set 'File Only' selection mode (no directories)
-		fc.setFileSelectionMode(fc.FILES_ONLY);
-		// Show only CSV files (alternatively use addChoosableFileFilter)
-		fc.setFileFilter(new CSVFilter());
+		}
 		
 		int returnVal = fc.showSaveDialog(view);
 		
