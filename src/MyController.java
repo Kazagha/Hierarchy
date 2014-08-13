@@ -143,6 +143,11 @@ public class MyController {
 		}		
 		
 		JFileChooser fc = new JFileChooser();
+		// Set 'File Only' selection mode (no directories)
+		fc.setFileSelectionMode(fc.FILES_ONLY);
+		// Show only CSV files (alternatively use addChoosableFileFilter)
+		fc.setFileFilter(new CSVFilter());
+		
 		int returnVal = fc.showSaveDialog(view);
 		
 		if (returnVal == JFileChooser.APPROVE_OPTION)
