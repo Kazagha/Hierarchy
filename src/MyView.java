@@ -285,6 +285,11 @@ public class MyView extends JPanel {
 		return tableLHS;
 	}
 	
+	public JTable getTableRHS()
+	{
+		return tableRHS;
+	}
+	
 	public JCheckBoxMenuItem getManualEntryCheckBox()
 	{
 		return manualEntryCheckBox;
