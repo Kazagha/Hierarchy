@@ -175,7 +175,7 @@ public class MyView extends JPanel {
 		
 		// Disable unimplemented Menu Items
 		importMenuItem.setEnabled(false);
-		exportMenuItem.setEnabled(false);
+		exportMenuItem.setEnabled(true);
 		dataSourceMenuItem.setEnabled(false);
 		searchMenuItem.setEnabled(false);
 		statsMenuItem.setEnabled(false);
@@ -338,6 +338,9 @@ public class MyView extends JPanel {
 		
 		removeRolesMenuItem.setActionCommand("Remove Selected");
 		removeRolesMenuItem.addActionListener(controllerActionListener);
+		
+		exportMenuItem.setActionCommand("Export Role");
+		exportMenuItem.addActionListener(controllerActionListener);
 		
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");

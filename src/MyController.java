@@ -261,9 +261,12 @@ public class MyController {
 				modelLHS.clearArray();
 				modelRHS.clearArray();
 				break;
-			case "Export":
+			case "Export Role":
 				dataLHS = modelLHS.getArray();
 				saveCSV(dataLHS);				
+				break;
+			case "Export Hierarchy":
+				DefaultMutableTreeNode t = ((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 				break;
 			case "Exit":
 				System.exit(0);
