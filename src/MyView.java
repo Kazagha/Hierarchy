@@ -179,7 +179,7 @@ public class MyView extends JPanel {
 		importMenuItem.setEnabled(false);
 		exportRoleMenuItem.setEnabled(true);
 		exportHierarchyMenuItem.setEnabled(false);
-		dataSourceMenuItem.setEnabled(false);
+		dataSourceMenuItem.setEnabled(true);
 		searchMenuItem.setEnabled(false);
 		statsMenuItem.setEnabled(false);
 		
@@ -349,6 +349,9 @@ public class MyView extends JPanel {
 		
 		exportRoleMenuItem.setActionCommand("Export Role");
 		exportRoleMenuItem.addActionListener(controllerActionListener);
+		
+		dataSourceMenuItem.setActionCommand("Source");
+		dataSourceMenuItem.addActionListener(controllerActionListener);
 		
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
