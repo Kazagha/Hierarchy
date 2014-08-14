@@ -40,7 +40,8 @@ public class MyView extends JPanel {
 	JMenuItem swapMenuItem = new JMenuItem();
 	JCheckBoxMenuItem manualEntryCheckBox = new JCheckBoxMenuItem();
 	JMenuItem importMenuItem = new JMenuItem();
-	JMenuItem exportMenuItem = new JMenuItem();
+	JMenuItem exportRoleMenuItem = new JMenuItem();
+	JMenuItem exportHierarchyMenuItem = new JMenuItem();
 	JMenuItem loadConfigMenuItem = new JMenuItem();
 	JMenuItem exitMenuItem = new JMenuItem();
 	JMenuItem hierarchyViewMenuItem = new JMenuItem();
@@ -159,11 +160,12 @@ public class MyView extends JPanel {
 		swapMenuItem.setText("Swap Sides");
 		manualEntryCheckBox.setText("Manual Entry");
 		importMenuItem.setText("Import");
-		exportMenuItem.setText("Export");
+		exportRoleMenuItem.setText("Permissions");
+		exportHierarchyMenuItem.setText("Hierarchy");
 		loadConfigMenuItem.setText("Load Conf");
 		exitMenuItem.setText("Exit");
 		hierarchyViewMenuItem.setText("Hierarchy");
-		listViewMenuItem.setText("List");
+		listViewMenuItem.setText("Permissions");
 		insertRolesMenuItem.setText("Insert");
 		removeRolesMenuItem.setText("Delete");
 		dataSourceMenuItem.setText("Data Source");
@@ -175,7 +177,8 @@ public class MyView extends JPanel {
 		
 		// Disable unimplemented Menu Items
 		importMenuItem.setEnabled(false);
-		exportMenuItem.setEnabled(true);
+		exportRoleMenuItem.setEnabled(true);
+		exportHierarchyMenuItem.setEnabled(false);
 		dataSourceMenuItem.setEnabled(false);
 		searchMenuItem.setEnabled(false);
 		statsMenuItem.setEnabled(false);
@@ -190,7 +193,12 @@ public class MyView extends JPanel {
 		// 'File' Top Menu
 		menu = new JMenu("File");
 		menu.add(importMenuItem);
-		menu.add(exportMenuItem);
+		// 'Export' Sub Menu
+		JMenu exportSubMenu = new JMenu("Export");
+		exportSubMenu.add(exportRoleMenuItem);
+		exportSubMenu.add(exportHierarchyMenuItem);		
+		menu.add(exportSubMenu);
+		
 		menu.addSeparator();
 		menu.add(dataSourceMenuItem);
 		menu.add(statsMenuItem);
@@ -339,8 +347,8 @@ public class MyView extends JPanel {
 		removeRolesMenuItem.setActionCommand("Remove Selected");
 		removeRolesMenuItem.addActionListener(controllerActionListener);
 		
-		exportMenuItem.setActionCommand("Export Role");
-		exportMenuItem.addActionListener(controllerActionListener);
+		exportRoleMenuItem.setActionCommand("Export Role");
+		exportRoleMenuItem.addActionListener(controllerActionListener);
 		
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
