@@ -113,6 +113,8 @@ public class MyController {
 		tempConf.prompt();
 		tempConf.set("url",  "jdbc:jtds:sqlserver://" + tempConf.get("Server")+ ";instance="+ tempConf.get("Instance") + ";DatabaseName=" + tempConf.get("Database"));
 		
+		tempConf.setHiddenPrompt("Password");
+		
 		return tempConf;
 	}
 	
@@ -269,7 +271,7 @@ public class MyController {
 				conf.del("url");
 				
 				// Prompt the user for the variables
-				conf.promptJOptionPane();	
+				conf.promptJOptionPane("Set Credentials");	
 				
 				// Set the 'URL' variable
 				conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database"));
