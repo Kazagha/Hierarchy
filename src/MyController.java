@@ -7,22 +7,18 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Collections;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.filechooser.FileFilter;
-import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
-
-import com.sun.xml.internal.ws.wsdl.ActionBasedOperationSignature;
 
 import net.arcanesanctuary.Configuration.Conf;
 
@@ -267,6 +263,16 @@ public class MyController {
 				break;
 			case "Export Hierarchy":
 				DefaultMutableTreeNode t = ((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+				break;
+			case "Source":
+				// Remove existing 'URL' variable
+				conf.del("url");
+				
+				// Prompt the user for the variables
+				conf.promptJOptionPane();	
+				
+				// Set the 'URL' variable
+				conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database"));
 				break;
 			case "Exit":
 				System.exit(0);
