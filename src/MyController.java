@@ -79,7 +79,7 @@ public class MyController {
 		
 		// Create the tree, add nodes, expand the root node and then hide it.
 		this.treeRHS = view.getJTree();
-		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
+		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());	//Query	
 		this.treeRHS.expandRow(0);
 		this.treeRHS.setRootVisible(false);
 		this.treeRHS.setShowsRootHandles(true);
@@ -288,7 +288,8 @@ public class MyController {
 	private void createHierarchyNodes(DefaultMutableTreeNode rootNode)
 	{
 		ArrayList<HierarchyData> hierarchyList = hierarchyQuery();
-		hierarchySort(hierarchyList); //Sort the Hierarchy Data
+		// Sort the Hierarchy Data
+		Collections.sort(hierarchyList, HierarchyData.Comparators.TIER_SEQ);
 		this.view.setRHSHierarchyTitle("Hierarchy View");
 		
 		// Iterate though the Hierarchy List Array
@@ -366,11 +367,6 @@ public class MyController {
 		Collections.sort(array);
 		
 		return array;
-	}
-	
-	private void hierarchySort(ArrayList<HierarchyData> array)
-	{
-		Collections.sort(array, HierarchyData.Comparators.TIER_SEQ);
 	}
 	
 	private void setActiveRoles()
