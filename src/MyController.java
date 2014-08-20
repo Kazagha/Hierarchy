@@ -79,7 +79,7 @@ public class MyController {
 		
 		// Create the tree, add nodes, expand the root node and then hide it.
 		this.treeRHS = view.getJTree();
-		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());	//Query	
+		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
 		this.treeRHS.expandRow(0);
 		this.treeRHS.setRootVisible(false);
 		this.treeRHS.setShowsRootHandles(true);
@@ -122,7 +122,22 @@ public class MyController {
 	{
 		conf.nullValues(new String[] {"Password"});
 		conf.del("url");
-		//conf.save();		
+		conf.save();		
+	}
+	
+	public void fetchSQLData()
+	{
+		// Remove existing nodes
+		this.treeRHS.removeAll();
+		
+		// Add nodes, expand the root node and then hide it.
+		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
+		this.treeRHS.expandRow(0);
+		this.treeRHS.setRootVisible(false);
+		this.treeRHS.setShowsRootHandles(true);
+		
+		// Create User Name array for the auto-complete function
+		view.getTextFieldListener().setUserNameArray(userNameQuery());
 	}
 	
 	public void saveCSV(ArrayList array)
@@ -266,7 +281,7 @@ public class MyController {
 			case "Export Hierarchy":
 				DefaultMutableTreeNode t = ((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 				break;
-			case "Source":
+			case "Source":				
 				// Remove existing 'URL' variable
 				conf.del("url");
 				
@@ -274,7 +289,10 @@ public class MyController {
 				conf.promptJOptionPane("Set Credentials");	
 				
 				// Set the 'URL' variable
-				conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database"));
+				conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database") + ";Domain=" + conf.get("Domain"));
+				
+				// Using the credentials, fetch data from the specified SQL Server
+				fetchSQLData();				
 				break;
 			case "Exit":
 				System.exit(0);
