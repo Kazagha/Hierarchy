@@ -109,11 +109,11 @@ public class MyController {
 	{
 		Conf tempConf = new Conf(new File(fileName));
 		
-		tempConf.add(new String[] {"Server", "Instance", "Database", "Username", "Password"});
+		tempConf.add(new String[] {"Server", "Instance", "Database", "Domain", "Username", "Password"});
 		tempConf.prompt();		
 		tempConf.set("url",  "jdbc:jtds:sqlserver://" + tempConf.get("Server")+ ";instance="+ tempConf.get("Instance") + ";DatabaseName=" + tempConf.get("Database") + ";Domain=" + tempConf.get("Domain"));
 		
-		tempConf.setHiddenPrompt("Password");
+		tempConf.setHiddenPrompt(new String[] {"Password"});
 		
 		return tempConf;
 	}
@@ -121,7 +121,7 @@ public class MyController {
 	public void saveConf()
 	{
 		conf.nullValues(new String[] {"Password"});
-		conf.del("url");
+		conf.del(new String[] {"url"});
 		conf.save();		
 	}
 	
@@ -283,7 +283,7 @@ public class MyController {
 				break;
 			case "Source":				
 				// Remove existing 'URL' variable
-				conf.del("url");
+				conf.del(new String[] {"url"});
 				
 				// Prompt the user for the variables
 				conf.promptJOptionPane("Set Credentials");	
