@@ -64,10 +64,10 @@ public class MyController {
 	public MyController(MyView view)
 	{
 		// Set core MVC elements:
-		// View + Actions
+		// Create the View and set Actions
 		this.view = view;
 		this.view.setControllerActions(new MyActionListener());
-		// Model
+		// Create the Model
 		this.tableLHS = this.view.getTableLHS();
 		this.modelLHS = ((MyTableModel) this.tableLHS.getModel());
 		this.tableRHS = this.view.getTableRHS();
@@ -77,12 +77,8 @@ public class MyController {
 		this.conf = loadConf("hierarchy.conf");
 		this.sql = new SQLQuery(conf);
 		
-		// Create the tree, add nodes, expand the root node and then hide it.
+		// Create the tree
 		this.treeRHS = view.getJTree();
-		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
-		this.treeRHS.expandRow(0);
-		this.treeRHS.setRootVisible(false);
-		this.treeRHS.setShowsRootHandles(true);
 		
 		// Tool tip manager for the JTree
 		ToolTipManager.sharedInstance().registerComponent(treeRHS);
@@ -92,17 +88,11 @@ public class MyController {
 		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());
 		manualEntryCheckBox = view.getManualEntryCheckBox();
 		manualEntryCheckBox.addItemListener(new MyItemListener());
-		
-		// Create User Name array for the auto-complete function
-		view.getTextFieldListener().setUserNameArray(userNameQuery());
 				
 		// Setup the File Chooser
 		fc = new JFileChooser();
 		fc.setFileSelectionMode(fc.FILES_ONLY);
 		fc.setFileFilter(new CSVFilter());
-		
-		//Save the Configuration (Conf) to the 'hierarchy.conf' file
-		//saveConf();
 	}
 	
 	public Conf loadConf(String fileName)
@@ -110,8 +100,8 @@ public class MyController {
 		Conf tempConf = new Conf(new File(fileName));
 		
 		tempConf.add(new String[] {"Server", "Instance", "Database", "Domain", "Username", "Password"});
-		tempConf.prompt();		
-		tempConf.set("url",  "jdbc:jtds:sqlserver://" + tempConf.get("Server")+ ";instance="+ tempConf.get("Instance") + ";DatabaseName=" + tempConf.get("Database") + ";Domain=" + tempConf.get("Domain"));
+		//tempConf.prompt();		
+		//tempConf.set("url",  "jdbc:jtds:sqlserver://" + tempConf.get("Server")+ ";instance="+ tempConf.get("Instance") + ";DatabaseName=" + tempConf.get("Database") + ";Domain=" + tempConf.get("Domain"));
 		
 		tempConf.setHiddenPrompt(new String[] {"Password"});
 		
@@ -295,6 +285,9 @@ public class MyController {
 				fetchSQLData();				
 				break;
 			case "Exit":
+				// Save the current Conf
+				saveConf();
+				// Exit the program
 				System.exit(0);
 				break;				
 			default:
