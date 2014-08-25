@@ -117,17 +117,21 @@ public class MyController {
 	
 	public void fetchSQLData()
 	{
-		// Remove existing nodes
-		this.treeRHS.removeAll();
-		
-		// Add nodes, expand the root node and then hide it.
-		this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
-		this.treeRHS.expandRow(0);
-		this.treeRHS.setRootVisible(false);
-		this.treeRHS.setShowsRootHandles(true);
-		
-		// Create User Name array for the auto-complete function
-		view.getTextFieldListener().setUserNameArray(userNameQuery());
+		try {
+			// Remove existing nodes
+			this.treeRHS.removeAll();
+			
+			// Add nodes, expand the root node and then hide it.
+			this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
+			this.treeRHS.expandRow(0);
+			this.treeRHS.setRootVisible(false);
+			this.treeRHS.setShowsRootHandles(true);
+			
+			// Create User Name array for the auto-complete function
+			view.getTextFieldListener().setUserNameArray(userNameQuery());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(view, "Refreshing credentials has failed", "SQL Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	public void saveCSV(ArrayList array)
@@ -296,7 +300,7 @@ public class MyController {
 		}		
 	}
 	
-	private void createHierarchyNodes(DefaultMutableTreeNode rootNode)
+	private void createHierarchyNodes(DefaultMutableTreeNode rootNode) throws Exception
 	{
 		ArrayList<HierarchyData> hierarchyList = hierarchyQuery();
 		// Sort the Hierarchy Data
@@ -346,34 +350,26 @@ public class MyController {
 		try {
 			array = sql.queryUserRoles(firstName, lastName);
 		} catch (Exception e) {
-			JOptionPane.showMessageDialog(view, e, "SQL Query Error", JOptionPane.ERROR_MESSAGE);			
+			JOptionPane.showMessageDialog(view, "Fetching user permissions has failed", "SQL Query Error", JOptionPane.ERROR_MESSAGE);			
 		} 
 		
 		return array;
 	}
 	
-	private ArrayList<HierarchyData> hierarchyQuery()
+	private ArrayList<HierarchyData> hierarchyQuery() throws Exception
 	{
 		ArrayList<HierarchyData> array = null;
 		
-		try {
-			array = sql.queryHierarchy();
-		} catch (SQLException e) {
-			System.out.format("Hierarchy Query Failed: %n%n%s", e.getMessage());
-		}
+		array = sql.queryHierarchy();
 		
 		return array;
 	}
 	
-	private ArrayList<String> userNameQuery()
+	private ArrayList<String> userNameQuery() throws Exception
 	{
 		ArrayList<String> array = null;
 		
-		try {
-			array = sql.queryUserNames();			
-		} catch (SQLException e) {
-			System.out.format("User Name Query Failed: %n%n %s", e.getMessage());
-		}
+		array = sql.queryUserNames();		
 		
 		Collections.sort(array);
 		
