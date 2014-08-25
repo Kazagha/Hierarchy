@@ -345,8 +345,8 @@ public class MyController {
 		
 		try {
 			array = sql.queryUserRoles(firstName, lastName);
-		} catch (SQLException e) {
-			System.out.format("User Permission Query Failed: %n%n%s", e.getMessage());
+		} catch (Exception e) {
+			JOptionPane.showMessageDialog(view, e, "SQL Query Error", JOptionPane.ERROR_MESSAGE);			
 		} 
 		
 		return array;
