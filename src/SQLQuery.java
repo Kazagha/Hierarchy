@@ -45,7 +45,7 @@ public class SQLQuery {
 	 * @return - Array of permissions
 	 * @throws SQLException
 	 */
-	public ArrayList<RoleData> queryUserRoles(String firstName, String lastName) throws SQLException
+	public ArrayList<RoleData> queryUserRoles(String firstName, String lastName) throws Exception
 	{
 		ArrayList<RoleData> tempArray = new ArrayList<RoleData>();
 		ResultSet rs = null;
@@ -70,8 +70,9 @@ public class SQLQuery {
             {
             	tempArray.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
             }
-        } catch (SQLException e) {
-        	throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
+        } catch (Exception e) {
+        	//throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
+        	throw new Exception("Failed to execute 'user role' query");
         } finally {
             conn.close();
             rs.close();
@@ -106,7 +107,7 @@ public class SQLQuery {
             	tempArray.add(rs.getString(1) + " " + rs.getString(2));
             }
         } catch (SQLException e) {
-        	throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
+        	throw new SQLException("Failed to execute 'username' query");
         } finally {
             conn.close();
             rs.close();
@@ -168,7 +169,7 @@ public class SQLQuery {
 						nodeArray, nodeRoleArray));
 			}
 		} catch (SQLException e) {
-			throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
+			throw new SQLException("Failed to execute 'Hierarchy Query'");
 		} finally {
 			conn.close();
 			rs.close();
