@@ -280,7 +280,8 @@ public class MyController {
 				conf.del(new String[] {"url"});
 				
 				// Prompt the user for the variables
-				conf.promptJOptionPane("Set Credentials");	
+				conf.promptJOptionPane("Set Credentials", 
+						new String[] {"Server", "Instance", "Database", "Domain", "Username", "Passwordd"});
 				
 				// Set the 'URL' variable
 				conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database") + ";Domain=" + conf.get("Domain"));
