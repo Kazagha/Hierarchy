@@ -17,15 +17,20 @@ public class CSVFilter extends FileFilter {
 		
 		String nameString = f.getName();
 		int lastIndexOf = nameString.lastIndexOf(".");
-		String extensionString = nameString.substring(lastIndexOf);
+		String extensionString = null;
 		
+		// Check that a file extension exists
+		if(lastIndexOf > 0)
+		{
+			extensionString = nameString.substring(lastIndexOf);
+		}
+				
 		if (extensionString != null)
 			if (extensionString.equalsIgnoreCase(".csv"))
 			{
 				return true;
-			} else {
-				return false;
-			}
+			} 
+		
 		return false;
 	}
 
