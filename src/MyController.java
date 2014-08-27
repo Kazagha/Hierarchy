@@ -3,6 +3,7 @@ import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
 import java.io.File;
+import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.sql.SQLException;
@@ -171,20 +172,25 @@ public class MyController {
 			// Find the file the user selected
 			File fileSelection = fc.getSelectedFile();
 			
-			saveStringToFile(fileSelection, tempString);			
+			writeStringToFile(fileSelection, tempString);			
 		} else {
 			// Save Cancelled by User
 		}
 	}
 	
-	public void saveStringToFile(File fileToSave, String saveString)
+	public void writeStringToFile(File file, String saveString)
 	{
-		try(FileOutputStream fos = new FileOutputStream(fileToSave)) {
+		try(FileOutputStream fos = new FileOutputStream(file)) {
 			byte[] outputBytes = saveString.getBytes();
 			fos.write(outputBytes);
-		} catch (IOException e) {
-			System.out.format("I/O Exception: %n %s", e.getMessage());
-		}			
+		} catch (FileNotFoundException e) {
+			String err = String.format("File not found: %n%s", file.getPath());					
+			JOptionPane.showMessageDialog(view, err, "Error", JOptionPane.ERROR_MESSAGE);
+		} catch (IOException e)
+		{
+			String err = String.format("File not found: %n%s", e.getMessage());		
+			JOptionPane.showMessageDialog(view, err, "Error", JOptionPane.ERROR_MESSAGE);
+		}
 	}
 	
 	public class MyActionListener implements ActionListener
@@ -281,7 +287,7 @@ public class MyController {
 				
 				// Prompt the user for the variables
 				conf.promptJOptionPane("Set Credentials", 
-						new String[] {"Server", "Instance", "Database", "Domain", "Username", "Passwordd"});
+						new String[] {"Server", "Instance", "Database", "Domain", "Username", "Password"});
 				
 				// Set the 'URL' variable
 				conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database") + ";Domain=" + conf.get("Domain"));
