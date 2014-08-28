@@ -75,7 +75,7 @@ public class MyController {
 		this.modelRHS = ((MyTableModel) this.tableRHS.getModel()); 
 
 		// Load connection settings, pass to SQL Query
-		this.conf = loadConf("hierarchy.conf");
+		this.conf = loadConf("Shiv.conf");
 		this.sql = new SQLQuery(conf);
 		
 		// Create the tree
