@@ -9,6 +9,7 @@ import java.io.IOException;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.Enumeration;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
@@ -346,7 +347,7 @@ public class MyController {
 				}
 			}
 			// Add the Hierarchy Data as a child to the specified parent node
-			parentNode.add(new DefaultMutableTreeNode(hd));
+			parentNode.add(new HierarchyTreeNode(hd));
 		}
 	}
 	
@@ -395,6 +396,19 @@ public class MyController {
 		MyTreeRenderer tr = (MyTreeRenderer) treeRHS.getCellRenderer();
 		tr.setSelectedRoleData(rdArray);
 		treeRHS.repaint();
+	}	
+	
+	private void updateNodes(HierarchyTreeNode.Mode mode, DefaultMutableTreeNode node)
+	{
+		if(node.getChildCount() >= 0)
+		{
+			for(Enumeration e = node.children(); e.hasMoreElements();)
+			{
+				System.out.println(e);
+				DefaultMutableTreeNode tempNode = (DefaultMutableTreeNode) e.nextElement();
+				updateNodes(mode, tempNode);
+			}
+		}
 	}
 	
 	public void removeSelectedRows(JTable selectedJTable)
