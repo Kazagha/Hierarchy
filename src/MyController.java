@@ -10,6 +10,7 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
+import java.util.LinkedHashSet;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
@@ -211,7 +212,7 @@ public class MyController {
 					view.setLHSViewTitle(view.getLHSTextToString());
 				}
 				//TODO: Create Table Listener
-				setActiveRoles();
+				setActiveRoles(modelLHS.getArray());
 				break;
 			case "Load RHS":
 				tempText = view.getRHSTextToString().split(" ");
@@ -235,7 +236,7 @@ public class MyController {
 				modelRHS.setArray(dataLHS);
 				
 				//TODO: Create a table listener
-				setActiveRoles();
+				setActiveRoles(modelLHS.getArray());
 				break;
 			case "Compare":
 				dataLHS = modelLHS.getArray();
@@ -254,7 +255,7 @@ public class MyController {
 				modelRHS.removeArray(tempArray);
 				
 				//TODO: Create Table Listener
-				setActiveRoles();
+				setActiveRoles(modelLHS.getArray());
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);				
@@ -263,7 +264,7 @@ public class MyController {
 				view.setHierarchyPanel(false);
 				break;
 			case "Set Active Roles":
-				setActiveRoles();				
+				setActiveRoles(modelLHS.getArray());				
 				break;
 			case "Remove Selected":
 				removeSelectedRows(jTableLHS);
@@ -384,11 +385,14 @@ public class MyController {
 		return array;
 	}
 	
-	private void setActiveRoles()
+	private void setActiveRoles(ArrayList<RoleData> rdArray)
 	{
 		MyTreeRenderer tr = (MyTreeRenderer) treeRHS.getCellRenderer();
-		tr.setActiveRoles(modelLHS.getArray());
+		tr.setActiveRoles(modelLHS.getArray());		
 		treeRHS.repaint();
+		
+        //updateNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
+        //		HierarchyTreeNode.Mode.ACTIVE, tempArray);
 	}
 	
 	private void setSelectedRoles(ArrayList<RoleData> rdArray)
@@ -401,17 +405,16 @@ public class MyController {
 	private void updateNodes(DefaultMutableTreeNode node, HierarchyTreeNode.Mode mode,
 			ArrayList<RoleData> roleArrayList)
 	{
+		
+		if(nodeContainsRole(node, roleArrayList) && node instanceof HierarchyTreeNode)
+		{
+			((HierarchyTreeNode) node).setMode(mode);
+		}		
+		
 		if(node.getChildCount() >= 0)
 		{
 			for(Enumeration e = node.children(); e.hasMoreElements();)
-			{
-				System.out.println(e);
-				
-				if(nodeContainsRole(e, roleArrayList) && e instanceof HierarchyTreeNode)
-				{
-					((HierarchyTreeNode) e).setMode(mode);
-				}
-				
+			{		
 				DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) e.nextElement();
 				updateNodes(nextNode, mode, roleArrayList);				
 			}
@@ -480,6 +483,8 @@ public class MyController {
             }
             
             setSelectedRoles(tempArray);
+            updateNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
+            		HierarchyTreeNode.Mode.ACTIVE, tempArray);
         }
     }
     
