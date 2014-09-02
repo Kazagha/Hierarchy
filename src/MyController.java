@@ -398,17 +398,46 @@ public class MyController {
 		treeRHS.repaint();
 	}	
 	
-	private void updateNodes(HierarchyTreeNode.Mode mode, DefaultMutableTreeNode node)
+	private void updateNodes(DefaultMutableTreeNode node, HierarchyTreeNode.Mode mode,
+			ArrayList<RoleData> roleArrayList)
 	{
 		if(node.getChildCount() >= 0)
 		{
 			for(Enumeration e = node.children(); e.hasMoreElements();)
 			{
 				System.out.println(e);
-				DefaultMutableTreeNode tempNode = (DefaultMutableTreeNode) e.nextElement();
-				updateNodes(mode, tempNode);
+				
+				if(nodeContainsRole(e, roleArrayList) && e instanceof HierarchyTreeNode)
+				{
+					((HierarchyTreeNode) e).setMode(mode);
+				}
+				
+				DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) e.nextElement();
+				updateNodes(nextNode, mode, roleArrayList);				
 			}
 		}
+	}
+	
+	public boolean nodeContainsRole(Object obj, ArrayList<RoleData> roleArrayList)
+	{
+		DefaultMutableTreeNode node = (DefaultMutableTreeNode)obj;
+		//Check if the user object is a HierarchyData node
+		if(node.getUserObject() instanceof HierarchyData)
+		{
+			HierarchyData hd = (HierarchyData) node.getUserObject();
+			//Iterate through all active roles
+			for(RoleData rd : roleArrayList)
+			{
+				//Check for a match
+				if(hd.contains(rd))
+				{					
+					return true;
+				} 
+				//Else continue to search for a match
+			} 
+		}
+		//Failing finding a match, return false 
+		return false;
 	}
 	
 	public void removeSelectedRows(JTable selectedJTable)
