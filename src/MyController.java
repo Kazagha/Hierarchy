@@ -391,8 +391,8 @@ public class MyController {
 		tr.setActiveRoles(modelLHS.getArray());		
 		treeRHS.repaint();
 		
-        //updateNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
-        //		HierarchyTreeNode.Mode.ACTIVE, tempArray);
+        updateNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
+        		HierarchyTreeNode.Mode.ACTIVE, rdArray);
 	}
 	
 	private void setSelectedRoles(ArrayList<RoleData> rdArray)
@@ -400,6 +400,9 @@ public class MyController {
 		MyTreeRenderer tr = (MyTreeRenderer) treeRHS.getCellRenderer();
 		tr.setSelectedRoleData(rdArray);
 		treeRHS.repaint();
+		
+        updateNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
+        		HierarchyTreeNode.Mode.SELECTED, rdArray);
 	}	
 	
 	private void updateNodes(DefaultMutableTreeNode node, HierarchyTreeNode.Mode mode,
@@ -483,8 +486,6 @@ public class MyController {
             }
             
             setSelectedRoles(tempArray);
-            updateNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
-            		HierarchyTreeNode.Mode.ACTIVE, tempArray);
         }
     }
     
