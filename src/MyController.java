@@ -431,6 +431,19 @@ public class MyController {
 		}
 	}
 	
+	private void updateParentNodes(DefaultMutableTreeNode node, HierarchyTreeNode.Mode newMode)
+	{
+		/*
+		if(newMode == HierarchyTreeNode.Mode.ACTIVE) 
+		{
+			newMode = HierarchyTreeNode.Mode.PARTIAL_ACTIVE;
+		} else if (newMode == HierarchyTreeNode.Mode.SELECTED)
+		{
+			newMode = HierarchyTreeNode.Mode.PARTIAL_SELECTED;
+		}
+		*/
+	}
+	
 	public boolean nodeContainsRole(Object obj, ArrayList<RoleData> roleArrayList)
 	{
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)obj;
