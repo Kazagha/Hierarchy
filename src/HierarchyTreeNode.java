@@ -20,11 +20,7 @@ public class HierarchyTreeNode extends DefaultMutableTreeNode {
 	
 	public void setMode(Mode newMode)
 	{
-		// Set a new mode only when it's 'greater' than the existing mode
-		if(newMode.ordinal() > this.mode.ordinal())
-		{
 			this.mode = newMode;
-		}
 	}
 	
 	public void setInactive()
