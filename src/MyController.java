@@ -22,7 +22,6 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-
 import net.arcanesanctuary.Configuration.Conf;
 
 public class MyController {
@@ -405,21 +404,29 @@ public class MyController {
         		HierarchyTreeNode.Mode.SELECTED, rdArray);
 	}	
 	
-	private void updateNodes(DefaultMutableTreeNode node, HierarchyTreeNode.Mode mode,
+	private void updateNodes(DefaultMutableTreeNode node, HierarchyTreeNode.Mode newMode,
 			ArrayList<RoleData> roleArrayList)
-	{
-		
-		if(nodeContainsRole(node, roleArrayList) && node instanceof HierarchyTreeNode)
-		{
-			((HierarchyTreeNode) node).setMode(mode);
-		}		
+	{		
+		if(node instanceof HierarchyTreeNode)
+		{				
+			if(nodeContainsRole(node, roleArrayList))
+			{
+				((HierarchyTreeNode) node).setMode(newMode);
+			} else if (newMode == HierarchyTreeNode.Mode.ACTIVE) {
+				((HierarchyTreeNode) node).setMode(HierarchyTreeNode.Mode.INACTIVE);
+			} else if (newMode == HierarchyTreeNode.Mode.SELECTED
+					&& ((HierarchyTreeNode) node).getMode() == HierarchyTreeNode.Mode.SELECTED)
+			{
+				((HierarchyTreeNode) node).setMode(HierarchyTreeNode.Mode.ACTIVE);
+			}
+		}
 		
 		if(node.getChildCount() >= 0)
 		{
 			for(Enumeration e = node.children(); e.hasMoreElements();)
 			{		
 				DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) e.nextElement();
-				updateNodes(nextNode, mode, roleArrayList);				
+				updateNodes(nextNode, newMode, roleArrayList);				
 			}
 		}
 	}
