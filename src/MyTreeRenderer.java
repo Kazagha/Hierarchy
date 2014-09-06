@@ -31,10 +31,11 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	ImageIcon redNodeIcon = new ImageIcon("images/RedNodeIcon16.png");
 	ImageIcon violetNodeIcon = new ImageIcon("images/VioletNodeIcon16.png");
 	ImageIcon yellowNodeIcon = new ImageIcon("images/YellowNodeIcon16.png");
-	//Setup Colors	
-	Color greenColor = new Color(34,139,34);
+	//Setup Colors
+	Color blackColor = new Color(51, 51, 51);
+	Color greenColor = new Color(34, 139, 34);
 	Color greyColor = new Color(105, 105, 105);
-	
+	Color orangeColor = new Color(255, 140, 0);	
 	
 	public Component getTreeCellRendererComponent(
             JTree tree,
@@ -51,6 +52,9 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		{
 			HierarchyTreeNode tempTreeNode = (HierarchyTreeNode) value;
 			
+			setFont(getFont().deriveFont(Font.PLAIN));
+			setForeground(blackColor);
+			
 			switch(tempTreeNode.getActiveMode())
 			{						
 			case INACTIVE:					
@@ -62,6 +66,14 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 				}				
 				break;
 			case PARTIAL_ACTIVE:
+				setForeground(orangeColor);
+				
+				if(!leaf)
+				{
+					setIcon(greyFolderIcon);
+				} else {
+					setIcon(greyNodeIcon);
+				}	
 				break;
 			case ACTIVE:				
 				if(!leaf)
@@ -77,9 +89,9 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			switch(tempTreeNode.getSelectedMode())
 			{						
 			case NOT_SELECTED:
-				setFont(getFont().deriveFont(Font.PLAIN));
 				break;
 			case PARTIAL_SELECTED:
+				setForeground(greenColor);
 				break;
 			case SELECTED:
 				setFont(getFont().deriveFont(Font.BOLD));
@@ -94,19 +106,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			default:
 				break;
 			}
-		}
-		
-		if(value instanceof HierarchyTreeNode)
-		{
-			HierarchyTreeNode tempTreeNode = (HierarchyTreeNode) value;
-			if(tempTreeNode.getActiveMode() == HierarchyTreeNode.ActiveMode.ACTIVE)
-			{				
-				System.out.println("ACTIVE: " + tempTreeNode.toString());
-			} else if(tempTreeNode.getSelectedMode() == HierarchyTreeNode.SelectedMode.SELECTED)
-			{
-				System.out.println("SELECTED: " + tempTreeNode.toString());
-			}
-		}		
+		}	
 		
 		// TODO: Tool tips are not quick enough, need another solution for displaying roles
 		setToolTipText(getToolTip(value));
