@@ -34,8 +34,8 @@ public class MyView extends JPanel {
 	JButton swapButton;
 	JButton loadButtonLHS;
 	JButton loadButtonRHS;
-	//Menu Items
 	
+	//Menu Items	
 	JMenuItem compareMenuItem = new JMenuItem();
 	JMenuItem swapMenuItem = new JMenuItem();
 	JCheckBoxMenuItem manualEntryCheckBox = new JCheckBoxMenuItem();
@@ -57,6 +57,9 @@ public class MyView extends JPanel {
 	ComponentWithTitle contentLHSView = new ComponentWithTitle(tableLHS);
 	ComponentWithTitle contentRHSView = new ComponentWithTitle(tableRHS);
 	ComponentWithTitle contentRHSHierarchy = new ComponentWithTitle(treeRHS);
+	
+	// Status Bar
+	MyStatusBar statusBar = new MyStatusBar();
 	
 	public MyView()
 	{
@@ -94,6 +97,7 @@ public class MyView extends JPanel {
 							)
 							.addContainerGap()
 						)
+					.addComponent(statusBar)
 				);
 		
 		layout.setVerticalGroup(
@@ -113,7 +117,8 @@ public class MyView extends JPanel {
 				.addGroup(layout.createParallelGroup(GroupLayout.Alignment.BASELINE)
 						.addComponent(splitPane)
 						)
-				.addContainerGap()
+				.addPreferredGap(LayoutStyle.ComponentPlacement.RELATED)
+				.addComponent(statusBar, 25, 25, 25)
 				);		
 	}
 	
@@ -303,6 +308,11 @@ public class MyView extends JPanel {
 		return manualEntryCheckBox;
 	}
 	
+	public MyStatusBar getStatusBar()
+	{
+		return statusBar;
+	}	
+	
 	/*
 	 * This can't be used without importing the CompentWithTitle into MyController
 	public ComponentWithTitle getLHSContent()
@@ -430,7 +440,7 @@ public class MyView extends JPanel {
 	public void createAndShowGUI()
 	{
 		//Create frame setup Window
-		JFrame frame = new JFrame("My View");
+		JFrame frame = new JFrame("Shiv: Security HIerarchy Viewer");
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.setPreferredSize(new Dimension(FRAME_HEIGHT, FRAME_WIDTH));
 		

@@ -1,3 +1,4 @@
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -14,6 +15,7 @@ import java.util.LinkedHashSet;
 
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
+import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
@@ -22,6 +24,8 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+
 
 
 import net.arcanesanctuary.Configuration.Conf;
@@ -37,10 +41,25 @@ public class MyController {
 	private MyTableModel modelLHS;
 	private JTree treeRHS;
 	private JCheckBoxMenuItem manualEntryCheckBox;
-	private JFileChooser fc;
+	private JFileChooser fc;	
 	private enum DataType {HIERARCHY, ROLE};
+	private JTable jTableLHS;
 	
-	JTable jTableLHS;
+	// Status Bar
+	private MyStatusBar statusBar;
+	private int nodeCount;
+	private int activeNodeCount;
+	private int selectedNodeCount;
+	
+	private JLabel inactiveLabel = new JLabel(" ");
+	private JLabel activeLabel = new JLabel(" ");
+	private JLabel selectedLabel = new JLabel(" ");
+	
+	// Setup Colors
+	Color blackColor = new Color(51, 51, 51);
+	Color greenColor = new Color(152, 251, 152);
+	Color greyColor = new Color(205, 201, 201);
+	Color orangeColor = new Color(255, 140, 0);	
 	
 	private static enum UpdateMode { ACTIVE, SELECTED }
 	
@@ -91,7 +110,7 @@ public class MyController {
 		
 		// Create Listeners
 		jTableLHS = view.getTableLHS();
-		jTableLHS.getSelectionModel().addListSelectionListener(new RowListener());
+		jTableLHS.	getSelectionModel().addListSelectionListener(new RowListener());
 		manualEntryCheckBox = view.getManualEntryCheckBox();
 		manualEntryCheckBox.addItemListener(new MyItemListener());
 				
@@ -99,6 +118,12 @@ public class MyController {
 		fc = new JFileChooser();
 		fc.setFileSelectionMode(fc.FILES_ONLY);
 		fc.setFileFilter(new CSVFilter());
+		
+		// Set the status bar
+		statusBar = view.getStatusBar();
+		statusBar.addRightComponent(inactiveLabel, greyColor);
+		statusBar.addRightComponent(activeLabel, orangeColor);
+		statusBar.addRightComponent(selectedLabel, greenColor);
 	}
 	
 	public Conf loadConf(String fileName)
@@ -352,6 +377,7 @@ public class MyController {
 			}
 			// Add the Hierarchy Data as a child to the specified parent node
 			parentNode.add(new HierarchyTreeNode(hd));
+			nodeCount++;
 		}
 	}
 	
@@ -394,8 +420,12 @@ public class MyController {
 		tr.setActiveRoles(modelLHS.getArray());		
 		treeRHS.repaint();
 		
+		activeNodeCount = 0;
 		updateChildNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
         		UpdateMode.ACTIVE, rdArray);
+		
+		inactiveLabel.setText(String.valueOf(nodeCount - activeNodeCount));
+		activeLabel.setText(String.valueOf(activeNodeCount));
 	}
 	
 	private void setSelectedRoles(ArrayList<RoleData> rdArray)
@@ -404,8 +434,12 @@ public class MyController {
 		tr.setSelectedRoleData(rdArray);
 		treeRHS.repaint();
 		
+		selectedNodeCount = 0;
 		updateChildNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
         		UpdateMode.SELECTED, rdArray);
+		
+		selectedLabel.setText(String.valueOf(selectedNodeCount));
+		activeLabel.setText(String.valueOf(activeNodeCount - selectedNodeCount));
 	}	
 	
 	/**
@@ -433,15 +467,20 @@ public class MyController {
 				{				
 					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.ActiveMode.ACTIVE);
 					updateParentNodes(node, mode);
+
+					activeNodeCount++;
 				} else {
 					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.ActiveMode.INACTIVE);
 				}
+
 			} else if(mode == UpdateMode.SELECTED)
 			{
 				if(nodeContainsRole(node, roleArrayList))
 				{
 					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.SelectedMode.SELECTED);
 					updateParentNodes(node, mode);
+
+					selectedNodeCount++;
 				} else {
 					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.SelectedMode.NOT_SELECTED);
 				}
