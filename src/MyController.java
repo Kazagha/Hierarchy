@@ -40,6 +40,8 @@ public class MyController {
 	
 	JTable jTableLHS;
 	
+	private static enum UpdateMode { ACTIVE, SELECTED }
+	
 	static enum Actions {
 		LOADLHS ("loadLHS"),
 		LOADRHS ("LoadRHS"),
@@ -390,8 +392,8 @@ public class MyController {
 		tr.setActiveRoles(modelLHS.getArray());		
 		treeRHS.repaint();
 		
-        updateNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
-        		HierarchyTreeNode.Mode.ACTIVE, rdArray);
+		updateChildNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
+        		UpdateMode.ACTIVE, rdArray);
 	}
 	
 	private void setSelectedRoles(ArrayList<RoleData> rdArray)
@@ -400,24 +402,45 @@ public class MyController {
 		tr.setSelectedRoleData(rdArray);
 		treeRHS.repaint();
 		
-        updateNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
-        		HierarchyTreeNode.Mode.SELECTED, rdArray);
+		updateChildNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
+        		UpdateMode.SELECTED, rdArray);
 	}	
 	
-	private void updateNodes(DefaultMutableTreeNode node, HierarchyTreeNode.Mode newMode,
+	/**
+	 * Check if the <code>node</code> contains the security roles specified in the
+	 * <code>roleArrayList<code> then update the <code>node</code> according
+	 * to the <code>mode</code>.
+	 * <br><br>
+	 * The mode can be set to either <code>updateMode.ACTIVE<code> or 
+	 * <code>updateMode.SELECTED<code>
+	 * <br> <br>
+	 * For example updating with an 'active' mode will result in either an 
+	 * 'ACTIVE' or 'INACTIVE' node. 
+	 * @param node - The current node
+	 * @param mode - The specified update mode
+	 * @param roleArrayList - An array of <code>RoleData</code> permissions. 
+	 */
+	private void updateChildNodes(DefaultMutableTreeNode node, UpdateMode mode,
 			ArrayList<RoleData> roleArrayList)
 	{		
 		if(node instanceof HierarchyTreeNode)
-		{				
-			if(nodeContainsRole(node, roleArrayList))
+		{	
+			if(mode == UpdateMode.ACTIVE)
 			{
-				((HierarchyTreeNode) node).setMode(newMode);
-			} else if (newMode == HierarchyTreeNode.Mode.ACTIVE) {
-				((HierarchyTreeNode) node).setMode(HierarchyTreeNode.Mode.INACTIVE);
-			} else if (newMode == HierarchyTreeNode.Mode.SELECTED
-					&& ((HierarchyTreeNode) node).getMode() == HierarchyTreeNode.Mode.SELECTED)
+				if(nodeContainsRole(node, roleArrayList))
+				{				
+					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.ActiveMode.ACTIVE);
+				} else {
+					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.ActiveMode.INACTIVE);
+				}
+			} else if(mode == UpdateMode.SELECTED)
 			{
-				((HierarchyTreeNode) node).setMode(HierarchyTreeNode.Mode.ACTIVE);
+				if(nodeContainsRole(node, roleArrayList))
+				{
+					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.SelectedMode.SELECTED);
+				} else {
+					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.SelectedMode.NOT_SELECTED);
+				}
 			}
 		}
 		
@@ -426,12 +449,12 @@ public class MyController {
 			for(Enumeration e = node.children(); e.hasMoreElements();)
 			{		
 				DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) e.nextElement();
-				updateNodes(nextNode, newMode, roleArrayList);				
+				updateChildNodes(nextNode, mode, roleArrayList);				
 			}
 		}
 	}
 	
-	private void updateParentNodes(DefaultMutableTreeNode node, HierarchyTreeNode.Mode newMode)
+	private void updateParentNodes(DefaultMutableTreeNode node, Object newMode)
 	{
 		/*
 		if(newMode == HierarchyTreeNode.Mode.ACTIVE) 
