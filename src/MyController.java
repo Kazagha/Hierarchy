@@ -22,6 +22,8 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+
+
 import net.arcanesanctuary.Configuration.Conf;
 
 public class MyController {
@@ -430,6 +432,7 @@ public class MyController {
 				if(nodeContainsRole(node, roleArrayList))
 				{				
 					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.ActiveMode.ACTIVE);
+					updateParentNodes(node, mode);
 				} else {
 					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.ActiveMode.INACTIVE);
 				}
@@ -438,6 +441,7 @@ public class MyController {
 				if(nodeContainsRole(node, roleArrayList))
 				{
 					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.SelectedMode.SELECTED);
+					updateParentNodes(node, mode);
 				} else {
 					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.SelectedMode.NOT_SELECTED);
 				}
@@ -454,17 +458,29 @@ public class MyController {
 		}
 	}
 	
-	private void updateParentNodes(DefaultMutableTreeNode node, Object newMode)
-	{
-		/*
-		if(newMode == HierarchyTreeNode.Mode.ACTIVE) 
+	private void updateParentNodes(DefaultMutableTreeNode node, UpdateMode mode)
+	{		
+		Object objectNode = node.getParent();
+		
+		if(objectNode instanceof HierarchyTreeNode)			
 		{
-			newMode = HierarchyTreeNode.Mode.PARTIAL_ACTIVE;
-		} else if (newMode == HierarchyTreeNode.Mode.SELECTED)
-		{
-			newMode = HierarchyTreeNode.Mode.PARTIAL_SELECTED;
-		}
-		*/
+			HierarchyTreeNode parentNode = (HierarchyTreeNode) objectNode;
+			
+			if(mode == UpdateMode.ACTIVE)
+			{
+				if(parentNode.getActiveMode() != HierarchyTreeNode.ActiveMode.ACTIVE)
+				{
+					parentNode.setMode(HierarchyTreeNode.ActiveMode.PARTIAL_ACTIVE);
+					updateParentNodes(parentNode, mode);
+				}
+			} else if(mode == UpdateMode.SELECTED) {
+				if(parentNode.getSelectedMode() != HierarchyTreeNode.SelectedMode.SELECTED)
+				{
+					parentNode.setMode(HierarchyTreeNode.SelectedMode.PARTIAL_SELECTED);
+					updateParentNodes(parentNode, mode);
+				}
+			}
+		} 
 	}
 	
 	public boolean nodeContainsRole(Object obj, ArrayList<RoleData> roleArrayList)
