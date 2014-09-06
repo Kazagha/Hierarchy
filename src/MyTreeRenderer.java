@@ -47,41 +47,69 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	{
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
 		
-		//Set 'active' Orange and 'inactive' Grey Icons 
-		if(nodeContainsRole(value, activeRoleDataArray))
+		if(value instanceof HierarchyTreeNode)
 		{
-			if(!leaf)
-			{
-				setIcon(orangeFolderIcon);
-			} else {
-				setIcon(orangeNodeIcon);
+			HierarchyTreeNode tempTreeNode = (HierarchyTreeNode) value;
+			
+			switch(tempTreeNode.getActiveMode())
+			{						
+			case INACTIVE:					
+				if(!leaf)
+				{
+					setIcon(greyFolderIcon);
+				} else {
+					setIcon(greyNodeIcon);
+				}				
+				break;
+			case PARTIAL_ACTIVE:
+				break;
+			case ACTIVE:				
+				if(!leaf)
+				{
+					setIcon(orangeFolderIcon);
+				} else {
+					setIcon(orangeNodeIcon);
+				}	
+			default:
+				break;
 			}
-		} else {
-			if(!leaf)
-			{
-				setIcon(greyFolderIcon);
-			} else {
-				setIcon(greyNodeIcon);
+			
+			switch(tempTreeNode.getSelectedMode())
+			{						
+			case NOT_SELECTED:
+				setFont(getFont().deriveFont(Font.PLAIN));
+				break;
+			case PARTIAL_SELECTED:
+				break;
+			case SELECTED:
+				setFont(getFont().deriveFont(Font.BOLD));
+				
+				if(!leaf)
+				{
+					setIcon(greenFolderIcon);
+				} else {
+					setIcon(greenNodeIcon);
+				}
+				break;
+			default:
+				break;
 			}
 		}
 		
-		//Set 'selected' Green icons and bold text
-		if(nodeContainsRole(value, selectedRoleDataArray))
+		if(value instanceof HierarchyTreeNode)
 		{
-			setFont(getFont().deriveFont(Font.BOLD));
-			
-			if(!leaf)
+			HierarchyTreeNode tempTreeNode = (HierarchyTreeNode) value;
+			if(tempTreeNode.getActiveMode() == HierarchyTreeNode.ActiveMode.ACTIVE)
+			{				
+				System.out.println("ACTIVE: " + tempTreeNode.toString());
+			} else if(tempTreeNode.getSelectedMode() == HierarchyTreeNode.SelectedMode.SELECTED)
 			{
-				setIcon(greenFolderIcon);
-			} else {
-				setIcon(greenNodeIcon);
+				System.out.println("SELECTED: " + tempTreeNode.toString());
 			}
-		} else {
-			setFont(getFont().deriveFont(Font.PLAIN));
-		}
-				
-		//TODO: Tool tips are not quick enough, need another solution for displaying roles
-		setToolTipText(getToolTip(value));		
+		}		
+		
+		// TODO: Tool tips are not quick enough, need another solution for displaying roles
+		setToolTipText(getToolTip(value));
 		
 		return this;
 	}
