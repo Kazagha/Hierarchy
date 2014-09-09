@@ -59,7 +59,7 @@ public class MyController {
 	Color blackColor = new Color(51, 51, 51);
 	Color greenColor = new Color(152, 251, 152);
 	Color greyColor = new Color(205, 201, 201);
-	Color orangeColor = new Color(255, 140, 0);	
+	Color orangeColor = new Color(244, 164, 96);
 	
 	private static enum UpdateMode { ACTIVE, SELECTED }
 	
