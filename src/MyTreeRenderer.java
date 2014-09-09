@@ -33,9 +33,10 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	ImageIcon yellowNodeIcon = new ImageIcon("images/YellowNodeIcon16.png");
 	//Setup Colors
 	Color blackColor = new Color(51, 51, 51);
-	Color greenColor = new Color(34, 139, 34);
+	Color greenColor = new Color(152, 251, 152);
 	Color greyColor = new Color(105, 105, 105);
-	Color orangeColor = new Color(255, 140, 0);	
+	Color orangeColor = new Color(244, 164, 96);
+	Color whiteColor = new Color(255, 255, 255);
 	
 	public Component getTreeCellRendererComponent(
             JTree tree,
@@ -47,13 +48,13 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
             boolean hasFocus)
 	{
 		super.getTreeCellRendererComponent(tree, value, sel, expanded, leaf, row, hasFocus);
-		
+
 		if(value instanceof HierarchyTreeNode)
 		{
 			HierarchyTreeNode tempTreeNode = (HierarchyTreeNode) value;
 			
 			setFont(getFont().deriveFont(Font.PLAIN));
-			setForeground(blackColor);
+			setBackgroundNonSelectionColor(whiteColor);
 			
 			switch(tempTreeNode.getActiveMode())
 			{						
@@ -66,7 +67,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 				}				
 				break;
 			case PARTIAL_ACTIVE:
-				setForeground(orangeColor);
+				setBackgroundNonSelectionColor(orangeColor);
 				
 				if(!leaf)
 				{
@@ -91,7 +92,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			case NOT_SELECTED:
 				break;
 			case PARTIAL_SELECTED:
-				setForeground(greenColor);
+				setBackgroundNonSelectionColor(greenColor);
 				break;
 			case SELECTED:
 				setFont(getFont().deriveFont(Font.BOLD));
@@ -106,7 +107,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			default:
 				break;
 			}
-		}	
+		}			
 		
 		// TODO: Tool tips are not quick enough, need another solution for displaying roles
 		setToolTipText(getToolTip(value));
