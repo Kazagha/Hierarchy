@@ -375,6 +375,13 @@ public class MyView extends JPanel {
 		
 		insertRolesMenuItem.setActionCommand("Insert Roles");
 		insertRolesMenuItem.addActionListener(controllerActionListener);
+				
+		// Setup the Shutdown Hook to fire the 'exit menu' action when the program closes.
+		Runtime.getRuntime().addShutdownHook(new Thread(new Runnable() {
+			public void run() {
+				exitMenuItem.doClick();
+			}
+		}));
 		
 		/*
 		 * 	InputMap im = textField.getInputMap();
