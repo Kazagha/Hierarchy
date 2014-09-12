@@ -51,9 +51,9 @@ public class MyController {
 	private int activeNodeCount;
 	private int selectedNodeCount;
 	
-	private JLabel inactiveLabel = new JLabel(" ");
-	private JLabel activeLabel = new JLabel(" ");
-	private JLabel selectedLabel = new JLabel(" ");
+	private JLabel inactiveLabel = new JLabel("0");
+	private JLabel activeLabel = new JLabel("0");
+	private JLabel selectedLabel = new JLabel("0");
 	
 	// Setup Colors
 	Color blackColor = new Color(51, 51, 51);
@@ -150,13 +150,23 @@ public class MyController {
 	{
 		try {
 			// Remove existing nodes
-			this.treeRHS.removeAll();
+			//((DefaultMutableTreeNode) this.treeRHS.getModel().getRoot()).removeAllChildren();
+			// TODO: This method is not clearing the nodes
+			
+			// Reset total node count
+			nodeCount = 0;
+			activeNodeCount = 0;
+			selectedNodeCount = 0;
+			tableLHS.clearSelection();			
 			
 			// Add nodes, expand the root node and then hide it.
 			this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
 			this.treeRHS.expandRow(0);
 			this.treeRHS.setRootVisible(false);
 			this.treeRHS.setShowsRootHandles(true);
+			
+			// Set total inactive node count on the status bar
+			inactiveLabel.setText(String.valueOf(nodeCount));
 			
 			// Create User Name array for the auto-complete function
 			view.getTextFieldListener().setUserNameArray(userNameQuery());
@@ -415,31 +425,30 @@ public class MyController {
 	}
 	
 	private void setActiveRoles(ArrayList<RoleData> rdArray)
-	{
-		MyTreeRenderer tr = (MyTreeRenderer) treeRHS.getCellRenderer();
-		tr.setActiveRoles(modelLHS.getArray());		
-		treeRHS.repaint();
-		
+	{		
 		activeNodeCount = 0;
+		
 		updateChildNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
         		UpdateMode.ACTIVE, rdArray);
 		
-		inactiveLabel.setText(String.valueOf(nodeCount - activeNodeCount));
-		activeLabel.setText(String.valueOf(activeNodeCount));
+		int inactiveCount = nodeCount - activeNodeCount;
+		inactiveLabel.setText(String.valueOf(inactiveCount));
+		activeLabel.setText(String.valueOf(activeNodeCount));		
+		
+		treeRHS.repaint();
 	}
 	
 	private void setSelectedRoles(ArrayList<RoleData> rdArray)
-	{
-		MyTreeRenderer tr = (MyTreeRenderer) treeRHS.getCellRenderer();
-		tr.setSelectedRoleData(rdArray);
-		treeRHS.repaint();
-		
+	{		
 		selectedNodeCount = 0;
+		
 		updateChildNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot(), 
         		UpdateMode.SELECTED, rdArray);
 		
-		selectedLabel.setText(String.valueOf(selectedNodeCount));
-		activeLabel.setText(String.valueOf(activeNodeCount - selectedNodeCount));
+		selectedLabel.setText(String.valueOf(selectedNodeCount));		
+		activeLabel.setText(String.valueOf(activeNodeCount - selectedNodeCount));		
+
+		treeRHS.repaint();
 	}	
 	
 	/**

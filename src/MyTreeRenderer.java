@@ -15,8 +15,6 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class MyTreeRenderer extends DefaultTreeCellRenderer 
 {
-	ArrayList<RoleData> activeRoleDataArray = new ArrayList<RoleData>();
-	ArrayList<RoleData> selectedRoleDataArray = new ArrayList<RoleData>();
 	//Folder Icons
 	ImageIcon greenFolderIcon = new ImageIcon("images/GreenFolderIcon16.png");	
 	ImageIcon greyFolderIcon = new ImageIcon("images/GreyFolderIcon16.png");
@@ -113,16 +111,6 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 		setToolTipText(getToolTip(value));
 		
 		return this;
-	}
-	
-	public void setActiveRoles(ArrayList<RoleData> roleDataArray)
-	{
-		activeRoleDataArray = roleDataArray;
-	}
-	
-	public void setSelectedRoleData(ArrayList<RoleData> roleDataArray)
-	{
-		selectedRoleDataArray = roleDataArray;
 	}
 	
 	public boolean nodeContainsRole(Object obj, ArrayList<RoleData> roleArrayList)
