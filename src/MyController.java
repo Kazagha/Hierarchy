@@ -353,6 +353,13 @@ public class MyController {
 				fetchThread.start();
 				
 				break;
+			case "About":
+				String aboutString = String.format(""
+						+ "Security and HIerarchy Viewer"
+						+ "%nVersion: 0.5, 2014-09-06 (Alpha)"
+						+ "%nFor more information visit: %n     https://github.com/Kazagha/Hierarchy");
+				JOptionPane.showMessageDialog(view, aboutString, "About Shiv", JOptionPane.PLAIN_MESSAGE);				
+				break;
 			case "Exit":
 				// Save the current Conf
 				saveConf();
