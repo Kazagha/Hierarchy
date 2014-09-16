@@ -51,6 +51,8 @@ public class MyView extends JPanel {
 	JMenuItem dataSourceMenuItem = new JMenuItem();
 	JMenuItem searchMenuItem = new JMenuItem();
 	JMenuItem statsMenuItem = new JMenuItem();
+	JMenuItem aboutMenuItem = new JMenuItem();
+	JMenuItem legendMenuItem = new JMenuItem();
 		
 	MyTextFieldListener textFieldlistener;
 	
@@ -176,6 +178,8 @@ public class MyView extends JPanel {
 		dataSourceMenuItem.setText("Data Source");
 		searchMenuItem.setText("Search");
 		statsMenuItem.setText("Statistics");
+		legendMenuItem.setText("Legend");
+		aboutMenuItem.setText("About");
 		
 		// Manual Entry Mode is disabled by default
 		setManualEntry(false);
@@ -187,6 +191,7 @@ public class MyView extends JPanel {
 		dataSourceMenuItem.setEnabled(true);
 		searchMenuItem.setEnabled(false);
 		statsMenuItem.setEnabled(false);
+		legendMenuItem.setEnabled(false);
 		
 		// Create Menu Bar
 		JMenuBar menuBar = new JMenuBar();
@@ -227,6 +232,11 @@ public class MyView extends JPanel {
 		menu = new JMenu("View");
 		menu.add(listViewMenuItem);
 		menu.add(hierarchyViewMenuItem);
+		menuBar.add(menu);
+		
+		menu = new JMenu("Help");
+		menu.add(legendMenuItem);
+		menu.add(aboutMenuItem);
 		menuBar.add(menu);
 		
 		return menuBar;
@@ -362,6 +372,12 @@ public class MyView extends JPanel {
 		
 		dataSourceMenuItem.setActionCommand("Source");
 		dataSourceMenuItem.addActionListener(controllerActionListener);
+		
+		aboutMenuItem.setActionCommand("About");
+		aboutMenuItem.addActionListener(controllerActionListener);
+		
+		legendMenuItem.setActionCommand("Legend");
+		legendMenuItem.addActionListener(controllerActionListener);		
 		
 		//Setup Button Actions
 		loadButtonLHS.setActionCommand("Load LHS");
