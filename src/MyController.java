@@ -20,13 +20,11 @@ import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
-
-
-
 
 import net.arcanesanctuary.Configuration.Conf;
 
@@ -54,6 +52,7 @@ public class MyController {
 	private JLabel inactiveLabel = new JLabel("0");
 	private JLabel activeLabel = new JLabel("0");
 	private JLabel selectedLabel = new JLabel("0");
+	private JLabel statusLabel = new JLabel(" ");
 	
 	// Setup Colors
 	Color blackColor = new Color(51, 51, 51);
@@ -124,6 +123,7 @@ public class MyController {
 		statusBar.addRightComponent(inactiveLabel, greyColor);
 		statusBar.addRightComponent(activeLabel, orangeColor);
 		statusBar.addRightComponent(selectedLabel, greenColor);
+		statusBar.setLeftComponent(statusLabel);
 	}
 	
 	public Conf loadConf(String fileName)
@@ -146,32 +146,48 @@ public class MyController {
 		conf.save();		
 	}
 	
-	public void fetchSQLData()
+	private class fetchSQLData implements Runnable
 	{
-		try {
-			// Remove existing nodes
-			//((DefaultMutableTreeNode) this.treeRHS.getModel().getRoot()).removeAllChildren();
-			// TODO: This method is not clearing the nodes
-			
-			// Reset total node count
-			nodeCount = 0;
-			activeNodeCount = 0;
-			selectedNodeCount = 0;
-			tableLHS.clearSelection();			
-			
-			// Add nodes, expand the root node and then hide it.
-			this.createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
-			this.treeRHS.expandRow(0);
-			this.treeRHS.setRootVisible(false);
-			this.treeRHS.setShowsRootHandles(true);
-			
-			// Set total inactive node count on the status bar
-			inactiveLabel.setText(String.valueOf(nodeCount));
-			
-			// Create User Name array for the auto-complete function
-			view.getTextFieldListener().setUserNameArray(userNameQuery());
-		} catch (Exception e) {
-			JOptionPane.showMessageDialog(view, "Refreshing credentials has failed", "SQL Error", JOptionPane.ERROR_MESSAGE);
+		public fetchSQLData() {
+			// Nothing to setup
+		}
+		
+		@Override
+		public void run() {
+			try {
+				// Remove existing nodes
+				//((DefaultMutableTreeNode) this.treeRHS.getModel().getRoot()).removeAllChildren();
+				// TODO: This method is not clearing the nodes					
+				
+				// Reset total node count
+				nodeCount = 0;
+				activeNodeCount = 0;
+				selectedNodeCount = 0;
+				tableLHS.clearSelection();			
+				
+				statusLabel.setText("Fetching hierarchy");
+				
+				// Add nodes, expand the root node and then hide it.
+				createHierarchyNodes((DefaultMutableTreeNode) treeRHS.getModel().getRoot());		
+				treeRHS.expandRow(0);
+				treeRHS.setRootVisible(false);
+				treeRHS.setShowsRootHandles(true);
+							
+				// Set total inactive node count on the status bar
+				inactiveLabel.setText(String.valueOf(nodeCount));
+							
+				statusLabel.setText("Fetching user names");
+				
+				// Create User Name array for the auto-complete function
+				view.getTextFieldListener().setUserNameArray(userNameQuery());
+				
+				statusLabel.setText("Finished loading");
+				Thread.sleep(2000);				
+			} catch (Exception e) {
+				JOptionPane.showMessageDialog(view, "Refreshing credentials has failed", "SQL Error", JOptionPane.ERROR_MESSAGE);				
+			} finally {
+				statusLabel.setText("");
+			}
 		}
 	}
 	
@@ -333,7 +349,9 @@ public class MyController {
 				conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database") + ";Domain=" + conf.get("Domain"));
 				
 				// Using the credentials, fetch data from the specified SQL Server
-				fetchSQLData();				
+				Thread fetchThread = new Thread(new fetchSQLData());
+				fetchThread.start();
+				
 				break;
 			case "Exit":
 				// Save the current Conf
