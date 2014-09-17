@@ -1,8 +1,10 @@
+import java.awt.BorderLayout;
 import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
 import java.awt.event.ItemListener;
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
@@ -13,10 +15,13 @@ import java.util.Collections;
 import java.util.Enumeration;
 import java.util.LinkedHashSet;
 
+import javax.imageio.ImageIO;
+import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
+import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
@@ -144,6 +149,43 @@ public class MyController {
 		conf.nullValues(new String[] {"Password"});
 		conf.del(new String[] {"url"});
 		conf.save();		
+	}
+	
+	private JPanel aboutPanel()
+	{
+		JPanel root = new JPanel(new BorderLayout());
+		
+		// Create the image
+		BufferedImage aboutImage = null;
+		try {
+			aboutImage = ImageIO.read(new File("images/AboutShivImage.png"));
+		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		JLabel aboutLabel = new JLabel(new ImageIcon(aboutImage));
+		
+		// Create the text using HTML formatting
+		String aboutString = String.format(""
+				+ "<html>"
+				//+ "Shiv: Security and HIerarchy Viewer <br>"
+				+ "Version: 0.5, 2014-09-06 (Alpha) <br>"
+				+ "For more information visit: <br>"
+				+ "https://github.com/Kazagha/Hierarchy"
+				+ "</html>");
+		
+		// Add components to the root panel
+		root.add(aboutLabel, BorderLayout.WEST);
+		root.add(new JLabel(aboutString), BorderLayout.CENTER);
+		
+		return root;
+	}
+	
+	private JPanel legendPanel()
+	{
+		JPanel root = new JPanel();
+		
+		return root;
 	}
 	
 	private class fetchSQLData implements Runnable
@@ -354,11 +396,7 @@ public class MyController {
 				
 				break;
 			case "About":
-				String aboutString = String.format(""
-						+ "Security and HIerarchy Viewer"
-						+ "%nVersion: 0.5, 2014-09-06 (Alpha)"
-						+ "%nFor more information visit: %n     https://github.com/Kazagha/Hierarchy");
-				JOptionPane.showMessageDialog(view, aboutString, "About Shiv", JOptionPane.PLAIN_MESSAGE);				
+				JOptionPane.showMessageDialog(view, aboutPanel(), "About Shiv", JOptionPane.PLAIN_MESSAGE);				
 				break;
 			case "Exit":
 				// Save the current Conf
