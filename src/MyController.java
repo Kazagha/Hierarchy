@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.Dimension;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -9,13 +10,13 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Enumeration;
-import java.util.LinkedHashSet;
 
 import javax.imageio.ImageIO;
+import javax.swing.Box;
+import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
@@ -23,9 +24,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -183,7 +182,74 @@ public class MyController {
 	
 	private JPanel legendPanel()
 	{
-		JPanel root = new JPanel();
+		// Create Root Panel
+		JPanel root = new JPanel(new BorderLayout());
+		// Set Icons
+		ImageIcon greenNodeIcon = new ImageIcon("images/GreenNodeIcon16.png");
+		ImageIcon greyNodeIcon = new ImageIcon("images/GreyNodeIcon16.png");
+		ImageIcon orangeNodeIcon = new ImageIcon("images/OrangeNodeIcon16.png");
+		ImageIcon greenFolderIcon = new ImageIcon("images/GreenFolderIcon16.png");	
+		ImageIcon greyFolderIcon = new ImageIcon("images/GreyFolderIcon16.png");
+		ImageIcon orangeFolderIcon = new ImageIcon("images/OrangeFolderIcon16.png");
+		
+		JPanel listPane = new JPanel();
+		listPane.setLayout(new BoxLayout(listPane, BoxLayout.Y_AXIS));
+		
+		JLabel tempLabel;
+		
+		tempLabel = new JLabel("Inactive - The user permissions DO NOT grant access to this item");
+		listPane.add(tempLabel);
+		
+		tempLabel = new JLabel("Inactive Folder");
+		tempLabel.setIcon(greyFolderIcon);
+		listPane.add(tempLabel);
+		
+		tempLabel = new JLabel("Inactive Node");
+		tempLabel.setIcon(greyNodeIcon);
+		listPane.add(tempLabel);
+		
+		listPane.add(Box.createRigidArea(new Dimension(50 ,10)));
+		
+		tempLabel = new JLabel("Active - The user permissions DO grant access to this item");
+		listPane.add(tempLabel);
+		
+		tempLabel = new JLabel("Active Folder");
+		tempLabel.setIcon(orangeFolderIcon);
+		listPane.add(tempLabel);
+		
+		tempLabel = new JLabel("Active Node");
+		tempLabel.setIcon(orangeNodeIcon);
+		listPane.add(tempLabel);
+		
+		listPane.add(Box.createRigidArea(new Dimension(50 ,10)));
+		
+		tempLabel = new JLabel("Selected - The selected permission grants access to this item");
+		listPane.add(tempLabel);		
+		
+		tempLabel = new JLabel("Selected Folder");
+		tempLabel.setIcon(greenFolderIcon);
+		listPane.add(tempLabel);
+		
+		tempLabel = new JLabel("Selected Node");
+		tempLabel.setIcon(greenNodeIcon);
+		listPane.add(tempLabel);
+		
+		listPane.add(Box.createRigidArea(new Dimension(50 ,10)));
+		
+		tempLabel = new JLabel("Hidden Nodes - Text highlighting indicates hidden items");
+		listPane.add(tempLabel);	
+		
+		tempLabel = new JLabel("Hidden Active Menu");
+		tempLabel.setBackground(orangeColor);
+		tempLabel.setOpaque(true);
+		listPane.add(tempLabel);
+		
+		tempLabel = new JLabel("Hidden Selected Menu");
+		tempLabel.setBackground(greenColor);
+		tempLabel.setOpaque(true);
+		listPane.add(tempLabel);
+		
+		root.add(listPane);
 		
 		return root;
 	}
@@ -397,6 +463,9 @@ public class MyController {
 				break;
 			case "About":
 				JOptionPane.showMessageDialog(view, aboutPanel(), "About Shiv", JOptionPane.PLAIN_MESSAGE);				
+				break;
+			case "Legend":
+				JOptionPane.showMessageDialog(view, legendPanel(), "Icon Legend", JOptionPane.PLAIN_MESSAGE);	
 				break;
 			case "Exit":
 				// Save the current Conf
