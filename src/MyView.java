@@ -191,7 +191,7 @@ public class MyView extends JPanel {
 		dataSourceMenuItem.setEnabled(true);
 		searchMenuItem.setEnabled(false);
 		statsMenuItem.setEnabled(false);
-		legendMenuItem.setEnabled(false);
+		legendMenuItem.setEnabled(true);
 		
 		// Create Menu Bar
 		JMenuBar menuBar = new JMenuBar();
