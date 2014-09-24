@@ -143,6 +143,10 @@ public class MyController {
 		return tempConf;
 	}
 	
+	/**
+	 * Save the configuration file <br> 
+	 * This will <code>null</code> the 'password' field, and delete the 'url' field. 
+	 */
 	public void saveConf()
 	{
 		conf.nullValues(new String[] {"Password"});
@@ -150,6 +154,10 @@ public class MyController {
 		conf.save();		
 	}
 	
+	/**
+	 * Create the 'help > about' screen.
+	 * @return The completed JPanel
+	 */
 	private JPanel aboutPanel()
 	{
 		JPanel root = new JPanel(new BorderLayout());
@@ -180,6 +188,10 @@ public class MyController {
 		return root;
 	}
 	
+	/**
+	 * Create the 'help > legend' screen
+	 * @return The completed JPanel
+	 */
 	private JPanel legendPanel()
 	{
 		// Create Root Panel
@@ -254,6 +266,12 @@ public class MyController {
 		return root;
 	}
 	
+	/**
+	 *	This class implements <code>Runnable</code>, and can therefore be executed in a new 
+	 *	thread. <br> 
+	 *	This will fetch the hierarchy - permission data, and refresh the user 
+	 *	name array used in the TextFieldListener. 
+	 */
 	private class fetchSQLData implements Runnable
 	{
 		public fetchSQLData() {
@@ -342,6 +360,11 @@ public class MyController {
 		}
 	}
 	
+	/**
+	 * Write <code>saveString</code> to the location specified in <code>file</code>.
+	 * @param file - The specified file location 
+	 * @param saveString - The string to save
+	 */
 	public void writeStringToFile(File file, String saveString)
 	{
 		try(FileOutputStream fos = new FileOutputStream(file)) {
