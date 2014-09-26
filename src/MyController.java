@@ -691,20 +691,27 @@ public class MyController {
 	private void hierarchyToString(DefaultMutableTreeNode node)
 	{
 		String tempString = new String();
-		TreeNode[] nodePath = node.getPath();		
+		TreeNode[] nodePath = node.getPath();
 		
-		// Iterate through the node path excluding the first node in position 0
-		for(int i = 1; i < nodePath.length; i++)
-		{	
-			if (i == 1)
+		// Check if the node is an instance of HierarchyTreeNode
+		if(node instanceof HierarchyTreeNode)
+		{			
+			// Check that the node is Active
+			if(((HierarchyTreeNode) node).getActiveMode() == HierarchyTreeNode.ActiveMode.ACTIVE)
 			{
-				tempString = String.format("%s", nodePath[i].toString());
-			} else {
-				tempString += String.format(" > %s", nodePath[i].toString());
+				// Iterate through the node path excluding the first node in position 0
+				for(int i = 1; i < nodePath.length; i++)
+				{	
+					if (i == 1)
+					{
+						tempString = String.format("%s", nodePath[i].toString());
+					} else {
+						tempString += String.format(" > %s", nodePath[i].toString());
+					}
+				}
+				System.out.printf("%s%n", tempString);
 			}
 		}
-		
-		System.out.printf("%s%n", tempString);
 		
 		if(node.getChildCount() >= 0)
 		{
