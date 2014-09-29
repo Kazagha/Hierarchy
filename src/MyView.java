@@ -455,8 +455,10 @@ public class MyView extends JPanel {
 		if(isHierarchy)
 		{
 			splitPane.setRightComponent(contentRHSHierarchy);
+			splitPane.setDividerLocation(.5);
 		} else {			
 			splitPane.setRightComponent(contentRHSView);
+			splitPane.setDividerLocation(.5);
 		}
 	}	
 	
