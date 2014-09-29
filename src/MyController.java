@@ -29,6 +29,7 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.TreeNode;
 
 import net.arcanesanctuary.Configuration.Conf;
 
@@ -465,8 +466,9 @@ public class MyController {
 				dataLHS = modelLHS.getArray();
 				saveCSV(dataLHS);				
 				break;
-			case "Export Hierarchy":
+			case "Export Hierarchy":			
 				DefaultMutableTreeNode t = ((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+				hierarchyToString(t);
 				break;
 			case "Source":				
 				// Remove existing 'URL' variable
@@ -684,6 +686,41 @@ public class MyController {
 				}
 			}
 		} 
+	}
+	
+	private void hierarchyToString(DefaultMutableTreeNode node)
+	{
+		String tempString = new String();
+		TreeNode[] nodePath = node.getPath();
+		
+		// Check if the node is an instance of HierarchyTreeNode
+		if(node instanceof HierarchyTreeNode)
+		{			
+			// Check that the node is Active
+			if(((HierarchyTreeNode) node).getActiveMode() == HierarchyTreeNode.ActiveMode.ACTIVE)
+			{
+				// Iterate through the node path excluding the first node in position 0
+				for(int i = 1; i < nodePath.length; i++)
+				{	
+					if (i == 1)
+					{
+						tempString = String.format("%s", nodePath[i].toString());
+					} else {
+						tempString += String.format(" > %s", nodePath[i].toString());
+					}
+				}
+				System.out.printf("%s%n", tempString);
+			}
+		}
+		
+		if(node.getChildCount() >= 0)
+		{
+			for(Enumeration e = node.children(); e.hasMoreElements();)
+			{		
+				DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) e.nextElement();
+				hierarchyToString(nextNode);				
+			}
+		}
 	}
 	
 	public boolean nodeContainsRole(Object obj, ArrayList<RoleData> roleArrayList)
