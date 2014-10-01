@@ -466,9 +466,10 @@ public class MyController {
 				dataLHS = modelLHS.getArray();
 				saveCSV(dataLHS);				
 				break;
-			case "Export Hierarchy":			
+			case "Export Hierarchy":
 				DefaultMutableTreeNode t = ((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
-				hierarchyToString(t);
+				String superString = hierarchyToString(t);
+				System.out.println(superString);
 				break;
 			case "Source":				
 				// Remove existing 'URL' variable
@@ -688,7 +689,7 @@ public class MyController {
 		} 
 	}
 	
-	private void hierarchyToString(DefaultMutableTreeNode node)
+	private String hierarchyToString(DefaultMutableTreeNode node)
 	{
 		String tempString = new String();
 		TreeNode[] nodePath = node.getPath();
@@ -709,18 +710,30 @@ public class MyController {
 						tempString += String.format(" > %s", nodePath[i].toString());
 					}
 				}
-				System.out.printf("%s%n", tempString);
 			}
 		}
 		
+		// Check if this node has children
 		if(node.getChildCount() >= 0)
 		{
+			// Iterate through children
 			for(Enumeration e = node.children(); e.hasMoreElements();)
 			{		
 				DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) e.nextElement();
-				hierarchyToString(nextNode);				
+				String child = hierarchyToString(nextNode);
+				
+				// If child contains text, but tempString is empty
+				if((! child.isEmpty()) && (tempString.isEmpty()))
+				{
+					tempString = child;
+				// If child contains text, insert new line
+				} else if (! child.isEmpty()) {
+					tempString = String.format("%s%n%s", tempString, child);
+				}
 			}
 		}
+		
+		return tempString;
 	}
 	
 	public boolean nodeContainsRole(Object obj, ArrayList<RoleData> roleArrayList)
