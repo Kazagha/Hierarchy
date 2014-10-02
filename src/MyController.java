@@ -318,11 +318,11 @@ public class MyController {
 		}
 	}
 	
-	public void saveCSV(ArrayList array)
+	public String roleDataCSV(ArrayList array)
 	{
 		String tempString = new String();
 		
-		if(array.isEmpty()) { return; }
+		if(array.isEmpty()) { return null; }
 
 		// Array of RoleData
 		if(array.get(0) instanceof RoleData)
@@ -333,7 +333,7 @@ public class MyController {
 				RoleData rd = (RoleData) obj;
 				tempString += String.format("%s, %s%n", rd.getRole(), rd.getDescription());
 			}
-		// Array of Hierarchy Data
+		// Array of Hierarchy Data (no longer required)
 		} else if (array.get(0) instanceof HierarchyData)
 		{
 			// Transfer HierarchyData objects into Strings in tempString
@@ -341,24 +341,13 @@ public class MyController {
 			{
 				HierarchyData hd = (HierarchyData) obj; 
 				tempString += String.format("%s, %s%n", hd.getNodeNumber(), hd.getNodeName());
-				// TODO: To be useful this should include node path and only save active rolls 
 			}
 		// Invalid Array
 		} else {
-			return;
+			return null;
 		}
-		
-		int returnVal = fc.showSaveDialog(view);
-		
-		if (returnVal == JFileChooser.APPROVE_OPTION)
-		{
-			// Find the file the user selected
-			File fileSelection = fc.getSelectedFile();
 			
-			writeStringToFile(fileSelection, tempString);			
-		} else {
-			// Save Cancelled by User
-		}
+		return tempString;	
 	}
 	
 	/**
@@ -366,18 +355,28 @@ public class MyController {
 	 * @param file - The specified file location 
 	 * @param saveString - The string to save
 	 */
-	public void writeStringToFile(File file, String saveString)
+	public void saveStringAs(String saveString)
 	{
-		try(FileOutputStream fos = new FileOutputStream(file)) {
-			byte[] outputBytes = saveString.getBytes();
-			fos.write(outputBytes);
-		} catch (FileNotFoundException e) {
-			String err = String.format("File not found: %n%s", file.getPath());					
-			JOptionPane.showMessageDialog(view, err, "Error", JOptionPane.ERROR_MESSAGE);
-		} catch (IOException e)
+		int returnVal = fc.showSaveDialog(view);
+		
+		if (returnVal == JFileChooser.APPROVE_OPTION)
 		{
-			String err = String.format("File not found: %n%s", e.getMessage());		
-			JOptionPane.showMessageDialog(view, err, "Error", JOptionPane.ERROR_MESSAGE);
+			// Find the file the user selected
+			File fileSelection = fc.getSelectedFile();		
+		
+			try(FileOutputStream fos = new FileOutputStream(fileSelection)) {
+				byte[] outputBytes = saveString.getBytes();
+				fos.write(outputBytes);
+			} catch (FileNotFoundException e) {
+				String err = String.format("File not found: %n%s", fileSelection.getPath());					
+				JOptionPane.showMessageDialog(view, err, "Error", JOptionPane.ERROR_MESSAGE);
+			} catch (IOException e)
+			{
+				String err = String.format("File not found: %n%s", e.getMessage());		
+				JOptionPane.showMessageDialog(view, err, "Error", JOptionPane.ERROR_MESSAGE);
+			}			
+		} else {
+			// Save Cancelled by User
 		}
 	}
 	
@@ -464,12 +463,23 @@ public class MyController {
 				break;
 			case "Export Role":
 				dataLHS = modelLHS.getArray();
-				saveCSV(dataLHS);				
+				if(! dataLHS.isEmpty())
+				{
+					saveStringAs(roleDataCSV(dataLHS));
+				} else {
+					String err = String.format("Unable to export User Roles %nLeft hand side user roles are empty.");
+					JOptionPane.showMessageDialog(view, err, "Export Error", JOptionPane.ERROR_MESSAGE);
+				}
 				break;
 			case "Export Hierarchy":
 				DefaultMutableTreeNode t = ((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
-				String superString = hierarchyToString(t);
-				System.out.println(superString);
+				if(activeNodeCount > 0)
+				{
+					saveStringAs(hierarchyToString(t));
+				} else {
+					String err = String.format("Unable to export Hierarchy %nOnly active nodes will be exported.");
+					JOptionPane.showMessageDialog(view, err, "Export Error", JOptionPane.ERROR_MESSAGE);
+				}
 				break;
 			case "Source":				
 				// Remove existing 'URL' variable

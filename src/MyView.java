@@ -187,7 +187,7 @@ public class MyView extends JPanel {
 		// Disable unimplemented Menu Items
 		importMenuItem.setEnabled(false);
 		exportRoleMenuItem.setEnabled(true);
-		exportHierarchyMenuItem.setEnabled(false);
+		exportHierarchyMenuItem.setEnabled(true);
 		dataSourceMenuItem.setEnabled(true);
 		searchMenuItem.setEnabled(false);
 		statsMenuItem.setEnabled(false);
@@ -369,6 +369,9 @@ public class MyView extends JPanel {
 		
 		exportRoleMenuItem.setActionCommand("Export Role");
 		exportRoleMenuItem.addActionListener(controllerActionListener);
+		
+		exportHierarchyMenuItem.setActionCommand("Export Hierarchy");
+		exportHierarchyMenuItem.addActionListener(controllerActionListener);
 		
 		dataSourceMenuItem.setActionCommand("Source");
 		dataSourceMenuItem.addActionListener(controllerActionListener);
