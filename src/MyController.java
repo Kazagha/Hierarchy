@@ -674,6 +674,20 @@ public class MyController {
 		}
 	}
 	
+	/**
+	 * Set the 'parent node' of <code>node</code> to 'partial selection mode' 
+	 * according to the specified <code>mode</code>.     
+	 * 
+	 * <br><br>
+	 * The mode can be set to either <code>updateMode.ACTIVE<code> or 
+	 * <code>updateMode.SELECTED<code>
+	 * <br><br>
+	 * For example when updating with an 'active' <code>mode</code>, check if the parent is 'active'.
+	 * If <code>false</code> set the parent to 'partial_active'
+	 * 
+	 * @param node - The current node
+	 * @param mode - The specified mode
+	 */
 	private void updateParentNodes(DefaultMutableTreeNode node, UpdateMode mode)
 	{		
 		Object objectNode = node.getParent();
@@ -699,6 +713,11 @@ public class MyController {
 		} 
 	}
 	
+	/**
+	 * Starting with the root of the Hierarchy, walk through the nodes adding the 'node path' of active nodes to the String. 
+	 * @param node - The root <code>node</code>. 
+	 * @return - Returns a string representing all active nodes. 
+	 */
 	private String hierarchyToString(DefaultMutableTreeNode node)
 	{
 		String tempString = new String();
@@ -710,9 +729,10 @@ public class MyController {
 			// Check that the node is Active
 			if(((HierarchyTreeNode) node).getActiveMode() == HierarchyTreeNode.ActiveMode.ACTIVE)
 			{
-				// Iterate through the node path excluding the first node in position 0
+				// Iterate through the node path excluding the root node in position 0
 				for(int i = 1; i < nodePath.length; i++)
 				{	
+					// Is this the first element in the node path 
 					if (i == 1)
 					{
 						tempString = String.format("%s", nodePath[i].toString());
@@ -746,6 +766,12 @@ public class MyController {
 		return tempString;
 	}
 	
+	/**
+	 * Check if the <code>obj</code> node, contains the roles specified in <code>roleArrayList</code> 
+	 * @param obj - The specified node object. 
+	 * @param roleArrayList - A list of <code>RoleData</code> permissions. 
+	 * @return
+	 */
 	public boolean nodeContainsRole(Object obj, ArrayList<RoleData> roleArrayList)
 	{
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)obj;
@@ -825,11 +851,9 @@ public class MyController {
 				{				
 					view.setManualEntry(false);
 					modelLHS.setEditMode(false);
-					//tableRHS.setEditMode(false);
 				} else {
 					view.setManualEntry(true);
 					modelLHS.setEditMode(true);
-					//tableRHS.setEditMode(true);
 				}
 			}
 		}    	
