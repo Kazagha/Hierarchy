@@ -467,7 +467,7 @@ public class MyController {
 				{
 					saveStringAs(roleDataCSV(dataLHS));
 				} else {
-					String err = String.format("Unable to export User Roles %nLeft hand side user roles are empty.");
+					String err = String.format("Exporting permissions failed %nLeft hand side user roles are empty.");
 					JOptionPane.showMessageDialog(view, err, "Export Error", JOptionPane.ERROR_MESSAGE);
 				}
 				break;
@@ -477,7 +477,7 @@ public class MyController {
 				{
 					saveStringAs(hierarchyToString(t));
 				} else {
-					String err = String.format("Unable to export Hierarchy %nOnly active nodes will be exported.");
+					String err = String.format("Exporting Hierarchy failed %nOnly active nodes will be exported.");
 					JOptionPane.showMessageDialog(view, err, "Export Error", JOptionPane.ERROR_MESSAGE);
 				}
 				break;
