@@ -189,7 +189,7 @@ public class MyView extends JPanel {
 		exportRoleMenuItem.setEnabled(true);
 		exportHierarchyMenuItem.setEnabled(true);
 		dataSourceMenuItem.setEnabled(true);
-		searchMenuItem.setEnabled(false);
+		searchMenuItem.setEnabled(true);
 		statsMenuItem.setEnabled(false);
 		legendMenuItem.setEnabled(true);
 		
@@ -354,6 +354,9 @@ public class MyView extends JPanel {
 		
 		swapMenuItem.setActionCommand("Swap Sides");
 		swapMenuItem.addActionListener(controllerActionListener);
+		
+		searchMenuItem.setActionCommand("Search");
+		searchMenuItem.addActionListener(controllerActionListener);
 		
 		hierarchyViewMenuItem.setActionCommand("View Hierarchy");
 		hierarchyViewMenuItem.addActionListener(controllerActionListener);
