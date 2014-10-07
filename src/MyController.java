@@ -292,12 +292,13 @@ public class MyController {
 					JOptionPane.PLAIN_MESSAGE, null, searchOptions,
 					JOptionPane.OK_OPTION);
 			
-			
-			
-						
-	        //int result = JOptionPane.showOptionDialog(null, panel, "Enter a Number",
-	        //        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
-	        //        null, options1, null);
+			if(result == JOptionPane.YES_OPTION)
+			{
+				// Search forward
+			} else if (result == JOptionPane.NO_OPTION)
+			{
+				// Search backwards
+			}
 		}
 		
 	}
