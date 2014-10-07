@@ -1,6 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -24,6 +27,7 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
@@ -267,6 +271,37 @@ public class MyController {
 		return root;
 	}
 	
+	private class searchPanel implements Runnable
+	{
+
+		@Override
+		public void run() {
+			JPanel content = new JPanel(new BorderLayout());
+			Object[] searchOptions = { "Next", "Previous" };
+						
+			JLabel searchLabel = new JLabel("Enter search string:");
+			
+			JTextField searchTextField = new JTextField();
+			
+			content.add(searchLabel, BorderLayout.NORTH);
+			content.add(searchTextField, BorderLayout.CENTER);
+			
+			int result = JOptionPane.showOptionDialog(
+					view, content,
+					"Hierarchy Search", JOptionPane.YES_NO_OPTION, 
+					JOptionPane.PLAIN_MESSAGE, null, searchOptions,
+					JOptionPane.OK_OPTION);
+			
+			
+			
+						
+	        //int result = JOptionPane.showOptionDialog(null, panel, "Enter a Number",
+	        //        JOptionPane.YES_NO_CANCEL_OPTION, JOptionPane.PLAIN_MESSAGE,
+	        //        null, options1, null);
+		}
+		
+	}
+	
 	/**
 	 *	This class implements <code>Runnable</code>, and can therefore be executed in a new 
 	 *	thread. <br> 
@@ -441,6 +476,10 @@ public class MyController {
 				
 				//TODO: Create Table Listener
 				setActiveRoles(modelLHS.getArray());
+				break;
+			case "Search":
+				Thread searchThread = new Thread(new searchPanel());
+				searchThread.start();
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);				
@@ -856,6 +895,6 @@ public class MyController {
 					modelLHS.setEditMode(true);
 				}
 			}
-		}    	
+		}  	
     }
 }
