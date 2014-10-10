@@ -124,6 +124,11 @@ public class MyView extends JPanel {
 				);		
 	}
 	
+	/**
+	 * This class creates a new JPanel with a JLabel title across the top <br> 
+	 * and the specified <code>component</code> underneath inside a JScrollPane.
+	 *
+	 */
 	class ComponentWithTitle extends JPanel
 	{
 		JLabel titleLabel = new JLabel(" - ");
@@ -253,6 +258,10 @@ public class MyView extends JPanel {
 		t.setAutoCreateRowSorter(true);
 	}
 	
+	/**
+	 * Enable/Disable the 'insert' and 'remove' menu items.  
+	 * @param isEnabled - <code>True</code> to enable
+	 */
 	public void setManualEntry(boolean isEnabled)
 	{
 		removeRolesMenuItem.setEnabled(isEnabled);
@@ -438,21 +447,37 @@ public class MyView extends JPanel {
 		textFieldlistener.setKeyMapping(inputTextFieldRHS);	
 	}
 	
-	public void setLHSViewTitle(String s)
+	/**
+	 * Set the title of the left hand side 'role' view
+	 * @param title - The specified title
+	 */
+	public void setLHSViewTitle(String title)
 	{
-		contentLHSView.setTitle(s);	
+		contentLHSView.setTitle(title);	
 	}
 	
-	public void setRHSViewTitle(String s)
+	/**
+	 * Set the title of the right hand side 'role' view
+	 * @param title - The specified title
+	 */
+	public void setRHSViewTitle(String title)
 	{
-		contentRHSView.setTitle(s);
+		contentRHSView.setTitle(title);
 	}
 	
-	public void setRHSHierarchyTitle(String s)
+	/**
+	 * Set the title of the 'hierarchy' view
+	 * @param title - The specified title
+	 */
+	public void setRHSHierarchyTitle(String title)
 	{
-		contentRHSHierarchy.setTitle(s);
+		contentRHSHierarchy.setTitle(title);
 	}
 	
+	/**
+	 * Switch the view between the 'Hierarchy' and 'Role' views.
+	 * @param isHierarchy - <code>True</code> to show the Hierarchy
+	 */
 	public void setHierarchyPanel(boolean isHierarchy)
 	{
 		if(isHierarchy)
