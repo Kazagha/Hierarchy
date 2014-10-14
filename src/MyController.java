@@ -71,6 +71,7 @@ public class MyController {
 	Color orangeColor = new Color(244, 164, 96);
 	
 	private static enum UpdateMode { ACTIVE, SELECTED }
+	private static enum Iterate { FORWARDS, BACKWARDS }
 	
 	static enum Actions {
 		LOADLHS ("loadLHS"),
@@ -295,13 +296,16 @@ public class MyController {
 			
 			if(result == JOptionPane.YES_OPTION)
 			{
-				TreeNodeSearch tns = new TreeNodeSearch("SearchString", treeRHS.getSelectionPath());
-				// Search forward
-				//TreePath tp = treeRHS.getSelectionPath();
-				tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+				TreeNodeSearch tns = new TreeNodeSearch(
+						treeRHS.getSelectionPath(),
+						"SearchString",
+						Iterate.FORWARDS);
 			} else if (result == JOptionPane.NO_OPTION)
-			{
-				// Search backwards
+			{			
+				TreeNodeSearch tns = new TreeNodeSearch(
+						treeRHS.getSelectionPath(),
+						"SearchString",
+						Iterate.BACKWARDS);
 			}
 		}		
 	}
@@ -309,12 +313,14 @@ public class MyController {
 	private class TreeNodeSearch 
 	{
 		String searchString;
-		boolean findPath;
+		boolean fastForward;
+		Iterate iterate;
 		
-		public TreeNodeSearch(String searchString, TreePath path) {
+		public TreeNodeSearch(TreePath path, String searchString, Iterate iterateDirection) {
 			this.searchString = searchString;
-			this.findPath = true;
-			//this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+			this.fastForward = true;
+			this.iterate = iterateDirection;
+			this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 		}
 		
 		void search(DefaultMutableTreeNode node) 
@@ -324,22 +330,21 @@ public class MyController {
 			
 			if(node.getChildCount() >= 0)
 			
-			{
-			/*
-				for(Enumeration e = node.children(); e.hasMoreElements();)
-				{		
-					DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) e.nextElement();
-					search(nextNode);
-				}
-			}
-			*/
-			
-				for(int i = 0; i < node.getChildCount(); i++)
+			{			
+				if(iterate == Iterate.FORWARDS)
 				{
-					DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
-					search(nextNode);
-				}
-				
+					for(int i = 0; i < node.getChildCount(); i++)
+					{
+						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
+						search(nextNode);
+					}
+				} else if(iterate == Iterate.BACKWARDS) {
+					for(int i = 0; i < node.getChildCount(); i--)
+					{
+						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
+						search(nextNode);
+					}
+				}				
 			}		
 		}
 	}
