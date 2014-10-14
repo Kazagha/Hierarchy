@@ -320,16 +320,27 @@ public class MyController {
 		void search(DefaultMutableTreeNode node) 
 		{
 			//Check if the node matches
-			System.out.println(node.toString() + " matchs " + searchString + " ?");
+			System.out.println(node.toString());
 			
 			if(node.getChildCount() >= 0)
+			
 			{
+			/*
 				for(Enumeration e = node.children(); e.hasMoreElements();)
 				{		
 					DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) e.nextElement();
 					search(nextNode);
 				}
 			}
+			*/
+			
+				for(int i = 0; i < node.getChildCount(); i++)
+				{
+					DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
+					search(nextNode);
+				}
+				
+			}		
 		}
 	}
 	
