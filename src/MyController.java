@@ -34,6 +34,7 @@ import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import net.arcanesanctuary.Configuration.Conf;
 
@@ -294,13 +295,42 @@ public class MyController {
 			
 			if(result == JOptionPane.YES_OPTION)
 			{
+				TreeNodeSearch tns = new TreeNodeSearch("SearchString", treeRHS.getSelectionPath());
 				// Search forward
+				//TreePath tp = treeRHS.getSelectionPath();
+				tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 			} else if (result == JOptionPane.NO_OPTION)
 			{
 				// Search backwards
 			}
+		}		
+	}
+	
+	private class TreeNodeSearch 
+	{
+		String searchString;
+		boolean findPath;
+		
+		public TreeNodeSearch(String searchString, TreePath path) {
+			this.searchString = searchString;
+			this.findPath = true;
+			//this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 		}
 		
+		void search(DefaultMutableTreeNode node) 
+		{
+			//Check if the node matches
+			System.out.println(node.toString() + " matchs " + searchString + " ?");
+			
+			if(node.getChildCount() >= 0)
+			{
+				for(Enumeration e = node.children(); e.hasMoreElements();)
+				{		
+					DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) e.nextElement();
+					search(nextNode);
+				}
+			}
+		}
 	}
 	
 	/**
