@@ -1,6 +1,9 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
+import java.awt.ComponentOrientation;
 import java.awt.Dimension;
+import java.awt.FlowLayout;
+import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -24,12 +27,14 @@ import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
+import javax.swing.JTextField;
 import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
+import javax.swing.tree.TreePath;
 
 import net.arcanesanctuary.Configuration.Conf;
 
@@ -66,6 +71,7 @@ public class MyController {
 	Color orangeColor = new Color(244, 164, 96);
 	
 	private static enum UpdateMode { ACTIVE, SELECTED }
+	private static enum Iterate { FORWARDS, BACKWARDS }
 	
 	static enum Actions {
 		LOADLHS ("loadLHS"),
@@ -267,6 +273,94 @@ public class MyController {
 		return root;
 	}
 	
+	private class searchPanel implements Runnable
+	{
+
+		@Override
+		public void run() {
+			JPanel content = new JPanel(new BorderLayout());
+			Object[] searchOptions = { "Next", "Previous" };
+						
+			JLabel searchLabel = new JLabel("Enter search string:");
+			
+			JTextField searchTextField = new JTextField();
+			
+			content.add(searchLabel, BorderLayout.NORTH);
+			content.add(searchTextField, BorderLayout.CENTER);
+			
+			int result = JOptionPane.showOptionDialog(
+					view, content,
+					"Hierarchy Search", JOptionPane.YES_NO_OPTION, 
+					JOptionPane.PLAIN_MESSAGE, null, searchOptions,
+					JOptionPane.OK_OPTION);
+			
+			if(result == JOptionPane.YES_OPTION)
+			{
+				TreeNodeSearch tns = new TreeNodeSearch(
+						treeRHS.getSelectionPath(),
+						"SearchString",
+						Iterate.FORWARDS);
+			} else if (result == JOptionPane.NO_OPTION)
+			{			
+				TreeNodeSearch tns = new TreeNodeSearch(
+						treeRHS.getSelectionPath(),
+						"SearchString",
+						Iterate.BACKWARDS);
+			}
+		}		
+	}
+	
+	private class TreeNodeSearch 
+	{
+		TreePath path;
+		String searchString;
+		Iterate iterate;
+		
+		public TreeNodeSearch(TreePath path, String searchString, Iterate iterateDirection) {
+			this.path = path;
+			this.searchString = searchString;
+			this.iterate = iterateDirection;
+			this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+		}
+		
+		void search(DefaultMutableTreeNode node) 
+		{
+			boolean fastForward = true;
+			System.out.println(node.getLevel() + ": " + node.toString());
+			
+			if(node.getChildCount() >= 0)
+			{				
+				if(iterate == Iterate.FORWARDS)
+				{
+					for(int i = 0; i < node.getChildCount(); i++)
+					{
+						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
+						
+						// The 'getLevel()' method will start at 0, whereas 'getPathCount' will start at 1
+						if(fastForward && node.getLevel() < path.getPathCount())
+						{
+							if((path.getPathComponent(node.getLevel()).toString()).equals(node.toString()))
+							{
+								fastForward = false;
+								search(nextNode);
+							} else {
+								// Continue to fast forward
+							}
+						} else {
+							search(nextNode);
+						}
+					}
+				} else if(iterate == Iterate.BACKWARDS) {
+					for(int i = 0; i < node.getChildCount(); i--)
+					{
+						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
+						search(nextNode);
+					}
+				}				
+			}		
+		}
+	}
+	
 	/**
 	 *	This class implements <code>Runnable</code>, and can therefore be executed in a new 
 	 *	thread. <br> 
@@ -441,6 +535,10 @@ public class MyController {
 				
 				//TODO: Create Table Listener
 				setActiveRoles(modelLHS.getArray());
+				break;
+			case "Search":
+				Thread searchThread = new Thread(new searchPanel());
+				searchThread.start();
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);				
@@ -856,6 +954,6 @@ public class MyController {
 					modelLHS.setEditMode(true);
 				}
 			}
-		}    	
+		}  	
     }
 }
