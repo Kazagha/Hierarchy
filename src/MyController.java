@@ -312,31 +312,43 @@ public class MyController {
 	
 	private class TreeNodeSearch 
 	{
+		TreePath path;
 		String searchString;
-		boolean fastForward;
 		Iterate iterate;
 		
 		public TreeNodeSearch(TreePath path, String searchString, Iterate iterateDirection) {
+			this.path = path;
 			this.searchString = searchString;
-			this.fastForward = true;
 			this.iterate = iterateDirection;
 			this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 		}
 		
 		void search(DefaultMutableTreeNode node) 
 		{
-			//Check if the node matches
-			System.out.println(node.toString());
+			boolean fastForward = true;
+			System.out.println(node.getLevel() + ": " + node.toString());
 			
 			if(node.getChildCount() >= 0)
-			
-			{			
+			{				
 				if(iterate == Iterate.FORWARDS)
 				{
 					for(int i = 0; i < node.getChildCount(); i++)
 					{
 						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
-						search(nextNode);
+						
+						// The 'getLevel()' method will start at 0, whereas 'getPathCount' will start at 1
+						if(fastForward && node.getLevel() < path.getPathCount())
+						{
+							if((path.getPathComponent(node.getLevel()).toString()).equals(node.toString()))
+							{
+								fastForward = false;
+								search(nextNode);
+							} else {
+								// Continue to fast forward
+							}
+						} else {
+							search(nextNode);
+						}
 					}
 				} else if(iterate == Iterate.BACKWARDS) {
 					for(int i = 0; i < node.getChildCount(); i--)
