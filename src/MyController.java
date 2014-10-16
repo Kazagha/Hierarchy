@@ -349,10 +349,10 @@ public class MyController {
 					for(int i = 0; i < node.getChildCount(); i++)
 					{
 						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
-						
+
 						if(fastForward && fastForwardTier)
 						{							
-							if((path.getPathComponent(node.getLevel()).toString()).equals(node.toString()))
+							if((path.getPathComponent(nextNode.getLevel()).toString()).equals(nextNode.toString()))							
 							{
 								fastForwardTier = false;
 								search(nextNode);
