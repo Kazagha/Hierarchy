@@ -298,13 +298,13 @@ public class MyController {
 			{
 				TreeNodeSearch tns = new TreeNodeSearch(
 						treeRHS.getSelectionPath(),
-						"SearchString",
+						searchTextField.getText(),
 						Iterate.FORWARDS);
 			} else if (result == JOptionPane.NO_OPTION)
 			{			
 				TreeNodeSearch tns = new TreeNodeSearch(
 						treeRHS.getSelectionPath(),
-						"SearchString",
+						searchTextField.getText(),
 						Iterate.BACKWARDS);
 			}
 		}		
@@ -315,6 +315,7 @@ public class MyController {
 		TreePath path;
 		String searchString;
 		Iterate iterate;
+		boolean fastForward = true;
 		
 		public TreeNodeSearch(TreePath path, String searchString, Iterate iterateDirection) {
 			this.path = path;
@@ -325,10 +326,15 @@ public class MyController {
 		
 		void search(DefaultMutableTreeNode node) 
 		{
-			boolean fastForward = true;
-			System.out.println(node.getLevel() + ": " + node.toString());
+			boolean fastForwardTier = true;
+			System.out.println(node.getLevel() + ": " + node.toString() + " (" + (node.getChildCount() > 0) + ")");
 			
-			if(node.getChildCount() >= 0)
+			if(searchString.equals(node.toString()))
+			{
+				System.out.println("Success matching: " + searchString);
+			}
+			
+			if(node.getChildCount() > 0)
 			{				
 				if(iterate == Iterate.FORWARDS)
 				{
@@ -337,11 +343,12 @@ public class MyController {
 						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
 						
 						// The 'getLevel()' method will start at 0, whereas 'getPathCount' will start at 1
-						if(fastForward && node.getLevel() < path.getPathCount())
+						if(fastForward && fastForwardTier && node.getLevel() < path.getPathCount())
 						{
 							if((path.getPathComponent(node.getLevel()).toString()).equals(node.toString()))
 							{
-								fastForward = false;
+								checkMatchesUserSelection(node);
+								fastForwardTier = false;
 								search(nextNode);
 							} else {
 								// Continue to fast forward
@@ -358,6 +365,14 @@ public class MyController {
 					}
 				}				
 			}		
+		}
+		
+		void checkMatchesUserSelection(DefaultMutableTreeNode n)
+		{
+			if(path.getLastPathComponent() == n)
+			{
+				fastForward = false;
+			}
 		}
 	}
 	
