@@ -327,12 +327,20 @@ public class MyController {
 		void search(DefaultMutableTreeNode node) 
 		{
 			boolean fastForwardTier = true;
-			System.out.println(node.getLevel() + ": " + node.toString() + " (" + (node.getChildCount() > 0) + ")");
+			
+			String space = " ";
+			for(int i = 0; i < node.getLevel(); i++)
+			{
+				space += " ";
+			}
+			System.out.println(node.getLevel() + ":"+ space + node.toString() + " (" + (node.getChildCount() > 0) + ")");
 			
 			if(searchString.equals(node.toString()))
 			{
 				System.out.println("Success matching: " + searchString);
 			}
+			
+			checkMatchesUserSelection(node);
 			
 			if(node.getChildCount() > 0)
 			{				
@@ -342,12 +350,10 @@ public class MyController {
 					{
 						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
 						
-						// The 'getLevel()' method will start at 0, whereas 'getPathCount' will start at 1
-						if(fastForward && fastForwardTier && node.getLevel() < path.getPathCount())
-						{
+						if(fastForward && fastForwardTier)
+						{							
 							if((path.getPathComponent(node.getLevel()).toString()).equals(node.toString()))
 							{
-								checkMatchesUserSelection(node);
 								fastForwardTier = false;
 								search(nextNode);
 							} else {
