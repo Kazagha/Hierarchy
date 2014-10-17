@@ -328,16 +328,19 @@ public class MyController {
 		{
 			boolean fastForwardTier = true;
 			
-			String space = " ";
+			// Print information for debugging
+			String space = "";
 			for(int i = 0; i < node.getLevel(); i++)
 			{
-				space += " ";
-			}
-			System.out.println(node.getLevel() + ":"+ space + node.toString() + " (" + (node.getChildCount() > 0) + ")");
+				space += "-";
+			}			
+			//System.out.println(node.getLevel() + ":"+ space + node.toString() + " (" + (node.getChildCount() > 0) + ")");
 			
-			if(searchString.equals(node.toString()))
+			if((fastForward == false) && node.toString().contains(searchString))
 			{
-				System.out.println("Success matching: " + searchString);
+				System.out.println("Success matching: " + node.toString());
+				TreePath tp = new TreePath(node.getPath());
+				treeRHS.setSelectionPath(tp);
 			}
 			
 			checkMatchesUserSelection(node);
