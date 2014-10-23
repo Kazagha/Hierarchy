@@ -23,12 +23,14 @@ import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
@@ -276,18 +278,29 @@ public class MyController {
 	
 	private class searchPanel implements Runnable
 	{
-
 		@Override
-		public void run() {
+		public void run() {			
+			//Frame Width and Height
+			final int FRAME_WIDTH = 150;
+			final int FRAME_HEIGHT = 150;
+			
+			JFrame searchFrame = new JFrame("test");
+			searchFrame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
+
+						
 			JPanel content = new JPanel(new BorderLayout());
 			Object[] searchOptions = { "Next", "Previous" };
 						
 			JLabel searchLabel = new JLabel("Enter search string:");
-			
 			JTextField searchTextField = new JTextField();
 			
 			content.add(searchLabel, BorderLayout.NORTH);
-			content.add(searchTextField, BorderLayout.CENTER);
+			content.add(searchTextField, BorderLayout.CENTER);			
+
+			searchFrame.setContentPane(content);
+			searchFrame.pack();			
+			searchFrame.setVisible(true);			
+			/*
 			
 			int result = JOptionPane.showOptionDialog(
 					view, content,
@@ -315,6 +328,9 @@ public class MyController {
 			}
 			
 			//JOptionPane.CLOSED_OPTION
+			 
+			
+			*/
 		}		
 	}
 	
@@ -595,8 +611,11 @@ public class MyController {
 				setActiveRoles(modelLHS.getArray());
 				break;
 			case "Search":
-				Thread searchThread = new Thread(new searchPanel());
-				searchThread.start();
+				//Thread searchThread = new Thread(new searchPanel());
+				//searchThread.start();
+				
+				SwingUtilities.invokeLater(new searchPanel());
+				
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);				
