@@ -32,6 +32,7 @@ import javax.swing.JTree;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -300,6 +301,11 @@ public class MyController {
 						treeRHS.getSelectionPath(),
 						searchTextField.getText(),
 						Iterate.FORWARDS);
+				
+				TreePath selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+				
+				treeRHS.setSelectionPath(selection);
+				
 			} else if (result == JOptionPane.NO_OPTION)
 			{			
 				TreeNodeSearch tns = new TreeNodeSearch(
@@ -321,10 +327,10 @@ public class MyController {
 			this.path = path;
 			this.searchString = searchString;
 			this.iterate = iterateDirection;
-			this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+			//this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 		}
 		
-		void search(DefaultMutableTreeNode node) 
+		TreePath search(DefaultMutableTreeNode node) 
 		{
 			boolean fastForwardTier = true;
 			
@@ -333,20 +339,23 @@ public class MyController {
 			for(int i = 0; i < node.getLevel(); i++)
 			{
 				space += "-";
-			}			
+			}	
+			
 			//System.out.println(node.getLevel() + ":"+ space + node.toString() + " (" + (node.getChildCount() > 0) + ")");
 			
 			if((fastForward == false) && node.toString().contains(searchString))
 			{
 				System.out.println("Success matching: " + node.toString());
 				TreePath tp = new TreePath(node.getPath());
-				treeRHS.setSelectionPath(tp);
+				//treeRHS.setSelectionPath(tp);
+				return tp;
 			}
 			
 			checkMatchesUserSelection(node);
+			TreePath tempTreePath = null;;
 			
 			if(node.getChildCount() > 0)
-			{				
+			{		
 				if(iterate == Iterate.FORWARDS)
 				{
 					for(int i = 0; i < node.getChildCount(); i++)
@@ -358,12 +367,17 @@ public class MyController {
 							if((path.getPathComponent(nextNode.getLevel()).toString()).equals(nextNode.toString()))							
 							{
 								fastForwardTier = false;
-								search(nextNode);
+								tempTreePath = search(nextNode);
 							} else {
 								// Continue to fast forward
 							}
 						} else {
-							search(nextNode);
+							tempTreePath = search(nextNode);
+						}
+						
+						if(tempTreePath != null) 
+						{
+							return tempTreePath; 
 						}
 					}
 				} else if(iterate == Iterate.BACKWARDS) {
@@ -372,8 +386,11 @@ public class MyController {
 						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
 						search(nextNode);
 					}
-				}				
-			}		
+				}	
+			}
+			
+			// No children match the search term
+			return null;
 		}
 		
 		void checkMatchesUserSelection(DefaultMutableTreeNode n)
