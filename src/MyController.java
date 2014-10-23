@@ -313,6 +313,8 @@ public class MyController {
 						searchTextField.getText(),
 						Iterate.BACKWARDS);
 			}
+			
+			//JOptionPane.CLOSED_OPTION
 		}		
 	}
 	
@@ -351,30 +353,38 @@ public class MyController {
 				return tp;
 			}
 			
-			checkMatchesUserSelection(node);
-			TreePath tempTreePath = null;;
+			fastForward = checkMatchesUserSelection(node);
 			
+			TreePath tempTreePath = null;
+			
+			// Check if there are any children nodes
 			if(node.getChildCount() > 0)
 			{		
+				// Iterate forwards through the available nodes
 				if(iterate == Iterate.FORWARDS)
 				{
+					// Begin iterating through child nodes
 					for(int i = 0; i < node.getChildCount(); i++)
 					{
-						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
+						// Get the child node for this iteration 
+						DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) node.getChildAt(i);
 
-						if(fastForward && fastForwardTier)
-						{							
-							if((path.getPathComponent(nextNode.getLevel()).toString()).equals(nextNode.toString()))							
+						// Fast forwarding through the array (skipping nodes) 
+						if(fastForward)
+						{	
+							// From the 'path' find the component at this tier (node.getLevel()), 
+							//  then do a string compare against the current node
+							if((path.getPathComponent(childNode.getLevel()).toString()).equals(childNode.toString()))							
 							{
-								fastForwardTier = false;
-								tempTreePath = search(nextNode);
-							} else {
-								// Continue to fast forward
-							}
-						} else {
-							tempTreePath = search(nextNode);
+								// If 'True' search further down the hierarchy
+								tempTreePath = search(childNode);
+							}   // If 'false' continue to fast forward without going down to the next tier							
+						// No longer fast forwarding, search down the hierarchy
+						} else if(!fastForward) {
+							tempTreePath = search(childNode);
 						}
 						
+						// If there is a valid selection this won't be NULL
 						if(tempTreePath != null) 
 						{
 							return tempTreePath; 
@@ -393,11 +403,18 @@ public class MyController {
 			return null;
 		}
 		
-		void checkMatchesUserSelection(DefaultMutableTreeNode n)
+		/**
+		 * Check if the specified <code>node</code> is the last component in the <code>path</code>.
+		 * @param node - The specified node
+		 * @return <code>true</code> if the specified node is the last in the path
+		 */
+		boolean checkMatchesUserSelection(DefaultMutableTreeNode node)
 		{
-			if(path.getLastPathComponent() == n)
+			if(path.getLastPathComponent() == node)
 			{
-				fastForward = false;
+				return false;
+			} else {
+				return true;
 			}
 		}
 	}
