@@ -353,7 +353,9 @@ public class MyController {
 				return tp;
 			}
 			
-			fastForward = checkMatchesUserSelection(node);
+			// Check if this 'node' is the last component in the 'path', 
+			// 	if true stop fast forwarding
+			checkMatchesUserSelection(node);
 			
 			TreePath tempTreePath = null;
 			
@@ -408,13 +410,11 @@ public class MyController {
 		 * @param node - The specified node
 		 * @return <code>true</code> if the specified node is the last in the path
 		 */
-		boolean checkMatchesUserSelection(DefaultMutableTreeNode node)
+		void checkMatchesUserSelection(DefaultMutableTreeNode node)
 		{
 			if(path.getLastPathComponent() == node)
 			{
-				return false;
-			} else {
-				return true;
+				fastForward = false;
 			}
 		}
 	}
