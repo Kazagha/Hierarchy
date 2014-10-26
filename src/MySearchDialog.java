@@ -1,5 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Dimension;
+import java.awt.event.ActionListener;
 
 import javax.swing.GroupLayout;
 import javax.swing.JButton;
@@ -81,4 +82,19 @@ public class MySearchDialog extends JPanel {
 	{
 		searchFrame.setVisible(true);
 	}	
+	
+	public String getTextField()
+	{
+		return searchTextField.getText();
+	}
+	
+	public void setNextAction(ActionListener aListener)
+	{
+		nextButton.addActionListener(aListener);
+	}
+	
+	public void setPrevAction(ActionListener aListener)
+	{
+		prevButton.addActionListener(aListener);
+	}
 }
