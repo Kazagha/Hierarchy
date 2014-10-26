@@ -67,6 +67,10 @@ public class MyController {
 	private JLabel selectedLabel = new JLabel("0");
 	private JLabel statusLabel = new JLabel(" ");
 	
+	// Search Panel
+	private MySearchDialog searchDialog;
+	private JTextField searchField;
+	
 	// Setup Colors
 	Color blackColor = new Color(51, 51, 51);
 	Color greenColor = new Color(152, 251, 152);
@@ -138,6 +142,9 @@ public class MyController {
 		statusBar.addRightComponent(activeLabel, orangeColor);
 		statusBar.addRightComponent(selectedLabel, greenColor);
 		statusBar.setLeftComponent(statusLabel);
+		
+		// Set the search panel
+		searchDialog = new MySearchDialog("Hierarchy Search", searchField);
 	}
 	
 	public Conf loadConf(String fileName)
@@ -276,17 +283,37 @@ public class MyController {
 		return root;
 	}
 	
-	private class searchPanel implements Runnable
-	{
-		@Override
-		public void run() {			
+	private class searchPanel
+	{	
+		/*
+		JLabel searchLabel;
+		JTextField searchTextField;
+		
+		public searchPanel(String searchString, JTextField searchTextField)
+		{
+			this.searchLabel = new JLabel(searchString);
+			this.searchTextField = searchTextField;
+		}
+		
+		public void search()
+		{
+			
+		}
+		*/
+		//JPanel content = new JPanel(new BorderLayout());
+		
+		//new MySearchDialog("Hierarchy Search", searchTextField);
+		
+		//content.add(searchLabel, BorderLayout.NORTH);
+		//content.add(searchTextField, BorderLayout.CENTER);
+		
+		/*
 			//Frame Width and Height
 			final int FRAME_WIDTH = 150;
 			final int FRAME_HEIGHT = 150;
 			
 			JFrame searchFrame = new JFrame("test");
 			searchFrame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
-
 						
 			JPanel content = new JPanel(new BorderLayout());
 			Object[] searchOptions = { "Next", "Previous" };
@@ -295,11 +322,16 @@ public class MyController {
 			JTextField searchTextField = new JTextField();
 			
 			content.add(searchLabel, BorderLayout.NORTH);
-			content.add(searchTextField, BorderLayout.CENTER);			
-
+			content.add(searchTextField, BorderLayout.CENTER);
+			
+			new MySearchDialog("Hierarchy Search");
+		*/
+			/*
 			searchFrame.setContentPane(content);
 			searchFrame.pack();			
-			searchFrame.setVisible(true);			
+			searchFrame.setVisible(true);	
+			*/
+			
 			/*
 			
 			int result = JOptionPane.showOptionDialog(
@@ -331,7 +363,7 @@ public class MyController {
 			 
 			
 			*/
-		}		
+		
 	}
 	
 	private class TreeNodeSearch 
@@ -614,7 +646,11 @@ public class MyController {
 				//Thread searchThread = new Thread(new searchPanel());
 				//searchThread.start();
 				
-				SwingUtilities.invokeLater(new searchPanel());
+				//SwingUtilities.invokeLater(new searchPanel());
+				
+				//searchPanel();
+				
+				searchDialog.showDialog();
 				
 				break;
 			case "View Hierarchy":
