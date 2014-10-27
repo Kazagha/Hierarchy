@@ -590,6 +590,9 @@ public class MyController {
 			String[] tempText = null;
 			ArrayList<RoleData> dataLHS = null;
 			ArrayList<RoleData> dataRHS = null;
+			TreeNodeSearch tns = null;
+			TreePath selection = null;
+			
 			switch(e.getActionCommand())
 			{
 			case "Load LHS":
@@ -649,13 +652,20 @@ public class MyController {
 				searchDialog.showDialog();				
 				break;
 			case "Search Next":
-				TreeNodeSearch tns = new TreeNodeSearch(
-						treeRHS.getSelectionPath(),
+				// Find the current selection
+				selection = treeRHS.getSelectionPath();
+				
+				// Create a new instance with the search params
+				//TODO: This should be done with setter methods
+				tns = new TreeNodeSearch(
+						selection,
 						searchDialog.getTextField(),
 						Iterate.FORWARDS);
 				
-				TreePath selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+				// Attempt to search for a new selection
+				selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 				
+				// Set the selection in the Hierarchy
 				treeRHS.setSelectionPath(selection);
 				break;
 			case "Search Prev":				
