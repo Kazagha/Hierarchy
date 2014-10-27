@@ -24,7 +24,7 @@ public class MySearchDialog extends JPanel {
 	
 	JButton nextButton = new JButton("Next");
 	JButton prevButton = new JButton("Prev");
-	JTextField searchTextField;
+	JTextField searchTextField = new JTextField();
 	
 	//public MySearchDialog(String title, Object[] content, JButton[] options)
 	public MySearchDialog(String titleString)
@@ -93,6 +93,15 @@ public class MySearchDialog extends JPanel {
 	
 	public void setPrevAction(ActionListener aListener)
 	{
+		prevButton.addActionListener(aListener);
+	}
+	
+	public void setActionListener(ActionListener aListener)
+	{
+		nextButton.setActionCommand("Search Next");
+		nextButton.addActionListener(aListener);
+		
+		prevButton.setActionCommand("Search Prev");
 		prevButton.addActionListener(aListener);
 	}
 }
