@@ -364,7 +364,7 @@ public class MyView extends JPanel {
 		swapMenuItem.setActionCommand("Swap Sides");
 		swapMenuItem.addActionListener(controllerActionListener);
 		
-		searchMenuItem.setActionCommand("Search");
+		searchMenuItem.setActionCommand("Search Dialog");
 		searchMenuItem.addActionListener(controllerActionListener);
 		
 		hierarchyViewMenuItem.setActionCommand("View Hierarchy");
