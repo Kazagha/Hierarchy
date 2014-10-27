@@ -648,7 +648,7 @@ public class MyController {
 				//TODO: Create Table Listener
 				setActiveRoles(modelLHS.getArray());
 				break;
-			case "Search Dialog":				
+			case "Search Dialog":					
 				searchDialog.showDialog();				
 				break;
 			case "Search Next":
@@ -666,6 +666,7 @@ public class MyController {
 				selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 				
 				// Set the selection in the Hierarchy
+				treeRHS.scrollPathToVisible(selection);
 				treeRHS.setSelectionPath(selection);
 				break;
 			case "Search Prev":				
