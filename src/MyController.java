@@ -376,17 +376,33 @@ public class MyController {
 		Iterate iterate;
 		boolean fastForward = true;
 		
-		public TreeNodeSearch(TreePath path, String searchString, Iterate iterateDirection) {
-			this.path = path;
-			this.searchString = searchString;
-			this.iterate = iterateDirection;
+		//public TreeNodeSearch(TreePath path, String searchString, Iterate iterateDirection) {
+		public TreeNodeSearch()
+		{
+			//this.path = path;
+			//this.searchString = searchString;
+			//this.iterate = iterateDirection;
 			//this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 		}
 		
-		TreePath search(DefaultMutableTreeNode node) 
+		public void setPath(TreePath searchPath)
 		{
-			boolean fastForwardTier = true;
-			
+			path = searchPath;
+			fastForward = true;
+		}
+		
+		public void setSearchString(String searchString)
+		{
+			this.searchString = searchString;
+		}
+		
+		public void setSearchDirection(Iterate searchDirection)
+		{
+			iterate = searchDirection;
+		}
+		
+		TreePath search(DefaultMutableTreeNode node) 
+		{			
 			// Print information for debugging
 			String space = "";
 			for(int i = 0; i < node.getLevel(); i++)
@@ -585,12 +601,13 @@ public class MyController {
 	
 	public class MyActionListener implements ActionListener
 	{
+		TreeNodeSearch tns = new TreeNodeSearch();
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String[] tempText = null;
 			ArrayList<RoleData> dataLHS = null;
 			ArrayList<RoleData> dataRHS = null;
-			TreeNodeSearch tns = null;
 			TreePath selection = null;
 			
 			switch(e.getActionCommand())
@@ -655,12 +672,10 @@ public class MyController {
 				// Find the current selection
 				selection = treeRHS.getSelectionPath();
 				
-				// Create a new instance with the search params
-				//TODO: This should be done with setter methods
-				tns = new TreeNodeSearch(
-						selection,
-						searchDialog.getTextField(),
-						Iterate.FORWARDS);
+				// Set new search parameter
+				tns.setPath(selection);
+				tns.setSearchString(searchDialog.getTextField());
+				tns.setSearchDirection(Iterate.FORWARDS);
 				
 				// Attempt to search for a new selection
 				selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
