@@ -69,7 +69,7 @@ public class MyController {
 	
 	// Search Panel
 	private MySearchDialog searchDialog;
-	private JTextField searchField;
+	private JTextField searchField = new JTextField();
 	
 	// Setup Colors
 	Color blackColor = new Color(51, 51, 51);
@@ -105,10 +105,12 @@ public class MyController {
 	
 	public MyController(MyView view)
 	{
+		// Create the Action Listener for all actions in the controller
+		MyActionListener actListener = new MyActionListener();
 		// Set core MVC elements:
 		// Create the View and set Actions
 		this.view = view;
-		this.view.setControllerActions(new MyActionListener());
+		this.view.setControllerActions(actListener);
 		// Create the Model
 		this.tableLHS = this.view.getTableLHS();
 		this.modelLHS = ((MyTableModel) this.tableLHS.getModel());
@@ -144,7 +146,8 @@ public class MyController {
 		statusBar.setLeftComponent(statusLabel);
 		
 		// Set the search panel
-		searchDialog = new MySearchDialog("Hierarchy Search", searchField);
+		searchDialog = new MySearchDialog("Enter search string:");
+		searchDialog.setActionListener(actListener);
 	}
 	
 	public Conf loadConf(String fileName)
@@ -642,16 +645,20 @@ public class MyController {
 				//TODO: Create Table Listener
 				setActiveRoles(modelLHS.getArray());
 				break;
-			case "Search":
-				//Thread searchThread = new Thread(new searchPanel());
-				//searchThread.start();
+			case "Search Dialog":				
+				searchDialog.showDialog();				
+				break;
+			case "Search Next":
+				TreeNodeSearch tns = new TreeNodeSearch(
+						treeRHS.getSelectionPath(),
+						searchDialog.getTextField(),
+						Iterate.FORWARDS);
 				
-				//SwingUtilities.invokeLater(new searchPanel());
+				TreePath selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 				
-				//searchPanel();
-				
-				searchDialog.showDialog();
-				
+				treeRHS.setSelectionPath(selection);
+				break;
+			case "Search Prev":				
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);				
