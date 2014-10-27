@@ -86,16 +86,6 @@ public class MySearchDialog extends JPanel {
 		return searchTextField.getText();
 	}
 	
-	public void setNextAction(ActionListener aListener)
-	{
-		nextButton.addActionListener(aListener);
-	}
-	
-	public void setPrevAction(ActionListener aListener)
-	{
-		prevButton.addActionListener(aListener);
-	}
-	
 	public void setActionListener(ActionListener aListener)
 	{
 		nextButton.setActionCommand("Search Next");
