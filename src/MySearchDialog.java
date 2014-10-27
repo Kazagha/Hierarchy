@@ -27,10 +27,8 @@ public class MySearchDialog extends JPanel {
 	JTextField searchTextField;
 	
 	//public MySearchDialog(String title, Object[] content, JButton[] options)
-	public MySearchDialog(String titleString, JTextField textField)
-	{
-		this.searchTextField = textField;
-		
+	public MySearchDialog(String titleString)
+	{		
 		searchFrame.setTitle(titleString);
 		searchFrame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		
