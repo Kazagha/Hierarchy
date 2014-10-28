@@ -460,10 +460,25 @@ public class MyController {
 						}
 					}
 				} else if(iterate == Iterate.BACKWARDS) {
-					for(int i = 0; i < node.getChildCount(); i--)
+										
+					for(int i = node.getChildCount() - 1; i >= 0; i--)
 					{
-						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
-						search(nextNode);
+						DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) node.getChildAt(i);
+
+						if(fastForward)
+						{	
+							if((path.getPathComponent(childNode.getLevel()).toString()).equals(childNode.toString()))							
+							{
+								tempTreePath = search(childNode);
+							}   
+						} else if(!fastForward) {
+							tempTreePath = search(childNode);
+						}
+						
+						if(tempTreePath != null) 
+						{
+							return tempTreePath; 
+						}
 					}
 				}	
 			}
@@ -685,6 +700,20 @@ public class MyController {
 				treeRHS.setSelectionPath(selection);
 				break;
 			case "Search Prev":				
+				// Find the current selection
+				selection = treeRHS.getSelectionPath();
+				
+				// Set new search parameter
+				tns.setPath(selection);
+				tns.setSearchString(searchDialog.getTextField());
+				tns.setSearchDirection(Iterate.BACKWARDS);
+				
+				// Attempt to search for a new selection
+				selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+				
+				// Set the selection in the Hierarchy
+				treeRHS.scrollPathToVisible(selection);
+				treeRHS.setSelectionPath(selection);
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);				
