@@ -419,18 +419,33 @@ public class MyController {
 		
 		public void setTreeSelection(TreePath newSelection)
 		{
-			if(newSelection == null)
+			if(newSelection != null)
 			{
-				JOptionPane.showConfirmDialog(
+				// Selection is valid, set the selection in the tree
+				treeRHS.scrollPathToVisible(newSelection);
+				treeRHS.setSelectionPath(newSelection);
+			} else { 
+				// Selection is null, throw an error message
+				String msgString;
+				if(iterate == Iterate.FORWARDS)
+				{
+					msgString = String.format("No match found%nContinue searching from the first node in the Hierarchy?");
+				} else {
+					msgString = String.format("No match found%nContinue searching from the last node in the Hierarchy?");
+				}
+				
+				int confirmVal = JOptionPane.showConfirmDialog(
 						view, 
-						String.format("No match found%nContinue searching from the beginning of the hierarchy?"),
+						msgString,
 						"Search Error",
 						JOptionPane.OK_CANCEL_OPTION,
 						JOptionPane.ERROR_MESSAGE);
-			}			
-
-			treeRHS.scrollPathToVisible(newSelection);
-			treeRHS.setSelectionPath(newSelection);
+				
+				if(confirmVal == JOptionPane.OK_OPTION)
+				{
+					 // Search again  
+				} 
+			}
 		}
 		
 		TreePath search(DefaultMutableTreeNode node) 
