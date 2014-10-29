@@ -22,6 +22,7 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
 import javax.swing.JFrame;
 import javax.swing.JLabel;
@@ -416,6 +417,22 @@ public class MyController {
 			return searchString;
 		}
 		
+		public void setTreeSelection(TreePath newSelection)
+		{
+			if(newSelection == null)
+			{
+				JOptionPane.showConfirmDialog(
+						view, 
+						String.format("No match found%nContinue searching from the beginning of the hierarchy?"),
+						"Search Error",
+						JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.ERROR_MESSAGE);
+			}			
+
+			treeRHS.scrollPathToVisible(newSelection);
+			treeRHS.setSelectionPath(newSelection);
+		}
+		
 		TreePath search(DefaultMutableTreeNode node) 
 		{			
 			// Print information for debugging
@@ -711,8 +728,9 @@ public class MyController {
 				selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 				
 				// Set the selection in the Hierarchy
-				treeRHS.scrollPathToVisible(selection);
-				treeRHS.setSelectionPath(selection);
+				tns.setTreeSelection(selection);
+				//treeRHS.scrollPathToVisible(selection);
+				//treeRHS.setSelectionPath(selection);
 				break;
 			case "Search Prev":				
 				// Find the current selection
