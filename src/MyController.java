@@ -401,6 +401,21 @@ public class MyController {
 			iterate = searchDirection;
 		}
 		
+		public TreePath getPath()
+		{
+			return path;
+		}
+		
+		public Iterate getDirection()
+		{
+			return iterate;
+		}
+		
+		public String getSearchString()
+		{
+			return searchString;
+		}
+		
 		TreePath search(DefaultMutableTreeNode node) 
 		{			
 			// Print information for debugging
