@@ -443,8 +443,11 @@ public class MyController {
 				
 				if(confirmVal == JOptionPane.OK_OPTION)
 				{
-					 // Search again  
-				} 
+					TreePath tempSelection = this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+					this.setTreeSelection(tempSelection);
+				} else {
+					treeRHS.setSelectionPath(this.path);
+				}
 			}
 		}
 		
@@ -760,8 +763,9 @@ public class MyController {
 				selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 				
 				// Set the selection in the Hierarchy
-				treeRHS.scrollPathToVisible(selection);
-				treeRHS.setSelectionPath(selection);
+				//treeRHS.scrollPathToVisible(selection);
+				//treeRHS.setSelectionPath(selection);
+				tns.setTreeSelection(selection);
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);				
