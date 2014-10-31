@@ -18,7 +18,7 @@ public class MySearchDialog extends JPanel {
 
 	//Frame Width and Height
 	final int FRAME_WIDTH = 280;
-	final int FRAME_HEIGHT = 130;
+	final int FRAME_HEIGHT = 110;
 	
 	JFrame searchFrame = new JFrame();
 	
@@ -26,7 +26,6 @@ public class MySearchDialog extends JPanel {
 	JButton prevButton = new JButton("Prev");
 	JTextField searchTextField = new JTextField();
 	
-	//public MySearchDialog(String title, Object[] content, JButton[] options)
 	public MySearchDialog(String titleString)
 	{		
 		searchFrame.setTitle(titleString);
@@ -34,7 +33,7 @@ public class MySearchDialog extends JPanel {
 		
 		searchFrame.getContentPane().add(this);
 		
-		JLabel titleLabel = new JLabel(titleString);
+		JLabel titleLabel = new JLabel("Find: ");
 		
 		GroupLayout layout = new GroupLayout(this);
 		setLayout(layout);
@@ -43,10 +42,9 @@ public class MySearchDialog extends JPanel {
 			layout.createParallelGroup(Alignment.CENTER)
 				.addGroup(layout.createSequentialGroup()
 						.addContainerGap()
-						.addGroup(layout.createParallelGroup(Alignment.LEADING)
-							.addComponent(titleLabel)
-							.addComponent(searchTextField)
-								)
+						.addComponent(titleLabel)
+						.addPreferredGap(ComponentPlacement.RELATED)
+						.addComponent(searchTextField)
 						.addContainerGap()					
 						)
 				.addGroup(layout.createSequentialGroup()
@@ -61,8 +59,10 @@ public class MySearchDialog extends JPanel {
 		layout.setVerticalGroup(
 			layout.createSequentialGroup()
 				.addContainerGap()
-				.addComponent(titleLabel)
-				.addComponent(searchTextField, 20, 20, 20)
+				.addGroup(layout.createParallelGroup()
+						.addComponent(titleLabel)
+						.addComponent(searchTextField, 20, 20, 20)
+						)
 				.addPreferredGap(ComponentPlacement.RELATED)
 				.addGroup(layout.createParallelGroup()
 					.addComponent(prevButton)
@@ -71,9 +71,7 @@ public class MySearchDialog extends JPanel {
 				.addContainerGap()
 				);
 		
-		//searchFrame.setContentPane(contentPanel);
-		searchFrame.pack();			
-		//searchFrame.setVisible(true);	
+		searchFrame.pack();				
 	}
 	
 	public void showDialog()
