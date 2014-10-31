@@ -367,6 +367,7 @@ public class MyController {
 			}
 			
 			// Check if this 'node' is the last component in the 'path', 
+			// or alternatively the 'path' is null
 			// 	if true stop fast forwarding
 			checkMatchesUserSelection(node);
 			
@@ -440,7 +441,8 @@ public class MyController {
 		 */
 		void checkMatchesUserSelection(DefaultMutableTreeNode node)
 		{
-			if(path.getLastPathComponent() == node)
+			// Check if 'path' is null, or the last component in 'path' is the current node 
+			if(path == null || path.getLastPathComponent() == node)
 			{
 				fastForward = false;
 			}
