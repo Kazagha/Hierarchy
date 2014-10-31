@@ -181,7 +181,7 @@ public class MyView extends JPanel {
 		insertRolesMenuItem.setText("Insert");
 		removeRolesMenuItem.setText("Delete");
 		dataSourceMenuItem.setText("Data Source");
-		searchMenuItem.setText("Search");
+		searchMenuItem.setText("Hierarchy Search");
 		statsMenuItem.setText("Statistics");
 		legendMenuItem.setText("Legend");
 		aboutMenuItem.setText("About");
@@ -191,12 +191,7 @@ public class MyView extends JPanel {
 		
 		// Disable unimplemented Menu Items
 		importMenuItem.setEnabled(false);
-		exportRoleMenuItem.setEnabled(true);
-		exportHierarchyMenuItem.setEnabled(true);
-		dataSourceMenuItem.setEnabled(true);
-		searchMenuItem.setEnabled(true);
 		statsMenuItem.setEnabled(false);
-		legendMenuItem.setEnabled(true);
 		
 		// Create Menu Bar
 		JMenuBar menuBar = new JMenuBar();
@@ -211,9 +206,9 @@ public class MyView extends JPanel {
 		// 'Export' Sub Menu
 		JMenu exportSubMenu = new JMenu("Export");
 		exportSubMenu.add(exportRoleMenuItem);
-		exportSubMenu.add(exportHierarchyMenuItem);		
-		menu.add(exportSubMenu);
+		exportSubMenu.add(exportHierarchyMenuItem);
 		
+		menu.add(exportSubMenu);		
 		menu.addSeparator();
 		menu.add(dataSourceMenuItem);
 		menu.add(statsMenuItem);
@@ -239,6 +234,7 @@ public class MyView extends JPanel {
 		menu.add(hierarchyViewMenuItem);
 		menuBar.add(menu);
 		
+		// 'Help' Top Menu
 		menu = new JMenu("Help");
 		menu.add(legendMenuItem);
 		menu.add(aboutMenuItem);
@@ -330,15 +326,7 @@ public class MyView extends JPanel {
 	public MyStatusBar getStatusBar()
 	{
 		return statusBar;
-	}	
-	
-	/*
-	 * This can't be used without importing the CompentWithTitle into MyController
-	public ComponentWithTitle getLHSContent()
-	{
-		return contentLHSView;
 	}
-	*/
 	
 	public DefaultMutableTreeNode getRootNode()
 	{
@@ -413,13 +401,6 @@ public class MyView extends JPanel {
 				exitMenuItem.doClick();
 			}
 		}));
-		
-		/*
-		 * 	InputMap im = textField.getInputMap();
-		 *	ActionMap am = textField.getActionMap();
-		 *	im.put(KeyStroke.getKeyStroke("ENTER"), COMMIT_ACTION);
-		 *	am.put(COMMIT_ACTION, new CommitAction());
-		 */
 	}
 	
 	public void initComponents()
