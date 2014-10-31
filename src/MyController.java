@@ -124,7 +124,7 @@ public class MyController {
 		statusBar.setLeftComponent(statusLabel);
 		
 		// Set the search panel
-		searchDialog = new MySearchDialog("Enter search string:");
+		searchDialog = new MySearchDialog("Hierarchy Search");
 		searchDialog.setActionListener(actListener);
 	}
 	
