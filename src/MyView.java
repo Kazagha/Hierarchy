@@ -424,18 +424,18 @@ public class MyView extends JPanel {
 	
 	public void initComponents()
 	{
-		//Dummy Icons
-		ImageIcon redNodeIcon = new ImageIcon("images/RedNodeIcon16.png");
-		ImageIcon violetNodeIcon = new ImageIcon("images/VioletNodeIcon16.png");
-		ImageIcon yellowNodeIcon = new ImageIcon("images/YellowNodeIcon16.png");
+		ImageIcon swapIcon = new ImageIcon("images/SwapIcon16.png");
 		
 		swapButton = new JButton();
-		swapButton.setIcon(yellowNodeIcon);
+		swapButton.setIcon(swapIcon);
 		swapButton.setHorizontalTextPosition(JButton.CENTER);
 		swapButton.setVerticalTextPosition(JButton.BOTTOM);
+		swapButton.setToolTipText("Swap permissions");
 		
 		loadButtonLHS = new JButton("Load");
+		loadButtonLHS.setToolTipText("Load permissions");
 		loadButtonRHS = new JButton("Load");
+		loadButtonRHS.setToolTipText("Load permissions");
 		
 		//Setup the Tree Cell Renderer
 		treeRHS.setCellRenderer(new MyTreeRenderer());		
@@ -444,9 +444,11 @@ public class MyView extends JPanel {
 		textFieldlistener = new MyTextFieldListener();
 		inputTextFieldLHS.getDocument().putProperty("owner", inputTextFieldLHS);
 		inputTextFieldLHS.getDocument().addDocumentListener(textFieldlistener);
+		inputTextFieldLHS.setToolTipText("Enter user's full name");
 		textFieldlistener.setKeyMapping(inputTextFieldLHS);
 		inputTextFieldRHS.getDocument().putProperty("owner", inputTextFieldRHS);
 		inputTextFieldRHS.getDocument().addDocumentListener(textFieldlistener);
+		inputTextFieldRHS.setToolTipText("Enter user's full name");
 		textFieldlistener.setKeyMapping(inputTextFieldRHS);	
 	}
 	
