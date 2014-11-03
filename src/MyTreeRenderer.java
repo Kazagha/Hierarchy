@@ -107,34 +107,16 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			}
 		}			
 		
-		// TODO: Tool tips are not quick enough, need another solution for displaying roles
 		setToolTipText(getToolTip(value));
 		
 		return this;
 	}
 	
-	public boolean nodeContainsRole(Object obj, ArrayList<RoleData> roleArrayList)
-	{
-		DefaultMutableTreeNode node = (DefaultMutableTreeNode)obj;
-		//Check if the user object is a HierarchyData node
-		if(node.getUserObject() instanceof HierarchyData)
-		{
-			HierarchyData hd = (HierarchyData) node.getUserObject();
-			//Iterate through all active roles
-			for(RoleData rd : roleArrayList)
-			{
-				//Check for a match
-				if(hd.contains(rd))
-				{					
-					return true;
-				} 
-				//Else continue to search for a match
-			} 
-		}
-		//Failing finding a match, return false 
-		return false;
-	}
-	
+	/**
+	 * Return a list of permissions (HTML String) for the specified node <code>obj</code>
+	 * @param obj The specified node
+	 * @return - A String of permissions
+	 */
 	public String getToolTip(Object obj)
 	{
 		DefaultMutableTreeNode node = (DefaultMutableTreeNode)obj;
