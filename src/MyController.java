@@ -275,35 +275,32 @@ public class MyController {
 		
 		public TreeNodeSearch()	{	}
 		
+		/**
+		 * Begin searching from the specified <code>searchPath<code>
+		 * @param searchPath
+		 */
 		public void setPath(TreePath searchPath)
 		{
 			path = searchPath;
 			fastForward = true;
 		}
 		
+		/**
+		 * Search for the specified <code>searchString</code>
+		 * @param searchString
+		 */
 		public void setSearchString(String searchString)
 		{
 			this.searchString = searchString;
 		}
 		
+		/**
+		 * Set the search direction to either <code>Iterate.FORWARDS</code> or <code>Iterate.BACKWARDS</code>
+		 * @param searchDirection
+		 */
 		public void setSearchDirection(Iterate searchDirection)
 		{
 			iterate = searchDirection;
-		}
-		
-		public TreePath getPath()
-		{
-			return path;
-		}
-		
-		public Iterate getDirection()
-		{
-			return iterate;
-		}
-		
-		public String getSearchString()
-		{
-			return searchString;
 		}
 		
 		/**
@@ -500,6 +497,11 @@ public class MyController {
 		}
 	}
 	
+	/**
+	 * Convert the specified <code>array</code> into a comma-separated String.
+	 * @param array - Array of user roles
+	 * @return - Formatted comma-separated String
+	 */
 	public String roleDataCSV(ArrayList array)
 	{
 		String tempString = new String();
