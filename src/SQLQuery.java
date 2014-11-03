@@ -71,7 +71,6 @@ public class SQLQuery {
             	tempArray.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
             }
         } catch (Exception e) {
-        	//throw new SQLException("Failed to execute Query: " + e.getMessage(), e);
         	throw new Exception("Failed to execute 'user role' query");
         } finally {
             conn.close();
@@ -103,7 +102,6 @@ public class SQLQuery {
           
             while (rs.next()) 
             {
-            	//tempArray.add(new RoleData(Integer.valueOf(rs.getString(1)), rs.getString(2)));
             	tempArray.add(rs.getString(1) + " " + rs.getString(2));
             }
         } catch (SQLException e) {
