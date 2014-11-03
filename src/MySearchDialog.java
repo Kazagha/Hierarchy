@@ -1,4 +1,5 @@
 import java.awt.BorderLayout;
+import java.awt.Component;
 import java.awt.Dimension;
 import java.awt.event.ActionListener;
 
@@ -21,14 +22,16 @@ public class MySearchDialog extends JPanel {
 	final int FRAME_HEIGHT = 110;
 	
 	JFrame searchFrame = new JFrame();
+	Component viewComponent;
 	
 	JButton nextButton = new JButton("Next");
 	JButton prevButton = new JButton("Prev");
 	JTextField searchTextField = new JTextField();
 	
-	public MySearchDialog(String titleString)
+	public MySearchDialog(Component parentComponent)
 	{		
-		searchFrame.setTitle(titleString);
+		viewComponent = parentComponent;
+		searchFrame.setTitle("Hierarchy Search");
 		searchFrame.setPreferredSize(new Dimension(FRAME_WIDTH, FRAME_HEIGHT));
 		
 		searchFrame.getContentPane().add(this);
@@ -71,12 +74,13 @@ public class MySearchDialog extends JPanel {
 				.addContainerGap()
 				);
 		
-		searchFrame.pack();				
+		searchFrame.pack();
 	}
 	
 	public void showDialog()
 	{
 		searchFrame.setVisible(true);
+		searchFrame.setLocationRelativeTo(viewComponent);
 	}	
 	
 	public String getTextField()

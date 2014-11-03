@@ -124,7 +124,7 @@ public class MyController {
 		statusBar.setLeftComponent(statusLabel);
 		
 		// Set the search panel
-		searchDialog = new MySearchDialog("Hierarchy Search");
+		searchDialog = new MySearchDialog(view);
 		searchDialog.setActionListener(actListener);
 	}
 	
@@ -629,7 +629,7 @@ public class MyController {
 				setActiveRoles(modelLHS.getArray());
 				break;
 			case "Search Dialog":					
-				searchDialog.showDialog();				
+				searchDialog.showDialog();		
 				break;
 			case "Search Next":
 				// Find the current selection
