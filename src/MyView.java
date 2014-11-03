@@ -1,12 +1,9 @@
 import java.awt.Dimension;
-import java.awt.Frame;
 import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.GroupLayout.Alignment;
-import javax.swing.table.TableModel;
 import javax.swing.tree.DefaultMutableTreeNode;
-import javax.swing.tree.DefaultTreeModel;
 
 public class MyView extends JPanel {
 	

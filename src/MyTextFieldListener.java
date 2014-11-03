@@ -1,4 +1,3 @@
-import java.awt.TextField;
 import java.awt.event.ActionEvent;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -12,7 +11,6 @@ import javax.swing.SwingUtilities;
 import javax.swing.event.DocumentEvent;
 import javax.swing.event.DocumentListener;
 import javax.swing.text.BadLocationException;
-import javax.swing.text.Position;
 
 public class MyTextFieldListener implements DocumentListener {
 	
