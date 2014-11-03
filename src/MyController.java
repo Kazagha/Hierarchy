@@ -22,16 +22,20 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
+import javax.swing.JDialog;
 import javax.swing.JFileChooser;
+import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
 import javax.swing.JTextField;
 import javax.swing.JTree;
+import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
+import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -64,6 +68,10 @@ public class MyController {
 	private JLabel selectedLabel = new JLabel("0");
 	private JLabel statusLabel = new JLabel(" ");
 	
+	// Search Panel
+	private MySearchDialog searchDialog;
+	private JTextField searchField = new JTextField();
+	
 	// Setup Colors
 	Color blackColor = new Color(51, 51, 51);
 	Color greenColor = new Color(152, 251, 152);
@@ -73,35 +81,14 @@ public class MyController {
 	private static enum UpdateMode { ACTIVE, SELECTED }
 	private static enum Iterate { FORWARDS, BACKWARDS }
 	
-	static enum Actions {
-		LOADLHS ("loadLHS"),
-		LOADRHS ("LoadRHS"),
-		SWAPSIDES ("SwapSides");
-		
-		String commandString;
-		
-		Actions(String commandString)
-		{
-			this.commandString = commandString;
-		}
-		
-		public String getCommandString()
-		{
-			return this.commandString;
-		}
-		
-		public Actions getENUM(String s)
-		{
-			return LOADLHS;
-		}
-	}
-	
 	public MyController(MyView view)
 	{
+		// Create the Action Listener for all actions in the controller
+		MyActionListener actListener = new MyActionListener();
 		// Set core MVC elements:
 		// Create the View and set Actions
 		this.view = view;
-		this.view.setControllerActions(new MyActionListener());
+		this.view.setControllerActions(actListener);
 		// Create the Model
 		this.tableLHS = this.view.getTableLHS();
 		this.modelLHS = ((MyTableModel) this.tableLHS.getModel());
@@ -135,16 +122,19 @@ public class MyController {
 		statusBar.addRightComponent(activeLabel, orangeColor);
 		statusBar.addRightComponent(selectedLabel, greenColor);
 		statusBar.setLeftComponent(statusLabel);
+		
+		// Set the search panel
+		searchDialog = new MySearchDialog("Hierarchy Search");
+		searchDialog.setActionListener(actListener);
 	}
 	
 	public Conf loadConf(String fileName)
 	{
-		Conf tempConf = new Conf(new File(fileName));
-		
+		// Load the configuration file
+		Conf tempConf = new Conf(new File(fileName));		
+		// Create the following variables
 		tempConf.add(new String[] {"Server", "Instance", "Database", "Domain", "Username", "Password"});
-		//tempConf.prompt();		
-		//tempConf.set("url",  "jdbc:jtds:sqlserver://" + tempConf.get("Server")+ ";instance="+ tempConf.get("Instance") + ";DatabaseName=" + tempConf.get("Database") + ";Domain=" + tempConf.get("Domain"));
-		
+		// Password should be hidden (show '*' character instead of letters)
 		tempConf.setHiddenPrompt(new String[] {"Password"});
 		
 		return tempConf;
@@ -156,8 +146,11 @@ public class MyController {
 	 */
 	public void saveConf()
 	{
+		// Blank the 'password' variable
 		conf.nullValues(new String[] {"Password"});
+		// Delete the 'url' variable
 		conf.del(new String[] {"url"});
+		// Save the remaining config to file
 		conf.save();		
 	}
 	
@@ -273,43 +266,6 @@ public class MyController {
 		return root;
 	}
 	
-	private class searchPanel implements Runnable
-	{
-
-		@Override
-		public void run() {
-			JPanel content = new JPanel(new BorderLayout());
-			Object[] searchOptions = { "Next", "Previous" };
-						
-			JLabel searchLabel = new JLabel("Enter search string:");
-			
-			JTextField searchTextField = new JTextField();
-			
-			content.add(searchLabel, BorderLayout.NORTH);
-			content.add(searchTextField, BorderLayout.CENTER);
-			
-			int result = JOptionPane.showOptionDialog(
-					view, content,
-					"Hierarchy Search", JOptionPane.YES_NO_OPTION, 
-					JOptionPane.PLAIN_MESSAGE, null, searchOptions,
-					JOptionPane.OK_OPTION);
-			
-			if(result == JOptionPane.YES_OPTION)
-			{
-				TreeNodeSearch tns = new TreeNodeSearch(
-						treeRHS.getSelectionPath(),
-						searchTextField.getText(),
-						Iterate.FORWARDS);
-			} else if (result == JOptionPane.NO_OPTION)
-			{			
-				TreeNodeSearch tns = new TreeNodeSearch(
-						treeRHS.getSelectionPath(),
-						searchTextField.getText(),
-						Iterate.BACKWARDS);
-			}
-		}		
-	}
-	
 	private class TreeNodeSearch 
 	{
 		TreePath path;
@@ -317,68 +273,176 @@ public class MyController {
 		Iterate iterate;
 		boolean fastForward = true;
 		
-		public TreeNodeSearch(TreePath path, String searchString, Iterate iterateDirection) {
-			this.path = path;
-			this.searchString = searchString;
-			this.iterate = iterateDirection;
-			this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+		public TreeNodeSearch()	{	}
+		
+		public void setPath(TreePath searchPath)
+		{
+			path = searchPath;
+			fastForward = true;
 		}
 		
-		void search(DefaultMutableTreeNode node) 
+		public void setSearchString(String searchString)
 		{
-			boolean fastForwardTier = true;
-			
-			// Print information for debugging
-			String space = "";
-			for(int i = 0; i < node.getLevel(); i++)
+			this.searchString = searchString;
+		}
+		
+		public void setSearchDirection(Iterate searchDirection)
+		{
+			iterate = searchDirection;
+		}
+		
+		public TreePath getPath()
+		{
+			return path;
+		}
+		
+		public Iterate getDirection()
+		{
+			return iterate;
+		}
+		
+		public String getSearchString()
+		{
+			return searchString;
+		}
+		
+		/**
+		 * 
+		 * @param newSelection
+		 */
+		public void setTreeSelection(TreePath newSelection)
+		{
+			// Check if the selection is valid
+			if(newSelection != null)
 			{
-				space += "-";
-			}			
-			//System.out.println(node.getLevel() + ":"+ space + node.toString() + " (" + (node.getChildCount() > 0) + ")");
-			
-			if((fastForward == false) && node.toString().contains(searchString))
-			{
-				System.out.println("Success matching: " + node.toString());
-				TreePath tp = new TreePath(node.getPath());
-				treeRHS.setSelectionPath(tp);
-			}
-			
-			checkMatchesUserSelection(node);
-			
-			if(node.getChildCount() > 0)
-			{				
+				// Selection is valid, set it in the tree
+				
+				treeRHS.scrollPathToVisible(newSelection);
+				treeRHS.setSelectionPath(newSelection);
+			} else { 
+				// Selection is null, throw an error message
+				
+				// Prepare the error message
+				String msgString;
 				if(iterate == Iterate.FORWARDS)
 				{
+					msgString = String.format("No match found%nContinue searching from the first node in the Hierarchy?");
+				} else {
+					msgString = String.format("No match found%nContinue searching from the last node in the Hierarchy?");
+				}
+				
+				// Prompt the user to search from the beginning of the Hierarchy
+				int confirmVal = JOptionPane.showConfirmDialog(
+						view, 
+						msgString,
+						"Search Error",
+						JOptionPane.OK_CANCEL_OPTION,
+						JOptionPane.ERROR_MESSAGE);
+				
+				if(confirmVal == JOptionPane.OK_OPTION)
+				{
+					// Begin another search from the root node. 
+					// NOTE: This will not 'fast forward' 
+					TreePath tempSelection = this.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+					this.setTreeSelection(tempSelection);
+				} else {
+					// Set the selection back to the original path
+					treeRHS.setSelectionPath(this.path);
+				}
+			}
+		}
+		
+		/**
+		 * Recursively search this <code>node</code>'s children for a <code>searchString</code> match
+		 * @param node - The current node
+		 * @return TreePath of the matching <code>node</code>
+		 */
+		TreePath search(DefaultMutableTreeNode node) 
+		{			
+			// Check if the current node is a match
+			if((fastForward == false) && node.toString().contains(searchString))
+			{
+				TreePath tp = new TreePath(node.getPath());
+				return tp;
+			}
+			
+			// Check if this 'node' is the last component in the 'path', 
+			// or alternatively the 'path' is null
+			// 	if true stop fast forwarding
+			checkMatchesUserSelection(node);
+			
+			TreePath tempTreePath = null;
+			
+			// Check if there are any children nodes
+			if(node.getChildCount() > 0)
+			{		
+				// Iterate forwards through the available nodes
+				if(iterate == Iterate.FORWARDS)
+				{
+					// Begin iterating through child nodes
 					for(int i = 0; i < node.getChildCount(); i++)
 					{
-						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
+						// Get the child node for this iteration 
+						DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) node.getChildAt(i);
 
-						if(fastForward && fastForwardTier)
-						{							
-							if((path.getPathComponent(nextNode.getLevel()).toString()).equals(nextNode.toString()))							
+						// Fast forwarding through the array (skipping nodes) 
+						if(fastForward)
+						{	
+							// From the 'path' find the component at this tier (node.getLevel()), 
+							//  then do a string compare against the current node
+							if((path.getPathComponent(childNode.getLevel()).toString()).equals(childNode.toString()))							
 							{
-								fastForwardTier = false;
-								search(nextNode);
-							} else {
-								// Continue to fast forward
-							}
-						} else {
-							search(nextNode);
+								// If 'True' search further down the hierarchy
+								tempTreePath = search(childNode);
+							}   // If 'false' continue to fast forward without going down to the next tier							
+						// No longer fast forwarding, search down the hierarchy
+						} else if(!fastForward) {
+							tempTreePath = search(childNode);
+						}
+						
+						// If there is a valid selection this won't be NULL
+						if(tempTreePath != null) 
+						{
+							return tempTreePath; 
 						}
 					}
 				} else if(iterate == Iterate.BACKWARDS) {
-					for(int i = 0; i < node.getChildCount(); i--)
+										
+					for(int i = node.getChildCount() - 1; i >= 0; i--)
 					{
-						DefaultMutableTreeNode nextNode = (DefaultMutableTreeNode) node.getChildAt(i);
-						search(nextNode);
+						DefaultMutableTreeNode childNode = (DefaultMutableTreeNode) node.getChildAt(i);
+
+						if(fastForward)
+						{	
+							if((path.getPathComponent(childNode.getLevel()).toString()).equals(childNode.toString()))							
+							{
+								tempTreePath = search(childNode);
+							}   
+						} else if(!fastForward) {
+							tempTreePath = search(childNode);
+						}
+						
+						if(tempTreePath != null) 
+						{
+							return tempTreePath; 
+						}
 					}
-				}				
-			}		
+				}	
+			}
+			
+			// No children match the search term
+			return null;
 		}
 		
-		void checkMatchesUserSelection(DefaultMutableTreeNode n)
+		/**
+		 * Check if the specified <code>node</code> is the last component in the <code>path</code>.
+		 * @param node - The specified node
+		 * @return <code>true</code> if the specified node is the last in the path
+		 */
+		void checkMatchesUserSelection(DefaultMutableTreeNode node)
 		{
-			if(path.getLastPathComponent() == n)
+			// Check if 'path' is null, or the last component in 'path' is the current node 
+			if(path == null || path.getLastPathComponent() == node)
 			{
 				fastForward = false;
 			}
@@ -500,11 +564,15 @@ public class MyController {
 	
 	public class MyActionListener implements ActionListener
 	{
+		TreeNodeSearch tns = new TreeNodeSearch();
+		
 		@Override
 		public void actionPerformed(ActionEvent e) {
 			String[] tempText = null;
 			ArrayList<RoleData> dataLHS = null;
 			ArrayList<RoleData> dataRHS = null;
+			TreePath selection = null;
+			
 			switch(e.getActionCommand())
 			{
 			case "Load LHS":
@@ -560,9 +628,38 @@ public class MyController {
 				//TODO: Create Table Listener
 				setActiveRoles(modelLHS.getArray());
 				break;
-			case "Search":
-				Thread searchThread = new Thread(new searchPanel());
-				searchThread.start();
+			case "Search Dialog":					
+				searchDialog.showDialog();				
+				break;
+			case "Search Next":
+				// Find the current selection
+				selection = treeRHS.getSelectionPath();
+				
+				// Set new search parameter
+				tns.setPath(selection);
+				tns.setSearchString(searchDialog.getTextField());
+				tns.setSearchDirection(Iterate.FORWARDS);
+				
+				// Attempt to search for a new selection
+				selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+				
+				// Set the selection in the Hierarchy
+				tns.setTreeSelection(selection);
+				break;
+			case "Search Prev":				
+				// Find the current selection
+				selection = treeRHS.getSelectionPath();
+				
+				// Set new search parameter
+				tns.setPath(selection);
+				tns.setSearchString(searchDialog.getTextField());
+				tns.setSearchDirection(Iterate.BACKWARDS);
+				
+				// Attempt to search for a new selection
+				selection = tns.search((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+				
+				// Set the selection in the Hierarchy
+				tns.setTreeSelection(selection);
 				break;
 			case "View Hierarchy":
 				view.setHierarchyPanel(true);				
