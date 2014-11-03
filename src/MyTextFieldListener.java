@@ -37,13 +37,13 @@ public class MyTextFieldListener implements DocumentListener {
 	@Override
 	public void insertUpdate(DocumentEvent ev) {
 		
-		//What does this do?
+		// Minimum of two characters required to find a match 
 		if (ev.getLength() != 1) {
 			return;
 		}
 				
-		//Locate the JTextField that fired the insertUpdate event
-		//using the 'owner' property field. 
+		// Locate the JTextField that fired the insertUpdate event
+		// using the 'owner' property field. 
 		Object owner = ev.getDocument().getProperty("owner");
 		if(owner instanceof JTextField)
 		{
@@ -53,20 +53,22 @@ public class MyTextFieldListener implements DocumentListener {
 		}	
 		
 		
-		//Find the position of the cursor
+		// Find the position of the cursor
 		int pos = ev.getOffset(); 
 		String content = null;
 		try {
-			//Grab text from the beginning of the document to the cursor position
+			// Grab text from the beginning of the document to the cursor position
 			content = textField.getText(0, pos + 1);
 		} catch (BadLocationException e) { 
 			e.printStackTrace();
 		}
 		
+
+		// Set 'w' as the starting character of the word
+		int w = -1;
+		// Find the starting position of the current word;
 		// This is not required as the prefix will always use the entire string
 		// including spaces, where as this code is used to locate the space
-		int w = -1;
-		// Set 'w' as the starting character of the word
 		/*
 		int w;
 		for (w = pos; w >= 0; w--)
@@ -104,7 +106,7 @@ public class MyTextFieldListener implements DocumentListener {
 						new CompletionTask(completion, pos + 1));
 			}
 		} else {
-			//Nothing Found
+			// No match found
 			mode = Mode.INSERT;
 		}
 	}	
