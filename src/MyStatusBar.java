@@ -36,16 +36,30 @@ public class MyStatusBar extends JPanel {
 		add(rightPanel, BorderLayout.EAST);		
 	}
 	
+	/**
+	 * Add the specified JComponent <code>component</code> to the left hand side of <code>this</code>.
+	 * @param component - Specified component
+	 */
 	public void setLeftComponent(JComponent component)
 	{
 		leftPanel.add(component);
 	}
 	
+	/**
+	 * Remove the specified JComponent <code>component</code>
+	 * @param component - The specified JComponent
+	 */
 	public void removeLeftComponent(JComponent component)
 	{
 		leftPanel.remove(component);
 	}
 	
+	/**
+	 * Add the specified JComponent <code>component</code> to the right hand side of <code>this</code>,
+	 * with a background color of <code>color</code>
+	 * @param component - Specified component
+	 * @param color - Specified color
+	 */
 	public void addRightComponent(JComponent component, Color color)
 	{
 		JPanel panel = new JPanel(new FlowLayout(
@@ -58,6 +72,10 @@ public class MyStatusBar extends JPanel {
 		rightPanel.add(panel);
 	}	
 	
+	/**
+	 * Remove the specified JComponent <code>component</code>
+	 * @param component - The specified JComponent
+	 */
 	public void removeRightComponent(JComponent component)
 	{
 		rightPanel.remove(component);
