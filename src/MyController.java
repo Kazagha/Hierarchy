@@ -1,9 +1,6 @@
 import java.awt.BorderLayout;
 import java.awt.Color;
-import java.awt.ComponentOrientation;
 import java.awt.Dimension;
-import java.awt.FlowLayout;
-import java.awt.LayoutManager;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ItemEvent;
@@ -22,20 +19,15 @@ import javax.swing.Box;
 import javax.swing.BoxLayout;
 import javax.swing.ImageIcon;
 import javax.swing.JCheckBoxMenuItem;
-import javax.swing.JDialog;
 import javax.swing.JFileChooser;
-import javax.swing.JFrame;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JPanel;
 import javax.swing.JTable;
-import javax.swing.JTextField;
 import javax.swing.JTree;
-import javax.swing.SwingUtilities;
 import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
-import javax.swing.plaf.basic.BasicTreeUI.TreeHomeAction;
 import javax.swing.tree.DefaultMutableTreeNode;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
@@ -54,7 +46,6 @@ public class MyController {
 	private JTree treeRHS;
 	private JCheckBoxMenuItem manualEntryCheckBox;
 	private JFileChooser fc;	
-	private enum DataType {HIERARCHY, ROLE};
 	private JTable jTableLHS;
 	
 	// Status Bar
@@ -70,7 +61,6 @@ public class MyController {
 	
 	// Search Panel
 	private MySearchDialog searchDialog;
-	private JTextField searchField = new JTextField();
 	
 	// Setup Colors
 	Color blackColor = new Color(51, 51, 51);
@@ -113,7 +103,7 @@ public class MyController {
 				
 		// Setup the File Chooser
 		fc = new JFileChooser();
-		fc.setFileSelectionMode(fc.FILES_ONLY);
+		fc.setFileSelectionMode(JFileChooser.FILES_ONLY);
 		fc.setFileFilter(new CSVFilter());
 		
 		// Set the status bar
@@ -502,7 +492,7 @@ public class MyController {
 	 * @param array - Array of user roles
 	 * @return - Formatted comma-separated String
 	 */
-	public String roleDataCSV(ArrayList array)
+	public String roleDataCSV(ArrayList<RoleData> array)
 	{
 		String tempString = new String();
 		
@@ -517,16 +507,6 @@ public class MyController {
 				RoleData rd = (RoleData) obj;
 				tempString += String.format("%s, %s%n", rd.getRole(), rd.getDescription());
 			}
-		// Array of Hierarchy Data (no longer required)
-		} else if (array.get(0) instanceof HierarchyData)
-		{
-			// Transfer HierarchyData objects into Strings in tempString
-			for(Object obj : array)
-			{
-				HierarchyData hd = (HierarchyData) obj; 
-				tempString += String.format("%s, %s%n", hd.getNodeNumber(), hd.getNodeName());
-			}
-		// Invalid Array
 		} else {
 			return null;
 		}
