@@ -242,10 +242,10 @@ public class MyView extends JPanel {
 		
 		return menuBar;
 	}
-	
-	/*
-	 * This is a short term solution and needs to be implements in a 
-	 * TableColumnModel properly. Including centering text. 
+
+	/**
+	 * Set the column width and Auto Row Sorter manually rather than using a TableColumnModel
+	 * @param t - The specified JTable
 	 */
 	public void setColumnWidth(JTable t)
 	{
@@ -418,7 +418,7 @@ public class MyView extends JPanel {
 		loadButtonRHS = new JButton("Load");
 		loadButtonRHS.setToolTipText("Load permissions");
 		
-		//Setup the Tree Cell Renderer
+		//Setup the Tree Cell Renderer to use the custom 'MyTreeRenderer'
 		treeRHS.setCellRenderer(new MyTreeRenderer());		
 		
 		//Setup the listener on input text fields
