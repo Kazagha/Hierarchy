@@ -165,8 +165,7 @@ public class MyController {
 		// Create the text using HTML formatting
 		String aboutString = String.format(""
 				+ "<html>"
-				//+ "Shiv: Security and HIerarchy Viewer <br>"
-				+ "Version: 0.5, 2014-09-06 (Alpha) <br>"
+				+ "Version: 1.0, 2014-11-06 <br>"
 				+ "For more information visit: <br>"
 				+ "https://github.com/Kazagha/Hierarchy"
 				+ "</html>");
