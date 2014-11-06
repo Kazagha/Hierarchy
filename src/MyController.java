@@ -167,7 +167,7 @@ public class MyController {
 				+ "<html>"
 				+ "Version: 1.0, 2014-11-06 <br>"
 				+ "For more information visit: <br>"
-				+ "https://github.com/Kazagha/Hierarchy"
+				+ "https://github.com/Kazagha/Shiv"
 				+ "</html>");
 		
 		// Add components to the root panel
