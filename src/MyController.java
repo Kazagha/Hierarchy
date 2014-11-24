@@ -165,7 +165,7 @@ public class MyController {
 		// Create the text using HTML formatting
 		String aboutString = String.format(""
 				+ "<html>"
-				+ "Version: 1.0, 2014-11-06 <br>"
+				+ "Version: 1.01, 2014-11-24 <br>"
 				+ "For more information visit: <br>"
 				+ "https://github.com/Kazagha/Shiv"
 				+ "</html>");
@@ -280,7 +280,8 @@ public class MyController {
 		 */
 		public void setSearchString(String searchString)
 		{
-			this.searchString = searchString;
+			// Change the search string to lower case and remove leading and trailing spaces 
+			this.searchString = searchString.toLowerCase().trim();
 		}
 		
 		/**
@@ -346,7 +347,7 @@ public class MyController {
 		TreePath search(DefaultMutableTreeNode node) 
 		{			
 			// Check if the current node is a match
-			if((fastForward == false) && node.toString().contains(searchString))
+			if((fastForward == false) && (node.toString().toLowerCase()).contains(searchString))
 			{
 				TreePath tp = new TreePath(node.getPath());
 				return tp;
