@@ -9,21 +9,28 @@ import javax.swing.tree.DefaultTreeCellRenderer;
 
 public class MyTreeRenderer extends DefaultTreeCellRenderer 
 {
-	//Folder Icons
+	// Folder Icons
 	ImageIcon greenFolderIcon = new ImageIcon("images/GreenFolderIcon16.png");	
 	ImageIcon greyFolderIcon = new ImageIcon("images/GreyFolderIcon16.png");
 	ImageIcon orangeFolderIcon = new ImageIcon("images/OrangeFolderIcon16.png");
 	ImageIcon redFolderIcon = new ImageIcon("images/RedFolderIcon16.png");
 	ImageIcon violetFolderIcon = new ImageIcon("images/VioletFolderIcon16.png");
 	ImageIcon yellowFolderIcon = new ImageIcon("images/YellowFolderIcon16.png");
-	//Node Icons
+	// Node Icons
 	ImageIcon greenNodeIcon = new ImageIcon("images/GreenNodeIcon16.png");
 	ImageIcon greyNodeIcon = new ImageIcon("images/GreyNodeIcon16.png");
 	ImageIcon orangeNodeIcon = new ImageIcon("images/OrangeNodeIcon16.png");
 	ImageIcon redNodeIcon = new ImageIcon("images/RedNodeIcon16.png");
 	ImageIcon violetNodeIcon = new ImageIcon("images/VioletNodeIcon16.png");
 	ImageIcon yellowNodeIcon = new ImageIcon("images/YellowNodeIcon16.png");
-	//Setup Colors
+	// Alert Icons
+	ImageIcon orangeAlertIcon = new ImageIcon("images/OrangeAlert16.png");
+	ImageIcon greenAlertIcon = new ImageIcon("images/GreenAlert16.png");
+	// Compound Icons	
+	CompoundIcon orangeAlertGreyFolderIcon = new CompoundIcon(greyFolderIcon, orangeAlertIcon);
+	CompoundIcon greenAlertGreyFolderIcon = new CompoundIcon(greyFolderIcon, greenAlertIcon);
+	CompoundIcon greenAlertOrangeFolderIcon = new CompoundIcon(orangeFolderIcon, greenAlertIcon);
+	// Setup Colors
 	Color blackColor = new Color(51, 51, 51);
 	Color greenColor = new Color(152, 251, 152);
 	Color greyColor = new Color(105, 105, 105);
@@ -46,7 +53,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			HierarchyTreeNode tempTreeNode = (HierarchyTreeNode) value;
 			
 			setFont(getFont().deriveFont(Font.PLAIN));
-			setBackgroundNonSelectionColor(whiteColor);
+			//setBackgroundNonSelectionColor(whiteColor);
 			
 			switch(tempTreeNode.getActiveMode())
 			{						
@@ -59,11 +66,12 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 				}				
 				break;
 			case PARTIAL_ACTIVE:
-				setBackgroundNonSelectionColor(orangeColor);
+				//setBackgroundNonSelectionColor(orangeColor);
 				
 				if(!leaf)
 				{
-					setIcon(greyFolderIcon);
+					//setIcon(greyFolderIcon);
+					setIcon(orangeAlertGreyFolderIcon);
 				} else {
 					setIcon(greyNodeIcon);
 				}	
@@ -84,7 +92,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			case NOT_SELECTED:
 				break;
 			case PARTIAL_SELECTED:
-				setBackgroundNonSelectionColor(greenColor);
+				//setBackgroundNonSelectionColor(greenColor);
 				break;
 			case SELECTED:
 				setFont(getFont().deriveFont(Font.BOLD));
