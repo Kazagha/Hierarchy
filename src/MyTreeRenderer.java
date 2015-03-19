@@ -53,7 +53,6 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			HierarchyTreeNode tempTreeNode = (HierarchyTreeNode) value;
 			
 			setFont(getFont().deriveFont(Font.PLAIN));
-			//setBackgroundNonSelectionColor(whiteColor);
 			
 			switch(tempTreeNode.getActiveMode())
 			{						
@@ -66,11 +65,9 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 				}				
 				break;
 			case PARTIAL_ACTIVE:
-				//setBackgroundNonSelectionColor(orangeColor);
 				
 				if(!leaf)
 				{
-					//setIcon(greyFolderIcon);
 					setIcon(orangeAlertGreyFolderIcon);
 				} else {
 					setIcon(greyNodeIcon);
@@ -92,7 +89,6 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			case NOT_SELECTED:
 				break;
 			case PARTIAL_SELECTED:
-				//setBackgroundNonSelectionColor(greenColor);
 				// Check the icon on this node and swap it for the alert icon
 				if(getIcon() == greyFolderIcon)	{
 					setIcon(greenAlertGreyFolderIcon);
