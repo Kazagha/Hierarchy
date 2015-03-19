@@ -93,6 +93,12 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 				break;
 			case PARTIAL_SELECTED:
 				//setBackgroundNonSelectionColor(greenColor);
+				// Check the icon on this node and swap it for the alert icon
+				if(getIcon() == greyFolderIcon)	{
+					setIcon(greenAlertGreyFolderIcon);
+				} else if (getIcon() == orangeFolderIcon) {
+					setIcon(greenAlertOrangeFolderIcon);
+				}
 				break;
 			case SELECTED:
 				setFont(getFont().deriveFont(Font.BOLD));
