@@ -27,9 +27,9 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	ImageIcon orangeAlertIcon = new ImageIcon("images/OrangeAlert16.png");
 	ImageIcon greenAlertIcon = new ImageIcon("images/GreenAlert16.png");
 	// Compound Icons	
-	CompoundIcon orangeAlertGreyFolderIcon = new CompoundIcon(greyFolderIcon, orangeAlertIcon);
-	CompoundIcon greenAlertGreyFolderIcon = new CompoundIcon(greyFolderIcon, greenAlertIcon);
-	CompoundIcon greenAlertOrangeFolderIcon = new CompoundIcon(orangeFolderIcon, greenAlertIcon);
+	CompoundIcon orangeAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, orangeAlertIcon);
+	CompoundIcon greenAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, greenAlertIcon);
+	CompoundIcon greenAlertOrangeFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, orangeFolderIcon, greenAlertIcon);
 	// Setup Colors
 	Color blackColor = new Color(51, 51, 51);
 	Color greenColor = new Color(152, 251, 152);
