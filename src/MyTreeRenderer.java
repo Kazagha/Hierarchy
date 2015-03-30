@@ -90,7 +90,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 				break;
 			case PARTIAL_SELECTED:
 				// Check the icon on this node and swap it for the alert icon
-				if(getIcon() == greyFolderIcon)	{
+				if(getIcon() == greyFolderIcon || getIcon() == orangeAlertGreyFolderIcon)	{
 					setIcon(greenAlertGreyFolderIcon);
 				} else if (getIcon() == orangeFolderIcon) {
 					setIcon(greenAlertOrangeFolderIcon);
