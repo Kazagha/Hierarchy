@@ -185,14 +185,22 @@ public class MyController {
 	{
 		// Create Root Panel
 		JPanel root = new JPanel(new BorderLayout());
-		// Set Icons
+		// Node Icons
 		ImageIcon greenNodeIcon = new ImageIcon("images/GreenNodeIcon16.png");
 		ImageIcon greyNodeIcon = new ImageIcon("images/GreyNodeIcon16.png");
 		ImageIcon orangeNodeIcon = new ImageIcon("images/OrangeNodeIcon16.png");
+		// Folder Icons
 		ImageIcon greenFolderIcon = new ImageIcon("images/GreenFolderIcon16.png");	
 		ImageIcon greyFolderIcon = new ImageIcon("images/GreyFolderIcon16.png");
 		ImageIcon orangeFolderIcon = new ImageIcon("images/OrangeFolderIcon16.png");
-		
+		// Alert Icon
+		ImageIcon orangeAlertIcon = new ImageIcon("images/OrangeAlert16.png");
+		ImageIcon greenAlertIcon = new ImageIcon("images/GreenAlert16.png");
+		// Compound Icons
+		CompoundIcon orangeAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, orangeAlertIcon);
+		CompoundIcon greenAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, greenAlertIcon);
+		CompoundIcon greenAlertOrangeFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, orangeFolderIcon, greenAlertIcon);
+				
 		JPanel listPane = new JPanel();
 		listPane.setLayout(new BoxLayout(listPane, BoxLayout.Y_AXIS));
 		
@@ -237,17 +245,15 @@ public class MyController {
 		
 		listPane.add(Box.createRigidArea(new Dimension(50 ,10)));
 		
-		tempLabel = new JLabel("Hidden Nodes - Text highlighting indicates hidden items");
+		tempLabel = new JLabel("Hidden - The color of the alert matches the color of the hidden node");
 		listPane.add(tempLabel);	
 		
-		tempLabel = new JLabel("Hidden Active Menu");
-		tempLabel.setBackground(orangeColor);
-		tempLabel.setOpaque(true);
+		tempLabel = new JLabel("Hidden Active Node");
+		tempLabel.setIcon(orangeAlertIcon);
 		listPane.add(tempLabel);
 		
-		tempLabel = new JLabel("Hidden Selected Menu");
-		tempLabel.setBackground(greenColor);
-		tempLabel.setOpaque(true);
+		tempLabel = new JLabel("Hidden Selected Node");
+		tempLabel.setIcon(greenAlertIcon);
 		listPane.add(tempLabel);
 		
 		root.add(listPane);
