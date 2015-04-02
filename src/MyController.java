@@ -29,6 +29,7 @@ import javax.swing.ToolTipManager;
 import javax.swing.event.ListSelectionEvent;
 import javax.swing.event.ListSelectionListener;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
 import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
@@ -877,6 +878,8 @@ public class MyController {
 				if(nodeContainsRole(node, roleArrayList))
 				{
 					((HierarchyTreeNode) node).setMode(HierarchyTreeNode.SelectedMode.SELECTED);
+					// Notify the JTree Model that the node has changed due to bold text.
+					((DefaultTreeModel) treeRHS.getModel()).nodeChanged(node);
 					updateParentNodes(node, mode);
 
 					selectedNodeCount++;
@@ -923,12 +926,16 @@ public class MyController {
 				if(parentNode.getActiveMode() != HierarchyTreeNode.ActiveMode.ACTIVE)
 				{
 					parentNode.setMode(HierarchyTreeNode.ActiveMode.PARTIAL_ACTIVE);
+					// Notify the JTree Model that the node has changed due to the 'alert' icon.
+					((DefaultTreeModel) treeRHS.getModel()).nodeChanged(parentNode);
+					// Update the parents of this node
 					updateParentNodes(parentNode, mode);
 				}
 			} else if(mode == UpdateMode.SELECTED) {
 				if(parentNode.getSelectedMode() != HierarchyTreeNode.SelectedMode.SELECTED)
 				{
 					parentNode.setMode(HierarchyTreeNode.SelectedMode.PARTIAL_SELECTED);
+					((DefaultTreeModel) treeRHS.getModel()).nodeChanged(parentNode);
 					updateParentNodes(parentNode, mode);
 				}
 			}
