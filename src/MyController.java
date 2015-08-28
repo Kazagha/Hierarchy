@@ -33,6 +33,7 @@ import javax.swing.tree.TreeNode;
 import javax.swing.tree.TreePath;
 
 import net.arcanesanctuary.Configuration.Conf;
+import net.arcanesanctuary.Configuration.JAXBController;
 
 public class MyController {
 
@@ -120,14 +121,20 @@ public class MyController {
 	
 	public Conf loadConf(String fileName)
 	{
+		// Create the JAXB controller
+		JAXBController jaxb = new JAXBController(new File(fileName));
 		// Load the configuration file
-		Conf tempConf = new Conf(new File(fileName));		
-		// Create the following variables
-		tempConf.add(new String[] {"Server", "Instance", "Database", "Domain", "Username", "Password"});
-		// Password should be hidden (show '*' character instead of letters)
-		tempConf.setHiddenPrompt(new String[] {"Password"});
+		Conf conf = jaxb.load();		
 		
-		return tempConf;
+		// If the conf file has no children, create them
+		if(conf.getChildCount() == 0) {
+			// Create the following variables
+			conf.appendChildren(new String[] {"Server", "Instance", "Database", "Domain", "Username", "Password"});
+			// Password should be hidden (show '*' character instead of letters)
+			conf.getNode("Password").setMask(true);
+		}
+		
+		return conf;
 	}
 	
 	/**
@@ -137,11 +144,12 @@ public class MyController {
 	public void saveConf()
 	{
 		// Blank the 'password' variable
-		conf.nullValues(new String[] {"Password"});
+		conf.setNullValues(new String[] {"Password"});
 		// Delete the 'url' variable
-		conf.del(new String[] {"url"});
+		conf.removeChildren(new String[] {"url"});
 		// Save the remaining config to file
-		conf.save();		
+		//conf.save();
+		//TODO: Save the configuration
 	}
 	
 	/**
@@ -684,7 +692,7 @@ public class MyController {
 				break;
 			case "Source":				
 				// Remove existing 'URL' variable
-				conf.del(new String[] {"url"});
+				conf.removeChildren(new String[] {"url"});
 				
 				// Prompt the user for the variables
 				conf.promptJOptionPane("Set Credentials", 
