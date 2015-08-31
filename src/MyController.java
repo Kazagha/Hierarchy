@@ -128,7 +128,8 @@ public class MyController {
 		jaxb = new JAXBController(new File(fileName));
 		// Load the configuration file
 		Conf conf = jaxb.load();	
-		conf.setVar("Settings");
+		conf.setVar("Shiv");
+		conf.setDesc("Set Credentials");
 		
 		// If the conf file has no children, create them
 		if(conf.getChildCount() == 0) {
@@ -493,7 +494,8 @@ public class MyController {
 				statusLabel.setText("Finished loading");
 				Thread.sleep(2000);				
 			} catch (Exception e) {
-				JOptionPane.showMessageDialog(view, "Refreshing credentials has failed", "SQL Error", JOptionPane.ERROR_MESSAGE);				
+				JOptionPane.showMessageDialog(view, "Refreshing credentials has failed", "SQL Error", JOptionPane.ERROR_MESSAGE);
+				e.printStackTrace();
 			} finally {
 				statusLabel.setText("");
 			}
