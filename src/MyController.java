@@ -49,6 +49,9 @@ public class MyController {
 	private JFileChooser fc;	
 	private JTable jTableLHS;
 	
+	// JAXB Controller for loading/saving to XML
+	JAXBController jaxb;
+	
 	// Status Bar
 	private MyStatusBar statusBar;
 	private int nodeCount;
@@ -122,9 +125,10 @@ public class MyController {
 	public Conf loadConf(String fileName)
 	{
 		// Create the JAXB controller
-		JAXBController jaxb = new JAXBController(new File(fileName));
+		jaxb = new JAXBController(new File(fileName));
 		// Load the configuration file
-		Conf conf = jaxb.load();		
+		Conf conf = jaxb.load();	
+		conf.setVar("Settings");
 		
 		// If the conf file has no children, create them
 		if(conf.getChildCount() == 0) {
@@ -149,6 +153,7 @@ public class MyController {
 		conf.removeChildren(new String[] {"url"});
 		// Save the remaining config to file
 		//conf.save();
+		jaxb.save(conf);
 		//TODO: Save the configuration
 	}
 	
@@ -699,7 +704,7 @@ public class MyController {
 						new String[] {"Server", "Instance", "Database", "Domain", "Username", "Password"});
 				
 				// Set the 'URL' variable
-				conf.set("url",  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database") + ";Domain=" + conf.get("Domain"));
+				conf.appendChild(new Conf("url", null,  "jdbc:jtds:sqlserver://" + conf.get("Server")+ ";instance="+ conf.get("Instance") + ";DatabaseName=" + conf.get("Database") + ";Domain=" + conf.get("Domain")));
 				
 				// Using the credentials, fetch data from the specified SQL Server
 				Thread fetchThread = new Thread(new fetchSQLData());
