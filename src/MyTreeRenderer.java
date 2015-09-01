@@ -16,6 +16,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	ImageIcon redFolderIcon = new ImageIcon("images/RedFolderIcon16.png");
 	ImageIcon violetFolderIcon = new ImageIcon("images/VioletFolderIcon16.png");
 	ImageIcon yellowFolderIcon = new ImageIcon("images/YellowFolderIcon16.png");
+	ImageIcon blueFolderIcon = new ImageIcon("images/BlueFolderIcon16.png");
 	// Node Icons
 	ImageIcon greenNodeIcon = new ImageIcon("images/GreenNodeIcon16.png");
 	ImageIcon greyNodeIcon = new ImageIcon("images/GreyNodeIcon16.png");
@@ -23,19 +24,24 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 	ImageIcon redNodeIcon = new ImageIcon("images/RedNodeIcon16.png");
 	ImageIcon violetNodeIcon = new ImageIcon("images/VioletNodeIcon16.png");
 	ImageIcon yellowNodeIcon = new ImageIcon("images/YellowNodeIcon16.png");
+	ImageIcon blueNodeIcon = new ImageIcon("images/BlueNodeIcon16.png");
 	// Alert Icons
 	ImageIcon orangeAlertIcon = new ImageIcon("images/OrangeAlert16.png");
 	ImageIcon greenAlertIcon = new ImageIcon("images/GreenAlert16.png");
+	ImageIcon blueAlertIcon = new ImageIcon("images/BlueAlert16.png");
 	// Compound Icons	
 	CompoundIcon orangeAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, orangeAlertIcon);
 	CompoundIcon greenAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, greenAlertIcon);
+	CompoundIcon blueAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, blueAlertIcon);
 	CompoundIcon greenAlertOrangeFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, orangeFolderIcon, greenAlertIcon);
+	CompoundIcon greenAlertBlueFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, blueFolderIcon, greenAlertIcon);
 	// Setup Colors
 	Color blackColor = new Color(51, 51, 51);
 	Color greenColor = new Color(152, 251, 152);
 	Color greyColor = new Color(105, 105, 105);
 	Color orangeColor = new Color(244, 164, 96);
 	Color whiteColor = new Color(255, 255, 255);
+	Color blueColor = new Color(193, 237, 255);
 	
 	public Component getTreeCellRendererComponent(
             JTree tree,
@@ -68,7 +74,7 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 				
 				if(!leaf)
 				{
-					setIcon(orangeAlertGreyFolderIcon);
+					setIcon(blueAlertGreyFolderIcon);
 				} else {
 					setIcon(greyNodeIcon);
 				}	
@@ -76,9 +82,9 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 			case ACTIVE:				
 				if(!leaf)
 				{
-					setIcon(orangeFolderIcon);
+					setIcon(blueFolderIcon);
 				} else {
-					setIcon(orangeNodeIcon);
+					setIcon(blueNodeIcon);
 				}	
 			default:
 				break;
@@ -90,10 +96,10 @@ public class MyTreeRenderer extends DefaultTreeCellRenderer
 				break;
 			case PARTIAL_SELECTED:
 				// Check the icon on this node and swap it for the alert icon
-				if(getIcon() == greyFolderIcon || getIcon() == orangeAlertGreyFolderIcon)	{
+				if(getIcon() == greyFolderIcon || getIcon() == blueAlertGreyFolderIcon)	{
 					setIcon(greenAlertGreyFolderIcon);
-				} else if (getIcon() == orangeFolderIcon) {
-					setIcon(greenAlertOrangeFolderIcon);
+				} else if (getIcon() == blueFolderIcon) {
+					setIcon(greenAlertBlueFolderIcon);
 				}
 				break;
 			case SELECTED:

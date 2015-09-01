@@ -72,7 +72,7 @@ public class MyController {
 	Color greenColor = new Color(152, 251, 152);
 	Color greyColor = new Color(205, 201, 201);
 	Color orangeColor = new Color(244, 164, 96);	
-	Color blueColor = new Color(171, 196, 219);
+	Color blueColor = new Color(193, 237, 255);
 	
 	private static enum UpdateMode { ACTIVE, SELECTED }
 	private static enum Iterate { FORWARDS, BACKWARDS }
@@ -117,7 +117,7 @@ public class MyController {
 		// Set the status bar
 		statusBar = view.getStatusBar();
 		statusBar.addRightComponent(inactiveLabel, greyColor);
-		statusBar.addRightComponent(activeLabel, orangeColor);
+		statusBar.addRightComponent(activeLabel, blueColor);
 		statusBar.addRightComponent(selectedLabel, greenColor);
 		statusBar.setLeftComponent(statusLabel);
 		
@@ -207,24 +207,29 @@ public class MyController {
 		ImageIcon greenNodeIcon = new ImageIcon("images/GreenNodeIcon16.png");
 		ImageIcon greyNodeIcon = new ImageIcon("images/GreyNodeIcon16.png");
 		ImageIcon orangeNodeIcon = new ImageIcon("images/OrangeNodeIcon16.png");
+		ImageIcon blueNodeIcon = new ImageIcon("images/BlueNodeIcon16.png");
 		// Folder Icons
 		ImageIcon greenFolderIcon = new ImageIcon("images/GreenFolderIcon16.png");	
 		ImageIcon greyFolderIcon = new ImageIcon("images/GreyFolderIcon16.png");
 		ImageIcon orangeFolderIcon = new ImageIcon("images/OrangeFolderIcon16.png");
+		ImageIcon blueFolderIcon = new ImageIcon("images/BlueFolderIcon16.png");
 		// Alert Icon
 		ImageIcon orangeAlertIcon = new ImageIcon("images/OrangeAlert16.png");
 		ImageIcon greenAlertIcon = new ImageIcon("images/GreenAlert16.png");
+		ImageIcon blueAlertIcon = new ImageIcon("images/BlueAlert16.png");
 		// Compound Icons
 		CompoundIcon orangeAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, orangeAlertIcon);
 		CompoundIcon greenAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, greenAlertIcon);
 		CompoundIcon greenAlertOrangeFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, orangeFolderIcon, greenAlertIcon);
+		CompoundIcon blueAlertGreyFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, greyFolderIcon, blueAlertIcon);
+		CompoundIcon greenAlertBlueFolderIcon = new CompoundIcon(CompoundIcon.Axis.X_AXIS, 4, blueFolderIcon, greenAlertIcon);	
 				
 		JPanel listPane = new JPanel();
 		listPane.setLayout(new BoxLayout(listPane, BoxLayout.Y_AXIS));
 		
 		JLabel tempLabel;
 		
-		tempLabel = new JLabel("Inactive - The user permissions DO NOT grant access to this item");
+		tempLabel = new JLabel("The user permissions DO NOT grant access to this node");
 		listPane.add(tempLabel);
 		
 		tempLabel = new JLabel("Inactive Folder");
@@ -237,20 +242,20 @@ public class MyController {
 		
 		listPane.add(Box.createRigidArea(new Dimension(50 ,10)));
 		
-		tempLabel = new JLabel("Active - The user permissions DO grant access to this item");
+		tempLabel = new JLabel("The user permissions DO grant access to this node");
 		listPane.add(tempLabel);
 		
 		tempLabel = new JLabel("Active Folder");
-		tempLabel.setIcon(orangeFolderIcon);
+		tempLabel.setIcon(blueFolderIcon);
 		listPane.add(tempLabel);
 		
 		tempLabel = new JLabel("Active Node");
-		tempLabel.setIcon(orangeNodeIcon);
+		tempLabel.setIcon(blueNodeIcon);
 		listPane.add(tempLabel);
 		
 		listPane.add(Box.createRigidArea(new Dimension(50 ,10)));
 		
-		tempLabel = new JLabel("Selected - The selected permission grants access to this item");
+		tempLabel = new JLabel("The selected permission grants access to this node");
 		listPane.add(tempLabel);		
 		
 		tempLabel = new JLabel("Selected Folder");
@@ -263,15 +268,15 @@ public class MyController {
 		
 		listPane.add(Box.createRigidArea(new Dimension(50 ,10)));
 		
-		tempLabel = new JLabel("Hidden - The color of the alert matches the color of the hidden node");
+		tempLabel = new JLabel("The node's childern are active or selected");
 		listPane.add(tempLabel);	
 		
 		tempLabel = new JLabel("Hidden Active Node");
-		tempLabel.setIcon(orangeAlertIcon);
+		tempLabel.setIcon(blueAlertGreyFolderIcon);
 		listPane.add(tempLabel);
 		
 		tempLabel = new JLabel("Hidden Selected Node");
-		tempLabel.setIcon(greenAlertIcon);
+		tempLabel.setIcon(greenAlertBlueFolderIcon);
 		listPane.add(tempLabel);
 		
 		root.add(listPane);
