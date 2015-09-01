@@ -71,7 +71,8 @@ public class MyController {
 	Color blackColor = new Color(51, 51, 51);
 	Color greenColor = new Color(152, 251, 152);
 	Color greyColor = new Color(205, 201, 201);
-	Color orangeColor = new Color(244, 164, 96);
+	Color orangeColor = new Color(244, 164, 96);	
+	Color blueColor = new Color(171, 196, 219);
 	
 	private static enum UpdateMode { ACTIVE, SELECTED }
 	private static enum Iterate { FORWARDS, BACKWARDS }
@@ -89,6 +90,8 @@ public class MyController {
 		this.modelLHS = ((MyTableModel) this.tableLHS.getModel());
 		this.tableRHS = this.view.getTableRHS();
 		this.modelRHS = ((MyTableModel) this.tableRHS.getModel()); 
+		this.tableLHS.setSelectionBackground(greenColor);
+		this.tableLHS.setBackground(blueColor);
 
 		// Load connection settings, pass to SQL Query
 		this.conf = loadConf("Shiv.conf");
