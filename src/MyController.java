@@ -276,7 +276,7 @@ public class MyController {
 		listPane.add(tempLabel);
 		
 		tempLabel = new JLabel("Hidden Selected Node");
-		tempLabel.setIcon(greenAlertBlueFolderIcon);
+		tempLabel.setIcon(greenAlertGreyFolderIcon);
 		listPane.add(tempLabel);
 		
 		root.add(listPane);
