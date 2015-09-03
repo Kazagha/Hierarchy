@@ -183,7 +183,7 @@ public class MyController {
 		// Create the text using HTML formatting
 		String aboutString = String.format(""
 				+ "<html>"
-				+ "Version: 1.01, 2014-11-24 <br>"
+				+ "Version: 1.2, 2015-19-03 <br>"
 				+ "For more information visit: <br>"
 				+ "https://github.com/Kazagha/Shiv"
 				+ "</html>");
@@ -703,10 +703,19 @@ public class MyController {
 				}
 				break;
 			case "Export Hierarchy":
-				DefaultMutableTreeNode t = ((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
+				DefaultMutableTreeNode node = ((DefaultMutableTreeNode) treeRHS.getModel().getRoot());
 				if(activeNodeCount > 0)
 				{
-					saveStringAs(hierarchyToString(t));
+					// Create the CSV header
+					String levelStr = "";
+					for(int i = 1; i < 20; i++) { levelStr += String.format(", Level %d", i); }					
+					String str = String.format("Access %s%n", levelStr);
+					
+					// Collect the Hierarchy Information
+					str += hierarchyToString(node);
+					
+					// Save the String to file
+					saveStringAs(str);
 				} else {
 					String err = String.format("Exporting Hierarchy failed %nOnly active nodes will be exported.");
 					JOptionPane.showMessageDialog(view, err, "Export Error", JOptionPane.ERROR_MESSAGE);
@@ -966,18 +975,24 @@ public class MyController {
 			// Check that the node is Active
 			if(((HierarchyTreeNode) node).getActiveMode() == HierarchyTreeNode.ActiveMode.ACTIVE)
 			{
-				// Iterate through the node path excluding the root node in position 0
-				for(int i = 1; i < nodePath.length; i++)
-				{	
-					// Is this the first element in the node path 
-					if (i == 1)
-					{
-						tempString = String.format("%s", nodePath[i].toString());
-					} else {
-						tempString += String.format(" > %s", nodePath[i].toString());
-					}
-				}
+				tempString += String.format("Y, ");
 			}
+				else 
+			{
+				tempString += String.format("N, ");
+			}
+			
+			// Iterate through the node path excluding the root node in position 0
+			for(int i = 1; i < nodePath.length; i++)
+			{	
+				// Is this the first element in the node path 
+				if (i == 1)
+				{
+					tempString += String.format("%s", nodePath[i].toString());
+				} else {
+					tempString += String.format(", %s", nodePath[i].toString());
+				}
+			}			
 		}
 		
 		// Check if this node has children
