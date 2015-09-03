@@ -11,7 +11,7 @@ public class MyView extends JPanel {
 	public final static String ENTER_ACTION = "enter";
 
 	//Frame Width and Height
-	final int FRAME_WIDTH = 300;
+	final int FRAME_WIDTH = 700;
 	final int FRAME_HEIGHT = 650;
 	
 	JPanel panelLHS;
